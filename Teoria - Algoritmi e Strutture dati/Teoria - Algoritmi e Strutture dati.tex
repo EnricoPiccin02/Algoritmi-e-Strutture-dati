@@ -6,6 +6,7 @@
 \usepackage{xcolor}
 \usepackage{circuitikz}
 \usetikzlibrary{positioning, circuits.logic.US}
+\usetikzlibrary{shapes.geometric, arrows}
 \usetikzlibrary {shapes.gates.logic.US, shapes.gates.logic.IEC, calc}
 \tikzset {branch/.style={fill, shape = circle, minimum size = 3pt, inner sep = 0pt}}
 \usetikzlibrary{matrix,calc}
@@ -180,4 +181,151 @@ Da ciò si può estrapolare un risultato importante
 \[\log_{10}\left(10^{l - 1}\right) \leq \log_{10}\left(n\right) < \log_{10}\left(10^l\right) \hspace{1em} \equiv \hspace{1em} l - 1 \leq \log_{10}(n) < l\]
 che è una relazione esatta. Tuttavia, approssimativamente, si può scrivere che
 \[l_{10}(n) \cong \log_{10}(n)\]
+
+\newpage
+\noindent
+\begin{center}
+  3 Marzo 2022
+\end{center}
+Com'è noto, il matematico indiano \textbf{Ramanujan} ha affermato che la matematica esatta non rappresenta una base solida per la realtà, mentre la matematica vera è fatta di approssimazioni.\\
+\textbf{Hardy} scoprì quanto fosse importante lo studio di \textbf{Ramanujan} e insieme a lui portò avanti la teoria dei numeri, una teoria \textbf{asintotica} che, come lui stesso affermava, non può essere esatta, ma fatta di approssimazioni.\\
+Se, per esempio, si considera una quantità scritta in base $5$, quale $n = \left(5412\right)_5$
+\[\left(541\right)_5 = 5 \cdot 5^2 + 4 \cdot 5^1 + 1 \cdot 5^0 = (146)_{10}\]
+Se, ora, si fissa una lunghezza $l = 4$, una lunghezza rigida, senza considerare zeri in testa, si può capire che con $4$ cifre si possono rappresentare numeri nell'intervallo
+\[1000 \leq n < 10000\]
+ovvero tale per cui
+\[5^{l - 1} \leq n < 5^l\]
+e ciò funziona con qualsiasi base, per cui, in generale, fissata una lunghezza $l$ e una base $\mathcal{B}$ si ha che le quantità che possono essere rappresentate con $l$ cifre, non tutte uguali a $0$ è
+\[\mathcal{B}^{l - 1} \leq n < \mathcal{B}^l\]
+Traducendo tale risultato tramite il logaritmo in base $\mathcal{B}$, sfruttando la crescenza in senso stretto della funzione logaritmica, si ottiene, equivalentemente
+\[l - 1 \leq \log_{\mathcal{B}}\left(n\right) < l\]
+in cui, ovviamente,
+\[\log_{\mathcal{B}}\left(n\right) < l \leq \log_{\mathcal{B}}\left(n\right) + 1\]
+che si può scrivere che
+\[\l_{\mathcal{B}}\left(n\right) \cong \log_{\mathcal{B}}\left(n\right)\]
+... continua ... lunghezza analogica e digitale. Per esempio, si può osservare che
+\[\log_2(10) \cong 3.38\]
+per cui la lunghezza in base $2$ è circa tre volte la lunghezza in base $10$.
+
+\vspace{1em}
+\noindent
+\textbf{Esempio}: Per trasformare un numero da base $10$ in base $5$ si deve procedere per divisioni successive per $5$, considerando i resti (per questo si parla di \emph{divisione intera}). Per esempio si ha che
+\[10 \div 3 = 3 \text{ con resto di } 1\]
+in cui, ovviamente, il resto $r$ può essere
+\[0 \leq r < D\]
+con $D$ divisore. Convertendo $32$ da base $10$ a base $5$ ci si aspetta di ottenere un resto $0 \leq r \leq 4$.
+
+\vspace{1em}
+\noindent
+\subsection{Architettura dei calcolatori}
+Il calcolatore, naturalmente, si basa sulla logica binaria, ovvero opera impiegando la rappresentazione in base $2$.\\
+Il metodo più utilizzato per rappresentare caratteri diversi da quelli binari, tramite una codifica binaria, è il metodo ASCII (dall'inglese, American Standard Code For Information Interchange). Naturalmente, siccome la codifica tramite ASCII fa uso di soli $7$ bit (sarebbero $8$, ma un bit è riservato alla parità, per la rilevazione degli errori), il numero di $n$-uple binarie che si possono ottenere è $2^7$, un numero certamente irrisorio per la rappresentazione di tutti i caratteri alfanumerici necessari per la comunicazione multilinugua.\\
+In generale, fissata una lunghezza $n$, il numero di $n$-uple binarie distinte è, ovviamente, $2^n$, che rappresenta una crescita esponenziale, praticamente infinita, anche se, ovviamente, nella teoria sono ben limitati.\\
+
+\vspace{1em}
+\noindent
+\textbf{Esempio}: Si consideri una macchina calcolatrice che considera delle istruzioni di $9$ bit come di seguito esposto:
+
+\begin{table}[H]
+  \centering
+  \renewcommand\arraystretch{1.2}
+  \begin{tabularx}{0.6 \textwidth}{|P|P|}
+    \hline
+    NOME ISTRUZIONE & ISTRUZIONE\\
+    \hline
+    ADD & $010\times\times\times\times\times\times$\\
+    \hline
+    PUNCH & $100\times\times\times\times\times\times$\\
+    \hline
+  \end{tabularx}
+  \caption{Tabella di istruzioni operative per un calcolatore}
+  \label{tab:tabella_istruzioni_calcolatore}
+\end{table}
+
+\vspace{1em}
+\noindent
+Naturalmente, tale linguaggio è \textbf{Assembly}, ovvero un linguaggio molto simile al linguaggio macchina, che risulta particolarmente complesso da impiegare per lo sviluppo di software.
+
+\vspace{1em}
+\subsection{Diagramma di flusso}
+Si consideri il seguente \textbf{flowchart}, o \textbf{diagramma di flusso}:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[node distance=2cm]
+    % start
+    \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+    % input/output
+    \tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+    % process
+    \tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+    % if
+    \tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+    % arrow
+    \tikzstyle{arrow} = [thick,->,>=stealth]
+
+    \node (start) [startstop] {Start};
+    \node (in1) [io, below of=start] {Input};
+    \node (pro1) [process, below of=in1] {Processo 1};
+    \node (dec1) [decision, below of=pro1] {Decisione 1};
+
+    \draw [arrow] (start) -- (in1);
+    \draw [arrow] (in1) -- (pro1);
+    \draw [arrow] (pro1) -- (dec1);
+  \end{tikzpicture}
+  \caption{Diagramma di flusso}
+  \label{fig:diagramma_flusso}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Tuttavia, tale tecnica di progettazione algoritmica è oramai superata, lasciando il posto allo \textbf{pseudocodice}, ossia un linguaggio di definizione delle istruzioni slegato da qualsiasi specifico linguaggio di programmazione di riferimento, che permette di esporre una serie di istruzioni esecutive molto simili a quelle di un programma vero e proprio.
+
+\newpage
+\section{Ordinamento (sorting)}
+Si espongono, di seguito, i principi di algoritmica dei più importanti algoritmi di ordinamento.\\
+Ciascuno di tali algoritmi prevede di effettuare l'ordinamento di $n$ numeri forniti come input, in modo debolmente crescente, in caso di uguaglianza.
+
+\vspace{1em}
+\subsection{Bubble-Sort}
+Si espone di seguito l'algoritmo di ordinamento \textbf{bubble-sort} impiegando lo \emph{pseudocodice}:\\
+
+\begin{enumerate}
+  \item do the following $n-1$ times
+  \begin{enumerate}
+    \item point to the $1^{\text{st}}$ element
+    \item do the following $n-1$ times
+    \begin{enumerate}
+      \item compare with next
+      \item if wrong order exchange
+      \item point to the next
+    \end{enumerate}
+  \end{enumerate}
+\end{enumerate}
+
+\noindent
+Naturalmente tale algoritmo è corretto e lo si può verificare immediatamente, considerando, per esempio, i seguenti $5$ elementi, così ordinati:
+\[\boxed{2} \hspace{0.5em} \boxed{3} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{5}\]
+Ovviamente il procedimento ci porta ad eseguire l'algoritmo $4$ volte. Nella prima iterazione si ottiene
+\[\boxed{2} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{3} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{5}\]
+la seconda iterazione, invece, porta ad ottenere
+\[\boxed{1} \hspace{0.5em} \boxed{2} \hspace{0.5em} \boxed{3} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{5}\]
+mentre le ultime due iterazioni sono superflue. Si capisce facilmente che tale algoritmo non risulta essere pienamente efficiente, in quante alcune iterazioni potrebbero essere evitate, tramite un \textbf{flag}, per esempio. Allo stato attuale, il numero delle iterazioni da eseguire è
+\[\#\text{iterazioni} = \left(n-1\right)\cdot\left(n-1\right)\]
+Se, invece, si facesse in modo di evitare alcune iterazioni si avrebbe un numero di iterazioni
+\[\left(n-1\right) \leq \#\text{iterazioni} \leq \left(n-1\right)^2\]
+considerando $n-1 \cong n$, e quindi $\left(n-1\right)^2 \cong n^2$ si può di re che la complessità del bubble-sort è \textbf{quadratica}, in quantoil numero delle iterazioni è $n^2$.
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
