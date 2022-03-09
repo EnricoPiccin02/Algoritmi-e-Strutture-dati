@@ -22,6 +22,8 @@
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage{subfig}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 \graphicspath{ {./img/} }
 \newtheorem{theorem}{Teorema}[section]
 \newtheorem{corollary}{Corollario}[theorem]
@@ -48,6 +50,10 @@
 \renewcommand\arraystretch{}
 \newcolumntype{P}{>{\centering\arraybackslash}X}
 
+\algdef{SE}[SUBALG]{Indent}{EndIndent}{}{\algorithmicend\ }%
+\algtext*{Indent}
+\algtext*{EndIndent}
+
 \title{\textbf{Università di Trieste\\ \vspace{1em}
 Laurea in ingegneria elettronica e informatica}}
 \author{Enrico Piccin - Corso di Algoritmi e Strutture dati - Prof. Andrea Sgarro}
@@ -68,12 +74,26 @@ Laurea in ingegneria elettronica e informatica}}
 
 \section{Introduzione}
 \textbf{Algoritmo} è una parola molto antica, non connessa all'utilizzo e all'invenzione del calcolatore.\\
-\textbf{Liber abaci} (tradotto \quotes{Libro della computazione}), scritto nel $1200$ da Leonardo Bonacci, in contatto con la popolazione araba, in quanto mercante ed è venuto a conoscenza della \textbf{numerazione araba}, introducendola in Occidente e spiegandolo all'interno del \textbf{Liber abaci}.\\
-La numerazione araba è uno straordinario passo in avanti nella scienza, in quanto viene introdotto il concetto di \textbf{notazione posizionale}, così come l'importanza del numero $0$: i numeri non servono solamente per contare.\\
-A Firenze, sempre negli stessi anni, ci fu una \textbf{protesta sindacale} contro l'innovazione tecnologica, contro una nuova scoperta, facendo pressione affinché il governo abolisse il nuovo sistema di numerazione, in quanto avrebbe fatto perdere il posto di lavoro a tutti coloro che prima eseguivano difficili calcoli con la numerazione romana: tuttavia, tale proteste possono rallentare il progresso, ma mai arrestarlo.\\
+Alla base della teoria della computazione si pone il \textbf{Liber abaci} (tradotto \quotes{Libro della computazione}), scritto nel $1200$ da Leonardo Bonacci, in contatto con la popolazione araba, in quanto mercante; egli è venuto a conoscenza della \textbf{numerazione araba}, introducendola in Occidente e spiegandola dettagliatamente all'interno del \textbf{Liber abaci}.\\
+La numerazione araba è uno straordinario passo in avanti nella scienza, in quanto con essa viene introdotto il concetto di \textbf{notazione posizionale}, così come l'importanza del numero $0$: i numeri non servono solamente per contare, come si pensava in precedenza, e per questo rinnegando il numero $0$.\\
+A Firenze, sempre negli stessi anni, ci fu una \textbf{protesta sindacale} contro l'innovazione tecnologica, contro questa nuova scoperta, facendo pressione affinché il governo abolisse il nuovo sistema di numerazione, in quanto avrebbe fatto perdere il posto di lavoro a tutti coloro che prima eseguivano difficili calcoli con la numerazione romana: tuttavia, tale proteste, com'é noto, possono rallentare il progresso, ma mai arrestarlo.\\
 Leonardo Bonacci, nei suoi viaggi in Oriente, venne a conoscenza del \textbf{Liber abaci} di Al-Gorasmy, proveniente dalla Coresmia, ma che parlava persiano, da cui poi sarebbe stato tratto il nome \textbf{Algoritmo}, che letteralmente significa \textbf{procedimento di calcolo}.\\
-Tuttavia, bisogna chiarire che algoritmo è un procedimento di calcolo non necessariamente numerico, ma molto più generale, che va ben al di là dei numeri.\\
-Un altro importante elemento che contraddistingue l'algoritmo è òa \textbf{meccanicità}, ovvero la sua esecuzione può essere affidata ad una macchina: non deve necessariamente essere meccanizzato, ma deve essere meccanizzabile; in altre parole, l'esecuzione (bada bene, l'esecuzione e non la sua ideazione) dell'algoritmo è completamente \textbf{stupida}.
+
+% Tabella per le definizione di concetti, etc...
+\vspace{1em}
+\rowcolors{1}{black!5}{black!5}
+\setlength{\tabcolsep}{14pt}
+\renewcommand{\arraystretch}{2}
+\noindent
+\begin{tabularx}{\textwidth}{@{}|P|@{}}
+    \hline
+    {\textbf{ALGORITMO}}\\
+    \parbox{\linewidth}{Algoritmo significa letteralmente \textbf{procedimento di calcolo}. Tuttavia, bisogna chiarire che un algoritmo è un procedimento di calcolo non necessariamente numerico, ma molto più generale, che va ben al di là dei numeri.\\
+    Un altro importante elemento che contraddistingue l'algoritmo è la \textbf{meccanicità}, ovvero la sua esecuzione può essere affidata ad una macchina: ciò significa che un algoritmo non deve necessariamente essere meccanizzato, ma deve essere \textbf{meccanizzabile}; in altre parole, l'esecuzione (bada bene, l'esecuzione e non la sua ideazione) dell'algoritmo è completamente \textbf{stupida}.
+    \vspace{3mm}}\\
+    \hline
+\end{tabularx}
+\vspace{1em}
 
 \vspace{1em}
 \noindent
@@ -84,7 +104,7 @@ Ecco che quello che si è appena eseguito è un \textbf{procedimento di calcolo}
 \vspace{1em}
 \noindent
 \textbf{Esempio 2}: L'algoritmo della divisione fa sempre uso di una base di dati, nella quale devono essere memorizzati i risultati del prodotto del divisore con tutti i numeri decimali da $0$ a $9$ e confrontare ciascun prodotto con il termine da dividere per ottenere il quoziente.\\
-Alternativamente, si sarebbe potuto creare un ciclo da $0$ a $9$ in cui per ogni indice si sarebbe dovuto verificare se questo fosse il fattore moltiplicativo corretto per ottenere la quantità corretta da sottrarre.
+Alternativamente, si sarebbe potuto creare un ciclo da $0$ a $9$ in cui per ogni indice si sarebbe dovuto verificare se questo fosse il fattore moltiplicativo corretto per ottenere la quantità giusta da sottrarre.
 
 \vspace{1em}
 \noindent
@@ -92,18 +112,19 @@ Alternativamente, si sarebbe potuto creare un ciclo da $0$ a $9$ in cui per ogni
 
 \vspace{1em}
 \noindent
-Quando si rappresentano delle quantità e, a maggior ragione, quando si effettuano dei calcoli, è fondamentale fissare una base di rappresentazione, da cui poi dipendono le cifre che si possono impiegare per la rappresentazione.\\
-La notazione posizionale permette anche di comprendere la rappresentazione di qualsiasi in quantità con qualsiasi base, effettuando anche delle conversioni di base a seconda della maggiore o minore convenienza di rappresentazione.\\
+Quando si rappresentano delle quantità e, a maggior ragione, quando si effettuano dei calcoli, è fondamentale fissare una base di rappresentazione, da cui poi dipendono le cifre che si possono impiegare per la rappresentazione stessa.\\
+La notazione posizionale permette anche di comprendere la rappresentazione di qualsiasi quantità con qualsiasi base, effettuando anche delle conversioni di base a seconda della maggiore o minore convenienza di rappresentazione.\\
 Per esempio, volendo convertire una quantità rappresentata in base $\mathcal{B} = 7$ in una base $\mathcal{C} = 10$ si deve procedere come segue
 \[\left(5203\right)_7 = 5 \cdot 7^3 + 2 \cdot 7^2 + 0 \cdot 7^1 + 3 \cdot 7^0 = 1715 + 98 + 0 + 3 = \left(1816\right)_{10}\]
-Ovviamente le basi di rappresentazione sono almeno binarie, in quanto la \textbf{base unaria} non può, per ovvie ragioni, non permette di rappresentare alcuna quantità se non quella unica che viene permessa dalla base scelta, ossia lo $0$.\\
+Ovviamente le basi di rappresentazione sono almeno binarie, in quanto la \textbf{base unaria} non può, per ovvie ragioni, rappresentare alcuna quantità se non quella unica che viene permessa dalla base scelta, ossia lo $0$.\\
 Tuttavia, il processo inverso, atto a passare dalla rappresentazione di una quantità in base $10$ ad una in base $3$, non risulta essere così immediato.\\
-Per cercare un algoritmmo che permette di effettuare tale conversione, si effettua un primo passaggio controintuitivo, che prevede di rappresentare una quantità in base $10$ in una quantità ancora in base $10$, tramite un processo di divisioni successive. Si consideri, a tal proposito
+Per cercare un algoritmmo che permette di effettuare tale conversione, si effettua un primo \textbf{passaggio controintuitivo} (che suggerisce, tuttavia, il corretto processo esecutivo), che prevede di rappresentare una quantità in base $10$ in una quantità ancora in base $10$, tramite un processo di divisioni successive. Si consideri, a tal proposito
 \[\left(3412\right)_{10}\]
 e si divida progessivamente tale numero per $10$, come segue
 
 \begin{table}[H]
   \centering
+  \rowcolors{1}{white}{white}
   \begin{tabular}{r|l}
     $3412$ & $10$\\
     \hline
@@ -120,6 +141,7 @@ Leggendo, ora, i resti, al contrario si ottiene il numero cercato all'inizio. Se
 
 \begin{table}[H]
   \centering
+  \rowcolors{1}{white}{white}
   \begin{tabular}{r|l}
     $3412$ & $3$\\
     \hline
@@ -142,6 +164,7 @@ Scegliendo la base $2$ si ottiene, per esempio
 
 \begin{table}[H]
   \centering
+  \rowcolors{1}{white}{white}
   \begin{tabular}{r|l}
     $241$ & $2$\\
     \hline
@@ -189,9 +212,9 @@ che è una relazione esatta. Tuttavia, approssimativamente, si può scrivere che
 \end{center}
 Com'è noto, il matematico indiano \textbf{Ramanujan} ha affermato che la matematica esatta non rappresenta una base solida per la realtà, mentre la matematica vera è fatta di approssimazioni.\\
 \textbf{Hardy} scoprì quanto fosse importante lo studio di \textbf{Ramanujan} e insieme a lui portò avanti la teoria dei numeri, una teoria \textbf{asintotica} che, come lui stesso affermava, non può essere esatta, ma fatta di approssimazioni.\\
-Se, per esempio, si considera una quantità scritta in base $5$, quale $n = \left(5412\right)_5$
-\[\left(541\right)_5 = 5 \cdot 5^2 + 4 \cdot 5^1 + 1 \cdot 5^0 = (146)_{10}\]
-Se, ora, si fissa una lunghezza $l = 4$, una lunghezza rigida, senza considerare zeri in testa, si può capire che con $4$ cifre si possono rappresentare numeri nell'intervallo
+Se, per esempio, si considera una quantità scritta in base $5$, quale $n = \left(412\right)_5$
+\[\left(412\right)_5 = 4 \cdot 5^2 + 1 \cdot 5^1 + 2 \cdot 5^0 = (107)_{10}\]
+Se, ora, si fissa una lunghezza $l = 4$, una lunghezza rigida, senza considerare zeri in testa, si può capire che con $4$ cifre si possono rappresentare, in base $5$ numeri $n$ nell'intervallo
 \[1000 \leq n < 10000\]
 ovvero tale per cui
 \[5^{l - 1} \leq n < 5^l\]
@@ -203,11 +226,14 @@ in cui, ovviamente,
 \[\log_{\mathcal{B}}\left(n\right) < l \leq \log_{\mathcal{B}}\left(n\right) + 1\]
 che si può scrivere che
 \[\l_{\mathcal{B}}\left(n\right) \cong \log_{\mathcal{B}}\left(n\right)\]
-... continua ... lunghezza analogica e digitale. Per esempio, si può osservare che
+Per cui l'\textbf{errore massimo} che si può commettere è di $1$ cifra in base $\mathcal{B}$, nel caso peggiore, ma sarà sempre un po' maggiore del $\log_{\mathcal{B}}\left(n\right)$, per cui il logaritmo è una \textbf{sottostima della lunghezza}. Tuttavia, nello spirito di Hardy, sarà utile anche scrivere che la lunghezza binaria di $n$ è circa uguale al logaritmo binario di $n$, ovvero
+\[\log_\mathcal{B}(n) \cong \log_\mathcal{B}(n)\]
+in cui si può interpetare il $\log_\mathcal{B}(n)$ come una \textbf{lunghezza analogica}, mentre $l_\mathcal{B}(n)$ è una \textbf{lunghezza digitale}, in quanto \textbf{intera}, con precisione alla cifra (senza nulla in mezzo): in molti casi sarà più utile la lunghezza analogica di quella digitale, in quanto molto più precisa.\\
+Grazie a questa formula è possibile capire facilmente come si alterano le lunghezze quando si effettua un cambiamento di base. Per esempio, si può osservare che
 \[\log_2(10) \cong 3.38\]
 per cui la lunghezza in base $2$ è circa tre volte la lunghezza in base $10$.
 
-\vspace{1em}
+\vspace{2em}
 \noindent
 \textbf{Esempio}: Per trasformare un numero da base $10$ in base $5$ si deve procedere per divisioni successive per $5$, considerando i resti (per questo si parla di \emph{divisione intera}). Per esempio si ha che
 \[10 \div 3 = 3 \text{ con resto di } 1\]
@@ -220,7 +246,7 @@ con $D$ divisore. Convertendo $32$ da base $10$ a base $5$ ci si aspetta di otte
 \subsection{Architettura dei calcolatori}
 Il calcolatore, naturalmente, si basa sulla logica binaria, ovvero opera impiegando la rappresentazione in base $2$.\\
 Il metodo più utilizzato per rappresentare caratteri diversi da quelli binari, tramite una codifica binaria, è il metodo ASCII (dall'inglese, American Standard Code For Information Interchange). Naturalmente, siccome la codifica tramite ASCII fa uso di soli $7$ bit (sarebbero $8$, ma un bit è riservato alla parità, per la rilevazione degli errori), il numero di $n$-uple binarie che si possono ottenere è $2^7$, un numero certamente irrisorio per la rappresentazione di tutti i caratteri alfanumerici necessari per la comunicazione multilinugua.\\
-In generale, fissata una lunghezza $n$, il numero di $n$-uple binarie distinte è, ovviamente, $2^n$, che rappresenta una crescita esponenziale, praticamente infinita, anche se, ovviamente, nella teoria sono ben limitati.\\
+In generale, fissata una lunghezza $n$, il numero di $n$-uple binarie distinte è, ovviamente, $2^n$, che rappresenta una crescita esponenziale, praticamente infinita, anche se, ovviamente, in teoria sono un numero ben limitato.\\
 
 \vspace{1em}
 \noindent
@@ -242,7 +268,6 @@ In generale, fissata una lunghezza $n$, il numero di $n$-uple binarie distinte �
   \label{tab:tabella_istruzioni_calcolatore}
 \end{table}
 
-\vspace{1em}
 \noindent
 Naturalmente, tale linguaggio è \textbf{Assembly}, ovvero un linguaggio molto simile al linguaggio macchina, che risulta particolarmente complesso da impiegare per lo sviluppo di software.
 
@@ -277,7 +302,6 @@ Si consideri il seguente \textbf{flowchart}, o \textbf{diagramma di flusso}:
   \label{fig:diagramma_flusso}
 \end{figure}
 
-\vspace{1em}
 \noindent
 Tuttavia, tale tecnica di progettazione algoritmica è oramai superata, lasciando il posto allo \textbf{pseudocodice}, ossia un linguaggio di definizione delle istruzioni slegato da qualsiasi specifico linguaggio di programmazione di riferimento, che permette di esporre una serie di istruzioni esecutive molto simili a quelle di un programma vero e proprio.
 
@@ -288,20 +312,23 @@ Ciascuno di tali algoritmi prevede di effettuare l'ordinamento di $n$ numeri for
 
 \vspace{1em}
 \subsection{Bubble-Sort}
-Si espone di seguito l'algoritmo di ordinamento \textbf{bubble-sort} impiegando lo \emph{pseudocodice}:\\
+Si espone di seguito l'algoritmo di ordinamento \textbf{bubble-sort} impiegando lo \emph{pseudocodice}:
 
-\begin{enumerate}
-  \item do the following $n-1$ times
-  \begin{enumerate}
-    \item point to the $1^{\text{st}}$ element
-    \item do the following $n-1$ times
-    \begin{enumerate}
-      \item compare with next
-      \item if wrong order exchange
-      \item point to the next
-    \end{enumerate}
-  \end{enumerate}
-\end{enumerate}
+\begin{algorithm}[H]
+  \caption{Bubble-sort}\label{euclid}
+  \begin{algorithmic}[1]
+    \State \textbf{do} the following $n-1$ times
+    \Indent
+      \State \emph{point} to the $1^{\text{st}}$ element
+      \State \textbf{do} the following $n-1$ times
+      \Indent
+      \State \emph{compare} with next
+      \State \textbf{if} wrong order \emph{exchange}
+      \State \emph{point} to the next
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
 
 \noindent
 Naturalmente tale algoritmo è corretto e lo si può verificare immediatamente, considerando, per esempio, i seguenti $5$ elementi, così ordinati:
@@ -314,13 +341,172 @@ mentre le ultime due iterazioni sono superflue. Si capisce facilmente che tale a
 \[\#\text{iterazioni} = \left(n-1\right)\cdot\left(n-1\right)\]
 Se, invece, si facesse in modo di evitare alcune iterazioni si avrebbe un numero di iterazioni
 \[\left(n-1\right) \leq \#\text{iterazioni} \leq \left(n-1\right)^2\]
-considerando $n-1 \cong n$, e quindi $\left(n-1\right)^2 \cong n^2$ si può di re che la complessità del bubble-sort è \textbf{quadratica}, in quantoil numero delle iterazioni è $n^2$.
+considerando $n-1 \cong n$, e quindi $\left(n-1\right)^2 \cong n^2$ si può dire che la complessità del bubble-sort è \textbf{quadratica}, in quanto il numero delle iterazioni è $n^2$.
 
+\newpage
+\noindent
+\begin{center}
+  4 Marzo 2022
+\end{center}
+L'algoritmo bubble-sort non viene utilizzato, ad oggi, così come non si impiega lo pseudocodice in \emph{pseudo-english} (da leggere psude-inglish). Esso è funzionale, ma non efficiente, in quanto la sua complessità è $n^2$.\\
+Ecco che per definire un algoritmo di ordinamento non è necessaria solamente la sua funzionalità, ma anche l'efficienza.
 
+\vspace{1em}
+\subsection{Insertion-sort}
+L'insertion-sort è un algoritmo di ordinamento che prevede di considerare ciascuna quantità da ordinare ad una ad una e di effettuare un confronto solo quando ci sono dei cambiamenti.\\
+La prima quantità è ovviamente già in ordine con se stessa. Se la seconda è più piccola della prima, si effettua uno scambio, per cui ora i primi due numeri sono ordinati. Si considera, ora, il terzo numero e se questo è più piccolo del secondo si effettua uno scambio e un nuovo confronto tra la seconda e la prima e così via.\\
+Pertanto si effettuano tutti i confronti solamente quando si ha uno scambio delle quantità: questo comporta che il minimo numero di iterazioni è $n-1$, se $n$ è il numero delle quantità da ordinare. Se, invece, tutte le quantità sono in disordine si effettua un numeri di iterazioni pari
+\[1 + 2 + ... + (n - 2) + (n - 1) = \frac{n \cdot (n + 1)}{2}\]
+una formula molto semplice che Gauss determinò come segue, ovverosia scrivendo la somma dei numeri da $1$ a $k$ in ordine crescente e poi decrescente, come mostrato di seguito:
 
+\begin{table}[H]
+  \centering
+  \rowcolors{1}{white}{white}
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{cccccccccccccccccccccc}
+    $1$ & $+$ & $2$ & $+$ & $3$ & $+$ & $...$ & $+$ & $k-1$ & $+$ & $k$\\
+    $k$ & $+$ & $k-1$ & $+$ & $k-2$ & $+$ & $...$ & $+$ & $2$ & $+$ & $1$
+  \end{tabular}
+\end{table}
 
+\noindent
+essendo $k$ numeri in ambedue le righe, sommando i due termini corrispondenti, uno sotto l'altro, si ottiene sempre $k+1$ che, sommato per $k$ volte produce $k \cdot (k+1)$. Tuttavia, dal momento che tale quantità è il doppio di quella richiesta si ottiene
+\[\frac{k \cdot (k + 1)}{2}\]
+Pertanto si ha che il numero di iterazioni dell'algoritmo \emph{insertion-sort} è
+\[n \cong n - 1 \leq \#\text{iterazioni} \leq \frac{n \cdot (n - 1)}{2} \cong n^2\]
+che, in maniera approssimata è
+\[n \leq \#\text{iterazioni} \leq n^2\]
+pertanto, nel caso migliore, la \textbf{complessità è lineare}, mentre nel caso peggiore, la \textbf{complessità è quadratica}.
 
+\vspace{1em}
+\noindent
+\subsection{Pseudocodice}
+Per la scrittura dello pseudocodice si devono impiegare delle notazioni e dei simboli ben specifici, che di seguito vengono riportati.
 
+\vspace{1em}
+\subsubsection{Assegnazione}
+L'\textbf{assegnazione} viene indicata con il simbolo $=$ (oppure $:=$ o $\leftarrow$), anche se l'assegnazione non è un'uguaglianza. Per esempio, la notazione
+\[A = 3\]
+significa che nella cella di memoria $A$ viene inserito il valore $3$. Analogamente, se si scrive
+\[A = A + 1\]
+significa che il valore presente nella cella di memoria $A$ viene incrementato di $1$ unità.
+
+\vspace{1em}
+\subsubsection{Condizione}
+La specifica della \textbf{condizione} avviene tramite l'istruzione \textbf{if}, secondo la notazione seguente:
+\begin{center}
+  \textbf{if} $C$ \textbf{then}\\
+  \hspace{4em} istruzioni\\
+  \hspace{-2.5em} \textbf{else}\\
+  \hspace{4em} istruzioni\\
+\end{center}
+
+\vspace{1em}
+\subsubsection{Ciclo for}
+Il \textbf{ciclo for} è un'istruzione di ciclo in cui vengono indicate specificatamente le iterazioni che devono essere eseguite, secondo la notazione seguente
+\begin{center}
+  \textbf{for} $i = 0$ \textbf{to} $n$ \textbf{do}\\
+\end{center}
+
+\vspace{1em}
+\subsubsection{Ciclo while}
+Il \textbf{ciclo while} è un'istruzione di ciclo in cui si effettuano le istruzioni fintantoché la condizione specifcata è vera
+\begin{center}
+  \textbf{while} $C$ \textbf{do}\\
+\end{center}
+
+\vspace{1em}
+\noindent
+Si consideri lo pseudocodice dell'algoritmo \textbf{INSERTION-SORT(A)}, esposto di seguito, dove \textbf{A} sta ad indicare \textbf{array}, ovvero un record di $length[A] = n$ valori da ordinare, già forniti in input.\\
+Di seguito si espone lo pseuodocodice, in cui si parte da $1$ come posizione iniziale dell'array:
+
+\begin{algorithm}[H]
+  \caption{Insertion-sort}\label{euclid}
+  \begin{algorithmic}[1]
+    \State \textbf{for} $j = 2$ \textbf{to} $length[A] = n$
+    \Indent
+      \State \textbf{do } $key = A[j]$
+        \Indent
+          \State ...
+          \State $i = j - 1$
+        \EndIndent
+        \State \textbf{while} $i > 0 \wedge A[i] > key$
+        \Indent
+          \State \textbf{do } $A[i+1] = A[i]$
+          \Indent
+            \State $i = i - 1$
+            \State $A[i+1] = key$
+          \EndIndent
+        \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+Tale codice é concluso e il suo funzionamento può essere facilmente verificato come segue, considerando l'array $A$ di lunghezza $length[A] = 6$:
+\[\boxed{5} \hspace{0.5em} \boxed{2} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{6} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{3}\]
+Partendo con $j=2$ si fissa $key=A[j]=2$ e imponendo $i=1$, si entra all'interno del ciclo \emph{while}, in quanto $i>0$ e $A[i]>key$ e si effettua l'istruzione $A[i+1] = A[i]$ e $A[i+1] = key$, trovandosi nella configurazione seguente
+\[\boxed{2} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{6} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{3}\]
+Terminato il ciclo while e il ciclo for si procede con $j=3$ si fissa $key=A[j]=4$ e imponendo $i=2$, si entra all'interno del ciclo \emph{while}, in quanto $i>0$ e $A[i]>key$ e si effettua l'istruzione $A[i+1] = A[i]$ e $A[i+1] = key$, trovandosi nella configurazione seguente
+\[\boxed{2} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{6} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{3}\]
+Adesso, terminato il ciclo while e for, si considera $j=4$, specificando $key=A[j]=6$ e $i=3$. In questo caso, tuttavia, non si entra nel ciclo while, in quanto $i > 0$, ma $A[i] < key$. Si procede direttamene con $j=5$, $key=A[j]=1$ e $i=4$ e si entra nel ciclo while, compiendo tutte le iterazioni
+\[\boxed{2} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{6} \hspace{0.5em} \boxed{3}\]
+\[\boxed{2} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{6} \hspace{0.5em} \boxed{3}\]
+\[\boxed{2} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{6} \hspace{0.5em} \boxed{3}\]
+\[\boxed{1} \hspace{0.5em} \boxed{2} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{6} \hspace{0.5em} \boxed{3}\]
+e così via fino ad arrivare all'ordinamento finale
+\[\boxed{1} \hspace{0.5em} \boxed{2} \hspace{0.5em} \boxed{3} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{6}\]
+Ecco che, come si può vedere, tale algoritmo ha una complessità che, nel caso migliore, è \textbf{lineare} ($n$) e nel caso peggiore è \textbf{quadratica} ($n^2$).\\
+Mentre si chiama \textbf{complessità tipica} la \textbf{complessità media}, ovvero la complessità dell'algoritmo nel caso intermedio. In questo caso la complessità tipica è $n^2$, che può essere calcolata, in maniera non propriamente corretta, come segue
+\[\frac{n + n^2}{2} = n^2\]
+Esiste, infine, anche una \textbf{complessità empirica}, basata sull'uso pratico dell'algoritmo: in particolare, l'algoritmo insertion-sort funziona particolarmente bene quando il \textbf{numero degli elementi da ordinare è ridicolmente basso}, il che potrebbe essere un controsenso; tuttavia, potrebbe essere particolarmente utile ricorrere all'ordinamento di pochi numeri all'interno di una procedura particolarmente complessa: ecco, allora, che l'utilizzo di insertion-sort diviene conveniente (cosa che non accade per bubble-sort).
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: È importante osservare che l'algoritmo di insertion-sort è un \textbf{algoritmo di ordinamento in loco}, ovvero tale per cui non si impiega un altro array per l'ordinamento, ma tutte le operazioni si effettuano sullo stesso array di partenza.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Quando si parla di algoritmica, non è possibile parlare di \textbf{completezza} senza parlare di \textbf{complessità}.
+
+\newpage
+\section{Grafi}
+Il \textbf{grafo} è una \textbf{struttura finita}. Gli elementi costituitvi di un grafo sono i \textbf{vertici} (o \textbf{nodi}) e gli \textbf{archi} (o \textbf{lati}) (dall'inglese \emph{arcs} o \emph{edges}). Per indicare i vertici si impiega la lettera $v$, mentre per indicare gli archi si usa la lettera $\xi$.\\
+Un arco collega due vertici distinti che, per il momento, non è orientato, non rappresenta una freccia, in quanto si parla di \textbf{grafi semplici}, come illustrato di seguito:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (a) {$a$};
+    \node[main node] (b) [below left of=a] {$b$};
+    \node[main node] (c) [below right of=b] {$c$};
+    \node[main node] (d) [below right of=a] {$d$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (a) edge node [left] {} (b)
+          edge [bend left, out=100, in=85, out looseness=2, in looseness=2] node[left] {} (c)
+          % edge [loop above] node {0.1} (1)
+      (b) edge node [right] {} (c)
+          edge node {} (d)
+          % edge [loop left] node {0.4} (2)
+          % edge [bend right] node[left] {0.1} (3)
+      (c) edge node [right] {} (d)
+          % edge [bend right] node[right] {0.2} (4)
+      (d) edge node [left] {} (a);
+          % edge [loop right] node {0.6} (4)
+          % edge [bend right] node[right] {0.2} (1);
+  \end{tikzpicture}
+  \caption{Esempio di grafo semplice}
+  \label{fig:esempio_grafo_semplice}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Il calcolo della copertura dei vertici prende il nome di \textbf{vertex cover} e prevede di definire il numero minimo di vertici essenziali per coprire tutti gli archi. L'ottimizzazione del grafo, in questo caso, prevede di determinare la copertura minima.\\
+Si supponga di avere a disposizione $k$ vertici (che si indica come $\left \vert v \right \vert = k$, in cui $\left \vert v \right \vert$ rappresenta la \textbf{cardinalità} dell'insieme dei vertici). Naturalmente, la copertura minima pari a $0$ si ha quando i vertici del grafo sono tutti scollegati, ovvero non ci sono archi.\\
+Il numero di archi in un grafo completo è pari a
+\[\frac{\left \vert v \right \vert \cdot \left(\left \vert v \right \vert - 1\right)}{2}\]
+per cui si potrebbe, in questo caso limite, affermare che la copertura minima sia $k$, ma se si elimina un nodo ancora la copertura sussiste, in quanto su ogni arco vi sarà sempre almeno un nodo coperto. Quindi si può affermare che la \emph{vertex cover}, nel caso generale è compresa tra $0$ e $k-1$, con $k$ numero dei vertici.
 
 
 

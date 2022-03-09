@@ -2,7 +2,14 @@
 \babel@toc {italian}{}
 \babel@toc {italian}{}
 \contentsline {section}{\numberline {1}Introduzione}{2}{}%
-\contentsline {subsection}{\numberline {1.1}Architettura dei calcolatori}{5}{}%
+\contentsline {subsection}{\numberline {1.1}Architettura dei calcolatori}{6}{}%
 \contentsline {subsection}{\numberline {1.2}Diagramma di flusso}{6}{}%
 \contentsline {section}{\numberline {2}Ordinamento (sorting)}{7}{}%
 \contentsline {subsection}{\numberline {2.1}Bubble-Sort}{7}{}%
+\contentsline {subsection}{\numberline {2.2}Insertion-sort}{8}{}%
+\contentsline {subsection}{\numberline {2.3}Pseudocodice}{8}{}%
+\contentsline {subsubsection}{\numberline {2.3.1}Assegnazione}{8}{}%
+\contentsline {subsubsection}{\numberline {2.3.2}Condizione}{9}{}%
+\contentsline {subsubsection}{\numberline {2.3.3}Ciclo for}{9}{}%
+\contentsline {subsubsection}{\numberline {2.3.4}Ciclo while}{9}{}%
+\contentsline {section}{\numberline {3}Grafi}{11}{}%
