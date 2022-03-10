@@ -13,6 +13,6 @@
 \contentsline {subsubsection}{\numberline {2.3.3}Ciclo for}{9}{}%
 \contentsline {subsubsection}{\numberline {2.3.4}Ciclo while}{9}{}%
 \contentsline {section}{\numberline {3}Grafi}{11}{}%
-\contentsline {section}{\numberline {4}Algoritmi aritmetici}{15}{}%
-\contentsline {subsection}{\numberline {4.1}Algoritmo di Euclide}{16}{}%
-\contentsline {subsection}{\numberline {4.2}Notazione $\boldsymbol {O}$ grande}{18}{}%
+\contentsline {section}{\numberline {4}Algoritmi aritmetici}{16}{}%
+\contentsline {subsection}{\numberline {4.1}Algoritmo di Euclide}{17}{}%
+\contentsline {subsection}{\numberline {4.2}Notazione $\boldsymbol {O}$ grande}{20}{}%

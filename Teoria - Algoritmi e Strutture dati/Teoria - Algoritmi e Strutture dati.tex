@@ -520,13 +520,13 @@ La notazione per indicare vertici e archi è la seguente
   \item L'insieme dei vertici si denota con $v$
   \item L'insieme degli archi si denota con $\xi$
 \end{itemize}
-Naturalmente sussiste la possibilità che in un grafo tutti i vertici siano sconnessi ed \textbf{isolati}, ovvero il numero degli archi è nullo, per cui si ottiene che $\left \vert \xi \right \vert = 0$.\\
+Naturalmente, sussiste la possibilità che in un grafo tutti i vertici siano sconnessi ed \textbf{isolati}, ovvero il numero degli archi sia nullo, per cui si ottiene che $\left \vert \xi \right \vert = 0$.\\
 Analogamente, volendo collegare tutti i nodi con un arco (ottenendo un \textbf{grafo completo}), si procede come seugue: partendo da un primo vertice se ne collega un secondo, necessariamente distinto; ma non volendo considerare ogni arco due volte, si divide per due, ottenendo
 \[\frac{\left \vert v \right \vert \cdot \left(\left \vert v \right \vert - 1\right)}{2} \cong \left \vert v \right \vert^2\]
-ottenendo
+da cui si evvince che il numero degli archi, in un grafo, è compreso tra
 \[0 \leq \left \vert \xi \right \vert \leq \frac{\left \vert v \right \vert \cdot \left(\left \vert v \right \vert - 1\right)}{2}\]
-considerando $\left \vert v \right \vert$ è la cardinalità, ossia il numero dei vertici considerati.\\
-Il problema di \textbf{vertex cover} è un problema di ottimizzazione: ridurre il numero minimo di vertici tale per cui nel grafo ad ogni arco deve essere collegato almeno un vertice coperto. Per esempio, in un grafo dove ogni nodo è isolato, il numero minimo dei vertici è $0$, in quanto non ci sono archi. Nel caso di un \textbf{grafo completo}, come quello esposto di seguito
+considerando $\left \vert v \right \vert$ la cardinalità, ossia il numero dei vertici considerati che costituiscono il grafo.\\
+Il problema di \textbf{vertex cover} è un problema di ottimizzazione: ridurre il numero minimo di vertici tale per cui nel grafo ad ogni arco deve essere collegato almeno un vertice coperto. Per esempio, in un grafo dove ogni nodo è isolato, il numero minimo dei vertici da coprire è $0$, in quanto non ci sono archi. Nel caso di un \textbf{grafo completo}, come quello esposto di seguito
 
 \begin{figure}[H]
   \centering
@@ -556,9 +556,9 @@ Il problema di \textbf{vertex cover} è un problema di ottimizzazione: ridurre i
 
 \vspace{1em}
 \noindent
-In questo caso la copertura minima non è pari a $\left \vert v \right \vert$, in quanto eliminando uno qualsiasi dei nodi ancora ad ogni arco sarà collegato almeno un nodo comperto. Pertanto si ha che
+la copertura minima non è, come contrariamente si potrebbe pensare all'inizio, pari a $\left \vert v \right \vert$, in quanto eliminando uno qualsiasi dei nodi, ancora ad ogni arco sarà collegato almeno un nodo comperto. Pertanto si ha che il numero $\#nodi$ dei nodi che si dovranno coprire al fine di risolvere il problema del vertex cover in un grafo avente $\left \vert v \right \vert$ vertici sarà sempre compreso tra
 \[0 \leq \#nodi \leq \left \vert v \right \vert - 1\]
-Per la risoluzione del \textbf{vertex cover} vi sono due algoritmi, di cui solo il secondo realmente efficace. Si consideri il grafo seguete
+Per la risoluzione meccanica del \textbf{vertex cover} vi sono due algoritmi, di cui solo il secondo realmente efficace. Si consideri, a titolo esemplificativo, il grafo seguete
 
 \begin{figure}[H]
   \centering
@@ -586,11 +586,11 @@ Per la risoluzione del \textbf{vertex cover} vi sono due algoritmi, di cui solo 
 
 \vspace{1em}
 \noindent
-In cui, naturalmente, per coprire tutti gli archi sarà sufficientte considerare un poliziotto in $a$ e uno in $d$ (oppure in $b$), ottenendo
+in cui, naturalmente, per coprire tutti gli archi sarà sufficiente considerare il vertice $a$ e il vertice $d$ (oppure il nodo $b$), ottenendo, come possibile copertura
 \[\boxed{a} \hspace{0.5em} \boxed{b} \hspace{0.5em} \boxed{c} \hspace{0.5em} \boxed{d}\]
 \[\boxed{1} \hspace{0.5em} \boxed{0} \hspace{0.5em} \boxed{0} \hspace{0.5em} \boxed{1}\]
-in cui con $\boxed{1}$ rappresenta la copertura del rispettivo vertice. Ecco che questa è una $k$-upla binaria di \textbf{peso} $w=1+1=2$: un procedimento per verificare la corretta copertura prevede di considerare tutti gli archi e verificare per ciascuno che almeno ad un vertice collegato corrisponda $1$; se un arco è collegato a due vertici $0$, la copertura è scorretta.\\
-Tuttavia,, la $k$-upla $1001$ è anche una codifica binaria su $4$ bit del numero $(9)_{10}$, che suggerisce la procedura di controllo seguente, definita a partire da $k$ numero di vertici
+in cui con $\boxed{1}$ si rappresenta la copertura del rispettivo vertice. Ecco che questa è una $k$-upla binaria di \textbf{peso} $w=1+1=2$, in cui $k=4$: usando tale notazione, quindi, un procedimento meccanico, atto a verificare la corretta copertura prevede di considerare tutti gli archi e verificare per ciascuno di essi che almeno ad un vertice collegato dall'arco in questione corrisponda un $1$; se un arco è collegato a due vertici cui corrisponde $0$, la copertura è scorretta, ovviamente.\\
+Tuttavia, la $k$-upla $1001$ è anche una codifica binaria su $4$ bit del numero $(9)_{10}$, che suggerisce la procedura di controllo seguente, definita a partire da $k$ numero di vertici
 
 \begin{algorithm}[H]
   \caption{Vertex-cover}\label{euclid}
@@ -604,7 +604,8 @@ Tuttavia,, la $k$-upla $1001$ è anche una codifica binaria su $4$ bit del numer
 \end{algorithm}
 
 \noindent
-In cui viene ottenuta, alla fine, la copertura di peso minore. Per eliminare alcune iterazioni, si potrebbe procedere
+ove \emph{check(i)} è una procedura che svolge il compito precedentemente esposto: presa in ingresso una $k$-upla binaria, cui si fa corrispondere la copertura di rispettivi vertici, verifica per ciascun arco che ad esso sia collegato un vertice effettivamente coperto, ovvero cui corrisponde un $1$ nella $k$-upla binaria considerata; alla fine della procedura si ottiene la copertura di peso minore, ovvero quella con meno $1$ e quindi che prevede meno vertici coperti.\\
+Tale algoritmo non risulta propriamente efficiente; pertanto, al fine di eliminare alcune iterazioni, si potrebbe pensare di partire con il peso $w$ ed effettuare il medesimo \emph{check} per tutte $n$-uple di peso $w$, come mostrato di seguito:
 
 \begin{algorithm}[H]
   \caption{Vertex-cover}
@@ -617,10 +618,13 @@ In cui viene ottenuta, alla fine, la copertura di peso minore. Per eliminare alc
 \end{algorithm}
 
 \noindent
-In cui, tuttavia, nel caso peggiore, si potrebbe procedere ad effettuare un numero di iterazioni pari a $2^k - 1$, che non è molto dissimile dal caso precedente, in cui si facevano inevitabilmente $2^k$ iterazioni.\\
+che è un procedimento più razionale, in quanto si controlla progressivamente se sono sufficienti un numero sempre maggiore di vertici da coprire (basta $1$ vertice? Bastano $2$ e così via...) e si esce dal ciclo quando si trova il primo, in quanto quella copertura sarà certamente la minima.\\
+Da notare che si cicla fino a $k-1$ e non fino a $k$, in quanto è noto dalla teoria che il numero di vertici che si andranno a coprire per risolvere un qualsiasi problema di vertex-cover è sempre compreso tra $0$ e $k-1$, con $k$ numero di vertici: ma l'unica $n$-upla con peso massimo è quella con tutti $1$, la quale costituisce una sola configurazione tra le $2^k$ possibili. Pertanto, nel caso peggiore, si potrebbe procedere ad effettuare un numero di iterazioni pari a $2^k - 1$, che non è molto dissimile dal caso precedente, in cui si facevano inevitabilmente $2^k$ iterazioni.\\
 Questo algoritmo, pertanto, pur essendo corretto, è ispirato al meccanismo dell'\textbf{exaustive search} (dall'inglese, ricerca esauriente), che prevede di controllare tutti gli archi al fine di verificarne la corretta copertura.\\
 Il motivo per cui tale algoritmo è inutilizzabile è che presenta un numero di \textbf{iterazioni esponenziale} e, conseguentemente, una \textbf{complessità esponenziale}, la quale è intollerabile, dal momento che il numero delle iterazioni cresce esponenzialmente al variare dell'imput.\\
-Di seguito si espone, invece, un nuovo algoritmo che risolve il problema del \textbf{vertex cover}; si considerino due nodi connessi da un arco e si eliminino tutti gli archi che incidono sul primo e sul secondo vertice e così via, fino ad esaurire tutti gli archi a disposizione: alla fine si ottiene un ricoprimento vero e proprio. Come di consueto, l'input non viene specificato a priori, ma il numero delle iterazioni per specificare l'input è $\cong \left \vert v \right \vert + \left \vert \xi \right \vert$. Lo pseudocodice si espone di seguito
+Di seguito si espone, invece, un nuovo algoritmo che risolve il problema del \textbf{vertex cover}; alla base di tale algoritmo si pone la seguente idea: si considerino dapprima due nodi connessi da un arco e si eliminino tutti gli archi che incidono sul primo e sul secondo vertice e si proceda a considerare un nuovo arco che insiste su due nodi ancora non considerati e si eliminino tutti gli altri archi che incidono sui nodi stessi e così via, fino ad esaurire tutti gli archi a disposizione, tale che alla fine della procedura si ottiene un ricoprimento vero e proprio.\\
+Come di consueto, nello pseudocodice esposto di seguito, l'input non viene specificato a priori, ma il numero delle iterazioni per specificare l'input è noto, ossia è pari a $\cong \left \vert v \right \vert + \left \vert \xi \right \vert$.\\
+Lo pseudocodice è il seguente:
 
 \begin{algorithm}[H]
   \caption{Vertex-cover}
@@ -640,7 +644,9 @@ Di seguito si espone, invece, un nuovo algoritmo che risolve il problema del \te
 \end{algorithm}
 
 \noindent
-In cui il numero di iterazioni in cui tale algoritmo si impegna è, approssimativamente, pari a $\cong \left \vert v \right \vert + \left \vert \xi \right \vert$, ovvero si ha una \textbf{complesità lineare}: questa è un'ottima notizia, in quanto significa che tale algoritmo è velocissimo. L'unico problema è che esso è scorretto; si consideri il seguente grafo semplice:
+In cui $C$ è un contenitore, inizialmente vuoto, all'interno del quale successivamente andranno inseriti i vertici necessari per la vertex cover. Invece, $E'$ è un contenitore, inizialmente pieno, in quanto contiene tutti gli archi che dovranno essere esaminati/scartati. Dopodiché, fintantoché non ci sono più archi da analizzare, si considera un primo arco, designato con la notazione $(u,v)$, i cui due estremi, appunto $u$ e $v$ andranno ad essere inseriti all'interno di $C$, mentre verrano eliminati da $E'$ tutti gli archi incidienti in $u$ o in $v$, finché non si avranno più archi a disposizione.\\
+Il numero di iterazioni in cui tale algoritmo si impegna è, approssimativamente, pari a $\left \vert v \right \vert + \left \vert \xi \right \vert$, ovvero si ha una \textbf{complessità lineare}: questa è un'ottima notizia, in quanto significa che tale algoritmo è velocissimo; l'unico problema è che esso è scorretto.\\
+Si consideri, a titolo di esempio, il seguente grafo semplice:
 
 \begin{figure}[H]
   \centering
@@ -660,17 +666,16 @@ In cui il numero di iterazioni in cui tale algoritmo si impegna è, approssimati
   \label{fig:esempio_scorrettezza_algoritmo}
 \end{figure}
 
-\vspace{1em}
 \noindent
 In questo caso, l'algoritmo, considerando per primo l'arco $a-b$, elimina tutti gli altri archi e produce un risultato corretto.\\
 Tuttavia, se il primo arco considerato dall'algoritmo fosse $a-c$, l'algoritmo è costretto a considerare anche l'arco $b-d$, non producendo un risultato corretto.\\
 Tale algoritmo prende il nome di \textbf{algoritmo approssimato}, in quanto non sempre produce un risultato corretto, ma mai disastroso.\\
 Tuttavia, non esiste un algoritmo che sia corretto e anche accettabile dal punto di vista del numero delle iterazioni e quindi della complessità: pertanto ci si deve accontentare dell'algoritmo approssimato appena esposto.\\
-Si assuma che il numero di nodi ottimali considerati sia $\left \vert \mathcal{O} \right \vert$ e il numero degli nodi effettivamente ottenuti sia $\left \vert \mathcal{P} \right \vert$, legati dalla seguente relazione
+Per capire il range di risposta di tal algoritmo, si assuma che il numero di nodi ottimali necessari alla copertura sia $\left \vert \mathcal{O} \right \vert$ e il numero dei nodi effettivamente ottenuti dalla procedura algoritmica sia $\left \vert \mathcal{P} \right \vert$, legati dalla seguente relazione, dimostrata con l'esempio precedente:
 \[\left \vert \mathcal{O} \right \vert \leq \left \vert \mathcal{P} \right \vert\]
-Ovviamente, per quanto visto con l'esempio precedente, tale disuguaglianza può anche essere stretta. Ovviamente, se ora si considerano gli archi privilegiati dall'algoritmo esposto $\left \vert \mathcal{A} \right \vert$ è
+Naturalmente, per quanto visto con l'esempio precedente, tale disuguaglianza può anche essere stretta. Ovviamente, se ora si considerano gli archi privilegiati dall'algoritmo esposto, denotati con $\left \vert \mathcal{A} \right \vert$, ovverosia l'insieme degli archi che l'algoritmo ha via via considerato, esso, naturalmente, presenta la seguente cardinalità
 \[\left \vert \mathcal{A} \right \vert = \frac{\left \vert \mathcal{P} \right \vert}{2}\]
-in quanto su ogni arco vi sono due nodi, per cui basta considerarne la metà Ora, il numero di nodi ottimale $\left \vert \mathcal{O} \right \vert$ è legato alla seguente relazione
+in quanto su ogni arco vi sono due nodi ($u$ e $v$ nello pseudocodice), per cui basta considerarne la metà. Ora, il numero di nodi ottimale $\left \vert \mathcal{O} \right \vert$ deve essere necessariamente almeno uguale al numero di archi privilegiati $\left \vert \mathcal{A} \right \vert$, dal momento che ciascuno di tali archi deve insistere almeno su un vertice coperto. Pertanto $\left \vert \mathcal{o} \right \vert$ e $\left \vert \mathcal{A} \right \vert$ sono legati dalla seguente relazione
 \[\left \vert \mathcal{O} \right \vert \geq \left \vert \mathcal{A} \right \vert\]
 per cui si ottiene che
 \[\frac{\left \vert \mathcal{P} \right \vert}{2} \leq \left \vert \mathcal{O} \right \vert \leq \left \vert \mathcal{P} \right \vert\]
@@ -678,18 +683,14 @@ per cui si ottiene che
 \newpage
 \section{Algoritmi aritmetici}
 L'\textbf{algoritmo di Euclide} permette di calcolare il \textbf{Massimo Comune Divisore} (\textbf{M.C.D.}) tra due numeri, ma non procedendo alla fattorizzazione in fattori primi tra le due quantità considerate.\\
-Per esempio
+Infatti, normalmente, per determinare l'M.C.D. tra due quantità è necessario procedere alla scoposizione delle due in fattori primi, come mostrato di seguito per i numeri $12$ e $9$:
 \begin{flalign*}
   12 & = 3 \cdot 2 \cdot 2\\
-  12 & = 3 \cdot 3\\
+  9 & = 3 \cdot 3\\
 \end{flalign*}
 da cui si evince che
 \[\text{MCD}(12,9)=(12,9)=3\]
-Tuttavia, non è possibile procedere attraverso la fattorizzazione per la risoluzione di tale problema, in quanto gli algoritmi per la fattorizzazione sono estremamente lenti. L'algoritmo di Euclide, invece, risolve tale problematica in maniera corretta, veloce ed efficiente, basandosi sul meccanismo della \textbf{ricorsività}.
-
-\vspace{1em}
-\noindent
-La divisione può essere di due tipologie
+Tuttavia, non è possibile procedere attraverso la fattorizzazione per la risoluzione di tale problema, in quanto gli algoritmi per la fattorizzazione sono estremamente lenti. L'algoritmo di Euclide, invece, risolve tale problematica in maniera corretta, veloce ed efficiente, basandosi sul meccanismo della \textbf{ricorsività} e delle divisioni intere. Infatti, com'è noto, la divisione può essere di due tipologie
 \begin{enumerate}
   \item Divisione esatta: $10 \div 3 = 3,\overline{3}$
   \item Divisione intera: $10 \div 3 = 3$ con resto $1$
@@ -701,11 +702,11 @@ La divisione può essere di due tipologie
   10 Marzo 2022
 \end{center}
 Naturalmente, un algortimo non può essere applicato concretamente se ha una crescita esponenziale: esso è inutilizzabile, in quanto il tempo di risposta è troppo elevato per avere un impiego pratico.\\
-La tabella seguente di Garied Jhonson, ne dà una fondamentale prova pratica, considerando un calcolatore le cui istruzioni durano $0,000001$ s per essere processate; naturalmente l'algoritmo considera input variabili, di lunghezza $10$, $20$, $30$, $40$, $50$ e $60$ e si supponga che la lunghezza dell'input determini in modo quanto più preciso e linearmente dipendente il numero delle operazioni che devono essere eseguite: se l'input ha lunghezza $60$ significa che sono necessarie $60$ operazione per terminare l'algoritmo e quindi $0,00006$ s.\\
-Se, invece, la complessità dell'algoritmo è quadratica, allora ciò significa che se l'input è di lunghezza $60$, allora il numero di operazioni sono $60 \cdot 60 = 3600$ e quindi il numero di secondi diviene $0,0036$ s.\\
+L'esposto seguente, tratto da un lavoro di Gary \& Johnson, ne dà una fondamentale prova pratica, considerando un calcolatore le cui istruzioni durano $0,000001$ s per essere processate; naturalmente l'algoritmo considera input variabili, di lunghezza $10$, $20$, $30$, $40$, $50$ e $60$ e si suppone, per semplicità, che la lunghezza dell'input determini in modo quanto più preciso e linearmente dipendente il numero delle operazioni che devono essere eseguite: pertanto, se l'input ha lunghezza $60$ significa che sono necessarie $60$ operazione per terminare l'algoritmo e quindi $0,00006$ s sarà il tempo impiegato per l'esecuzione.\\
+Se, invece, la complessità dell'algoritmo è quadratica, allora ciò significa che se l'input è di lunghezza $60$, il numero di operazioni diviene $60 \cdot 60 = 3600$ e quindi il numero di secondi diviene $0,0036$ s.\\
 Se la complessità è cubica, allora con lunghezza dell'input di $60$ il numero di operazioni diviene $60 \cdot 60 \cdot 60$ e quindi il tempo impiegato è di $0,216$ s.\\
 Con una complessità quintica, a $60$ di lunghezza corrispondono $60^5$ istruzioni e quindi $13$ minuti di esecuzione.\\
-Passando ad una complessità esponenziale, come $2^n$, con lunghezza dell'imput pari a $60$ si hanno $2^60$ istruzioni e quindi un tempo esecutivo di $360$ secoli. Passando appena a $3^n$, con lunghezza dell'imput pari a $60$ si hanno $3^60$ istruzioni e quindi un tempo esecutivo di $1,3 \cdot 10^{13}$.\\
+Passando ad una complessità esponenziale, come $2^n$, con lunghezza dell'imput pari a $60$ si hanno $2^{60}$ istruzioni e quindi un tempo esecutivo di $360$ secoli. Passando appena a $3^n$, con lunghezza dell'imput pari a $60$ si hanno $3^{60}$ istruzioni e quindi un tempo esecutivo di $1,3 \cdot 10^{13}$ secoli.
 
 \vspace{1em}
 \noindent
@@ -727,53 +728,58 @@ Si consideri il seguente algoritmo, noto come \textbf{algoritmo di euclide}, est
 \end{algorithm}
 
 \noindent
-In questo caso l'algoritmo considera come input \textbf{due numeri interi} $m$ e $n$ di cui ha senso determinare l'\textbf{m.c.d}, necessariamente interi, in quanto non si ha un controllo sintattico. Generalmente si considerano $m < n$, ma ciò è ininfluente, in quanto il programma provvede ad effettuare un cambiamento del loro ordine in automatico.\\
+In questo caso l'algoritmo considera come input \textbf{due numeri interi} $m$ e $n$ di cui ha senso determinare l'\textbf{m.c.d}: pertanto essi devono essere necessariamente interi per ipotesi, in quanto nell'algoritmo non è previsto un controllo sintattico a monte. Generalmente si considerano $m > n$, ma ciò è ininfluente, in quanto il programma provvede ad effettuare un cambiamento del loro ordine in automatico.\\
 Nell'algoritmo vi sono delle assegnazioni composte, in cui
 \[a,b = m,n\]
-ovvero ad $a$ si assegna il valore $m$, mentre a $b$ si assegna il valore $m$. Così come in seguito si ha
+ovvero ad $a$ si assegna il valore $m$, mentre a $b$ si assegna il valore $n$. Così come in seguito si ha
 \[a,b=b,a \text{ mod } b\]
 ovvero ad $a$ si assegna il vecchio valore $b$, mentre a $b$ si assegna il resto della divisione intera tra $a$ e $b$. Alla fine del ciclo si ottiene che l'\textbf{m.c.d.} cercato è proprio $a$.\\
 Si consideri, a tal proposito, il seguente esempio:
-\[\boxed{12} \hspace{0.5em} \boxed{9}\]
+\[\underset{a}{\boxed{12}} \hspace{0.5em} \underset{b}{\boxed{9}}\]
 Dopo il primo passo si ottiene
-\[\boxed{9} \hspace{0.5em} \boxed{3}\]
+\[\underset{a}{\boxed{9}} \hspace{0.5em} \underset{b}{\boxed{3}}\]
 ed infine
-\[\boxed{3} \hspace{0.5em} \boxed{0}\]
-ecco che nella prima cella si ha proprio l'm.c.d. cercato. Ora, tuttavia, bisogna verificare se tale algoritmo sia effettivamente corretto e che quella considerata non sia solo una combinazione; inoltre, per determinare la complessità dell'algoritmo è necessario considerare, essenzialmente, il numero di \textbf{iterazioni libere} del ciclo while, dal quale dipende la complessità dell'algoritmo.
+\[\underset{a}{\boxed{3}} \hspace{0.5em} \underset{b}{\boxed{0}}\]
+ecco che nella prima cella si ha proprio l'm.c.d. cercato. Ora, tuttavia, bisogna verificare se tale algoritmo sia effettivamente corretto e che quella considerata non sia solo una combinazione; inoltre, per determinare la complessità dell'algoritmo è necessario considerare, essenzialmente, il numero di \textbf{iterazioni libere} del ciclo while, in quanto la complessitì dell'algoritmo dipende unicamente da tale fattore.
 
 \vspace{1em}
 \noindent
 \textbf{Osservazione}: Si osservi, innanzitutto, che il ciclo while si chiude visto che in posizione $b$ sarà presente un resto, ovvero una quantità intera che progressivamente diminuisce fino a diventare $0$.\\
-L'ultimo passaggio, naturalmente, è il più semplice, in quanto l'algoritmo, nell'ultima iterazione, ci si ritroverà sempre nella situazione desiderata:
+L'ultimo passaggio, naturalmente, è il più semplice, in quanto l'algoritmo, prima dell'ultima iterazione, si ritroverà sempre nella situazione desiderata:
 \[\boxed{\alpha \cdot \text{m.c.d.}} \hspace{0.5em} \boxed{\text{m.c.d.}}\]
-per cui nell'ultima iterazione si ha proprio l'm.c.d. che si sta cercando.\\
-Per la dimallostrazione della correttezza dell'algoritmo, anche nelle fasi intermedie, si deve dimostrare essenzialmente che, a qualunque fase del processo esecutivo
+per cui nell'ultima iterazione, effettuando la divisione intera tra una quantità e un suo multiplo non si può che ottenere resto $0$ e, quindi, nella cella $a$ si ha proprio l'm.c.d. che si sta cercando, come mostrato di seguito:
+\[\boxed{\text{m.c.d.}} \hspace{0.5em} \boxed{0}\]
+Per la dimostrazione della correttezza dell'algoritmo, anche nelle fasi intermedie, si deve dimostrare essenzialmente che, a qualunque fase del processo esecutivo
 \[\text{M.C.D.}(a,b) = \text{M.C.D.}(b,a \text{ mod } b)\]
-Per farlo, si parta dal caso inziale in cui $a = \alpha a'$ e $b = \alpha b'$, tale per cui
+ovvero che quello che si trova nelle celle $a-b$ nell'istante $t$ e ciò che si trova in $a-b$ all'istante successivo hanno entrambi lo stesso massimo comune divisore: bisogna, di fatto, dimostrare quella che in matematica prende il nome di \textbf{invariante}; in questo caso l'invariante è proprio l'm.c.d. Infatti, le quantità che si trovano progressivamente nelle due celle hanno sempre lo stesso massimo comune divisore, a qualunque istante, fino ad arrivare alla configurazione finale in cui nella prima cella è presente un multiplo del valore della seconda cella.\\
+Per dimostrare, quindi, l'invarianza seguente:
+\[\text{M.C.D.}(a,b) = \text{M.C.D.}(b,a \text{ mod } b)\]
+si deve dimostrare che un diviore di $(a,b)$ è anche divisore di $(b,a \text{ mod } b)$ e viceversa, per cui hanno lo stesso massimo comune divisore. Si supponga, allora, che $\alpha$ divida sia $a$ che $b$, per cui si ha che $a = \alpha a'$ e $b = \alpha b'$; inoltre, considerando $r = a \text{ mod } b$ quale il resto della divisione tra $a$ e $b$, si può scrivere, per il teorema del quoziente e resto
 \[a = q b + r\]
+Pertanto, sapendo che $\alpha$ divide sia $a$ che $b$, bisogna verificare che $\alpha$ divida anche $r = a \text{ mod } b$ per concludere la dimostrazione dell'invarianza. Tuttavia, il teorema del quoziente e resto permette di ricavare $r$ come segue
 in cui, ovviamente, si ha che
 \[r = a - qb = \alpha \cdot (a' - q b')\]
-in cui, ora
-\[a = b = \alpha b' \hspace{1em} \text{e} \hspace{1em} b = r = \alpha \cdot (a' - q b')\]
-... continua ...
+in cui è evidente come $\alpha$ sia, effettivamente, un divisore anche di $r = a \text{ mod } b$. Procedendo, ora, al contrario, supponendo che $b = \alpha b'$ e $r = \alpha r'$, sempre per il teorema del quoziente e resto si può scrivere $a = q b + r = \alpha \cdot (qb' + r')$, per cui, ancora una volta, $\alpha$ divide anche $a$, come volevasi dimostrare.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Euclide era un alessandrino. Lamé, nel $1844$, è da considerarsi il padre della \textbf{teoria della complessità}, mentre Reynaud, nel $1811$ lo aveva già preceduto, ma si parla sempre della prima metà dell'$800$.\\
-Si consideri il numero $n = 37855$, il quale viene progressivammente ridotto di \textbf{almeno} $10$ volte ad ogni iterazione, portandolo progressivamente a $3785$, $378$, $37$, $3$ ed infine $0$.\\
-Pertanto, al più, il numero di iterazioni necessarie per annientare questo valore è pari alla lunghezza decimale del numero $n$ (in questo caso pari a $5$) che, con una buona dose di approssimazione può essere considerata
+\textbf{Osservazione}: Avendo dimostrato la correttezza dell'algoritmo di Euclide, bisogna ora procedere alla verifica della sua straordinara rapidità. Il problema della complessità dell'algoritmo di Euclide, il quale era un alessandrino, venne risolto brillantemente da un matematico francese di nome \textbf{Lamé}, nel $1844$, il quale, a tutti gli effetti, è da reputarsi il padre della \textbf{teoria della complessità}, quando \textbf{Reynaud}, nel $1811$ lo aveva già preceduto, ma si parla sempre della prima metà dell'$800$.\\
+Per comprendere il meccanismo alla base dello studio della complessità, si consideri un numero rappresentato in base $10$, quale il seguente $n = (37855)_{10}$, il quale viene progressivammente ridotto di \textbf{almeno} $10$ volte ad ogni iterazione, portandolo progressivamente a $3785$, $378$, $37$, $3$ ed infine $0$.\\
+Pertanto, al più, il numero di iterazioni necessarie per annientare questo valore e portarlo a $0$ è pari alla \textbf{lunghezza decimale} del numero $n$ (in questo caso pari a $5$) che, con una buona dose di approssimazione può essere considerata
 \[l_{10}(n) \cong \log_{10}(n)\]
-Se, ora, il numero $n$ considerato è scritto in binario e ad ogni iterazione viene annientato della metà, al più serviranno un numero di iterazioni pari alla lunghezza binaria del numero $n$ considerato per annientarlo, ovvero
+Se, ora, il numero $n$ considerato viene scritto in binario e ad ogni iterazione viene annientato della metà, al più serviranno un numero di iterazioni pari alla lunghezza binaria del numero $n$ considerato per annientarlo, ovvero
 \[\#\text{iterazioni} \leq l_2(n) \cong \log_2(n)\]
-Consierando l'algoritmo di Euclide e procedendo con i calcoli di \textbf{Lamé}, si considerino tre iterazioni del ciclo while, che producono i seguenti tre stati
+Con questa premessa, considerando l'algoritmo di Euclide e procedendo con i calcoli di \textbf{Lamé}, si prendano ad esempio tre iterazioni successive del ciclo while, che producono i seguenti tre stati corrispondenti a tre istanti consecutivi dell'esecuzione:
 \[\boxed{a} \hspace{0.5em} \boxed{b}\]
 \[\boxed{b} \hspace{0.5em} \boxed{c}\]
 \[\boxed{c} \hspace{0.5em} \boxed{d}\]
-in cui, ovviamente,
-\[b = q c + d\]
-A parte il caso in cui i due numeri $a \leq b$, cui l'algoritmo provvede cambiandoli d'ordine, si ha sempre che $a > b$ e, quindi, il quoziente della divisione tra i due numeri è sempre almeno $1$, quindi
+in cui, ovviamente, si ha che $a \geq b \geq c \geq d$; inoltre, per come sono stati ottenuti $a,b,c$ e $d$ appare evidente che
+\[a = bq + c \hspace{0.5em} \text{e} \hspace{0.5em} b = q c + d\]
+A parte il caso iniziale in cui i due numeri $a \leq b$, cui l'algoritmo provvede cambiandoli d'ordine, in generale si ha sempre che $a > b$ e, quindi, il \textbf{quoziente} della divisione tra i due numeri è sempre \textbf{almeno $\boldsymbol{1}$}, quindi, siccome $q \geq 1$ deve essere che
+\[b = q c + d \geq c + d\]
+ma non solo: è anche noto che il valore della prima posizione è sempre maggiore o uguale del valore nella seconda posizione, ovvero $c \geq d$, per cui si ha che
 \[b = q c + d \geq c + d \geq 2d\]
-Pertanto, il numero di passi doppi é circa uguale al logaritmo in base $2$ di $n$, quindi
+Questo significa che in ogni passo doppio, ovvero ogni due iterazioni, il contenuto della seconda cella di memoria è dimezzato, o peggio, in quanto si ha che $b \geq 2d$. Volendo far sì che l'elemento nella seconda cella divenga zero, poiché ad ogni doppia iterazione il suo valore viene almeno dimezzato, il numero di passi doppi necessari è al più uguale al logaritmo in base $2$ di $n$, quindi
 \[\# \text{passi doppi} \cong \log_2(n) \longrightarrow \# \text{passi singoli} < 2 \log_2(n)\]
 pertanto, il numero di passi di cui si necessità per terminare il ciclo while è estremamente piccolo, anche nel caso in cui il numero $n$ considerato è enormemente grande.
 
@@ -789,12 +795,16 @@ pertanto, il numero di passi di cui si necessità per terminare il ciclo while �
       \Indent
         \State \textbf{return } $a$
       \EndIndent
-    \State \textbf{esle}
+    \State \textbf{else}
     \Indent
       \State \textbf{return } Euclid($b,a \text{ mod } b$)
     \EndIndent
   \end{algorithmic}
 \end{algorithm}
+
+\noindent
+\textbf{Esempio}: Per esempio, si considerino le iterazioni seguenti
+\[\text{Euclid}(30,21)\longrightarrow\text{Euclid}(21,9)\longrightarrow\text{Euclid}(9,3)\longrightarrow\text{Euclid}(3,0)=3 \]
 
 \vspace{1em}
 \subsection{Notazione $\boldsymbol{O}$ grande}
@@ -802,9 +812,9 @@ Si considerno due funzione $f(x)$ e $g(x)$ infinite a $+ \infty$, ovvero
 \[\lim_{x \to +\infty} f(x) = +\infty \hspace{1em} \text{e} \hspace{1em} \lim_{x \to +\infty} g(x) = +\infty\]
 Allora le due funzioni si rassomiglieranno per $x \to +\infty$ quando hanno lo stesso ordine di infinito, ovvero
 \[\lim_{x \to +\infty} \frac{f(x)}{g(x)} = \alpha \in \mathbb{R}^+ - \{0\}\]
-Tuttavia, taluna è una generalizzazione molto spartana, ma la notazione $O$ grande lo è ancora di più. Si considerino, nuovamente, due funzioni $f(x)$ e $g(x)$ che debbono essere \textbf{definitivamente positive}, ovvero
+Tuttavia, taluna è una generalizzazione molto spartana, ma la notazione $O$ grande lo è ancora di più. Si considerino, nuovamente, due funzioni $f(x)$ e $g(x)$, le quali non debbono più essere infinite a $+\infty$, ma è sufficiente che esse siano \textbf{definitivamente positive}, ovvero
 \[\exists x_n : \forall x > x_n, f(x) > 0 \wedge g(x) > 0\]
-In questo caso, ovviamente, affermare che $f(x)$ \quotes{assomiglia} a $g(x)$ significa affermare che $f(x)$ appartiene alla stessa classe di equivalenza di $g(x)$ (ovvero la classe delle funzioni che rassomigliano a $g(x)$), che si indica come segue
+In questo caso, pertanto, affermare che $f(x)$ \quotes{assomiglia} a $g(x)$ significa affermare che $f(x)$ appartiene alla stessa \textbf{classe di equivalenza} di $g(x)$ (ovvero la classe delle funzioni che rassomigliano a $g(x)$), che si indica come segue
 \[f(x) \in \Theta \left(g(x)\right)\]
 che, generalmente, verrà denotato con
 \[f(x) = \Theta \left(g(x)\right)\]
@@ -819,7 +829,7 @@ nonostante sia più propriamente corretto impiegare un segno di appartenza in lu
 \begin{tabularx}{\textwidth}{@{}|P|@{}}
     \hline
     {\textbf{APPARTENENZA ALLA CLASSE DI EQUIVALENZA DI UNA FUNZIONE}}\\
-    \parbox{\linewidth}{Si dirà che $f(x)$ apparterrà alla stessa classe di equivalenza di $g(x)$ e si scriverà
+    \parbox{\linewidth}{Si considerino due funzioni $f(x)$ e $g(x)$ \textbf{definitivamente positive}; si dirà che $f(x)$ appartiene alla stessa classe di equivalenza di $g(x)$ e si scriverà
     \[f(x) = \Theta \left(g(x)\right)\]
     se
     \[\exists c_1 > 0, c_2 > 0, \overline{x} : c_1 \cdot g(x) \leq f(x) \leq c_2 \cdot g(x), \hspace{1em} \forall x \geq \overline{x}\]
@@ -832,10 +842,20 @@ nonostante sia più propriamente corretto impiegare un segno di appartenza in lu
 \noindent
 \textbf{Osservazione}: Dalla definizione appena fornita, appare evidente come questa sia a tutti gli effetti una \textbf{relazione di equivalenza}, in quanto è soddisfatta la proprietà \textbf{riflessiva}
 \[g(x) = \Theta \left(g(x)\right)\]
-così come quella \textbf{simmetrica}
+in quanto basta considerare $c_1 = c_2 = 1$; inoltre è soddisfatta anche la proprietà \textbf{simmetrica}:
 \[f(x) = \Theta \left(g(x)\right) \longrightarrow g(x) = \Theta \left(f(x)\right)\]
+giacché se si ha che
+\[c_1 \cdot g(x) \leq f(x) \leq c_2 \cdot g(x)\]
+allora si può scrivere
+\[\frac{1}{c_2} \cdot f(x) \leq g(x) \leq \frac{1}{c_1} \cdot f(x)\]
 e infine quella \textbf{transitiva}
 \[f(x) = \Theta \left(g(x)\right), g(x) = \Theta \left(h(x)\right) \longrightarrow f(x) = \Theta \left(h(x)\right)\]
+in quanto se
+\[c_1 \cdot g(x) \leq f(x) \leq c_2 \cdot g(x) \hspace{0.5em} \text{e} \hspace{0.5em} c_3 \cdot h(x) \leq g(x) \leq c_4 \cdot h(x)\]
+è facile concludere che
+\[c_1 \cdot c_3 \cdot h(x) \leq c_1 \cdot g(x) \leq f(x) \hspace{0.5em} \text{e} \hspace{0.5em} f(x) \leq c_2 \cdot g(x) \leq c_2 \cdot c_4 \cdot h(x)\]
+per cui si ottiene che
+\[c_1 \cdot c_3 \cdot h(x) \leq f(x) \leq c_2 \cdot c_4 \cdot h(x)\]
 
 \vspace{1em}
 \noindent
@@ -846,16 +866,18 @@ Allora ad essa vi apparterranno tutte le costanti positive, così come le funzio
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Si osservi che se due funzioni appartengono alla stessa classe di equivalenza, allora hanno lo stesso ordine di infinito. Tuttavia non è vero il contrario.\\
+\textbf{Osservazione}: Si osservi che se due funzioni hanno lo stesso ordine di infinito, allora appartengono alla stessa classe di equivalenza. Tuttavia non è vero il contrario.\\
 Si considerino, infatti, due funzioni $f(x)$ e $g(x)$ tali che
-\[\lim \frac{f(x)}{g(x)} = \alpha\]
+\[\lim_{x \to +\infty} \frac{f(x)}{g(x)} = \alpha \in \mathbb{R}^+ - \{0\}\]
 quindi definitivamente, per $x \geq \overline{x}$, si ha che
 \[\alpha - \epsilon \leq \frac{f(x)}{g(x)} \leq \alpha + \epsilon\]
 dal momento che dalla definizione di limite sia ha $\forall \epsilon > 0$, è possibile anche considerare $\epsilon = \frac{\alpha}{2}$, da cui
-\[\frac{\alpha}{2} \leq \frac{f(x)}{g(x)} \leq \frac{\alpha}{2}\]
-ma allora, moltiplicando ambo i membri per $g(x)$, essendo per definizione necessariamente positiva, la disuguaglianza si conserva diviene
-\[\frac{\alpha}{2} \cdot g(x) \leq f(x) \leq \frac{\alpha}{2} \cdot g(x)\]
-che corrisponde esattamente alla definizione di due funzioni che appartengono alla stessa classe di equivalenza. per cui, naturalmente, si è dimostrato che avere lo stesso ordine di infinito significa anche appartenere alla stessa classe di equivalenza, ma non è vero il contrario.
+\[\frac{\alpha}{2} \leq \frac{f(x)}{g(x)} \leq \frac{3}{2} \alpha\]
+ma allora, moltiplicando ambo i membri per $g(x)$, essendo per definizione necessariamente definitivamente positiva, la disuguaglianza si conserva e diviene
+\[\frac{\alpha}{2} \cdot g(x) \leq f(x) \leq \frac{3}{2} \cdot \alpha \cdot g(x)\]
+che corrisponde esattamente alla definizione di due funzioni che appartengono alla stessa classe di equivalenza, con
+\[c_1 = \frac{\alpha}{2} \hspace{0.5em} \text{e} \hspace{0.5em} c_2 = \frac{3}{2} \alpha\]
+Per cui si è dimostrato che avere lo stesso ordine di infinito significa anche appartenere alla stessa classe di equivalenza, ma non è vero il contrario.
 
 
 
