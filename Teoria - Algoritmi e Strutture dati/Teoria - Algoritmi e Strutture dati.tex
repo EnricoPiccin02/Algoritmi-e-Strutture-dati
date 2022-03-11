@@ -879,12 +879,216 @@ che corrisponde esattamente alla definizione di due funzioni che appartengono al
 \[c_1 = \frac{\alpha}{2} \hspace{0.5em} \text{e} \hspace{0.5em} c_2 = \frac{3}{2} \alpha\]
 Per cui si è dimostrato che avere lo stesso ordine di infinito significa anche appartenere alla stessa classe di equivalenza, ma non è vero il contrario.
 
+\newpage
+\noindent
+\begin{center}
+  11 Marzo 2022
+\end{center}
 
+\subsection{Funzioni di complessità}
+Si consideri una funzione di complessità temporale $f(n)$ definita in funzione $n$ della lunghezza dell'input: presumibilmente, al crescere di $n$, ossia al crescere della lunghezza dell'input, aumenta anche il valore della funzione stessa.\\
+Le funzioni con cui si sta lavorando sono \textbf{definitivamente positive} e, generalmente, sono infinite per $x \to +\infty$ e vengono studiate per $x \geq 0$.\\
+Com'é noto, è stata definita la classe $\Theta(f(n))$ come l'insieme di tutte le funzioni che rassomigliano alla funzione $f(n)$. In questo caso, in particolare, affermare che
+\[g(n) = \Theta(f(n))\]
+significa affermare che $\exists c_1 > 0, c_2 > 0, \overline{n}$ tali che
+\[c_1 \cdot f(n) \leq g(n) \leq c_2 \cdot f(n), \hspace{1em} \forall n \geq \overline{n}\]
+in cui $\Theta(f(n))$ è, a tutti gli effetti, una classe di equivalenza, in quanto gode della proprietà di \textbf{riflessività}, \textbf{simmetria} e \textbf{transitività}.\\
+Se si considera una lunghezza $l=5$ in base $10$, una lunghezza effettiva senza zeri in testa, allora il numero $n$ che si può descrivere con lunghezza $l=5$ è compreso tra
+\[10000 \leq n \leq 100000 - 1 \longrightarrow 10^{l-1} \leq n < 10^l\]
+e passando ai logaritmi in base $10$, ciò si traduce in
+\[l_{10}(n) \leq \log_{10}(n) < l_{10}(n)\]
+in cui $\log_{10}(n)$ viene considerata la lunghezza pratica da considerare come utilizzabile, per quanto differesica dalla lunghezza effettiva. Naturalmente si può scrivere che
+\[\frac{1}{2} \cdot l_{10}(n) \leq l_{10}(n) \leq \log_{10}(n) \leq l_{10}(n)\]
+per cui si può osservare come $l_{10}(n)$ e $\log_{10}(n)$ appartengono alla stessa classe di equivalenza $\Theta(l_{10}(n))$ in quanto sono state usate le costanti $c_1 = \frac{1}{2}$ e $c_2 = 1$.\\
+Quando si impiega la notazione $\Theta$ si ossservi che una funzione $f(n)$ e $\alpha \cdot f(n)$ appartengono alla stessa classe $\Theta$ ed è per questo che normalmente viene omessa la base dei logaritmi, la quale è ininfluente.\\
+Inoltre si è osservato come due funzioni che hanno lo stesso ordine di infinito appartegono anche alla stessa classe $\Theta$, semplicemente applicando la definizioen di limite. Pertanto, le $3$ funzioni
+\[3n^2 + 1 \hspace{1em} \frac{n^2}{1000} \hspace{1em} 8945 n^2\]
+appartengono alla stessa classe $\Theta(n^2)$.\\
+Si consideri una funzione $f(n)$ infinita per $x \to +\infty$ e la funzione $g(n) = f(n) \cdot \left[\sin(n) + 2\right]$ anch'essa infinita per $x \to +\infty$ che appartengono alla stessa classe $\Theta$; tuttavia, si ha che
+\[\lim_{n \to +\infty} \frac{f(n)}{g(n)} = \lim_{n \to +\infty} \sin(n) + 2 = \nexists\]
+per cui due funzioni che appartengono alla stessa classe di equivalenza $\Theta$ non è detto che abbiano lo stesso ordine di infinito.
 
+\vspace{1em}
+\noindent
+\textbf{Notazione}: Si osservi che indicare
+\[f(n) = O(g(n))\]
+significa affermare che definitivamente si ha che
+\[f(n) \leq g(n)\]
+...continua...\\
+per cui se $f(n)$ è o grande di $g(n)$ e $g(n)$ è o grande $f(n)$ allora $f(n)$ e $g(n)$ appartengono alla stessa classe di equivalenza.
+... continua ...\\
+Si osservi, inoltre, che quando
+\[\lim_{x \to +\infty} \frac{f(x)}{g(x)} = + \infty\]
+significa affermare che $g(n) = O(f(n))$.
 
+\vspace{1em}
+\noindent
+\textbf{Ossevazione}: Si osservi, per quanto si è detto, che
+\[
+  \left\{
+    \begin{array}{l}
+      f(n) = O(g(n))\\
+      g(n) = O(f(n))
+    \end{array}
+  \right.
+\]
+\textbf{se e solo se} appartengono alla stessa classe $\Theta$.\\
+Analogamente si ha che
+\[
+  \left\{
+    \begin{array}{l}
+      f(n) = O(g(n))\\
+      g(n) = O(h(n))
+    \end{array}
+  \right.
+\]
+allora si ha che $f(n) = O(h(n))$.
 
+\vspace{1em}
+\noindent
+\textbf{Notazione}: Si osservi che indicare
+\[f(n) = \Omega(g(n))\]
+significa affermare che definitivamente si ha che
+\[f(n) \geq g(n)\]
+Per cui si evince che
+\[f(n) = \Omega(g(n))\]
+\textbf{se e solo se}
+\[g(n) = O(f(n))\]
+Analogamente si ha che
+\[
+  \left\{
+    \begin{array}{l}
+      f(n) = O(g(n))\\
+      f(n) = \Omega(g(n))
+    \end{array}
+  \right.
+\]
+\textbf{se e solo se} appartengono alla stessa classe $\Theta$.
 
+\vspace{1em}
+\subsection{Classi di complessità}
+Le tre classi $\Theta$ che si incontreranno maggiormente saranno
+\begin{enumerate}
+  \item La classe \textbf{lineare} $\Theta(n)$
+  \item La classe \textbf{log-lineare} $\Theta(n \cdot \log(n))$
+  \item La classe \textbf{quadratica} $\Theta(n^2)$
+\end{enumerate}
+in cui si ha che
+\[\Theta(n) = O \Theta(n \cdot \log(n)) = O \Theta(n^2)\]
+ovvero la complessità log-lineare è comunque poco più complessa rispetto a quella lineare, in quanto la crescita all'infinita è molto lenta.
 
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che la funzione
+\[10^{10^{80}}n = \Theta(n)\]
+anche se il suo coefficiente è estremamente elevato. Analogamentte, se si ha una funzione
+\[2^{0,00000...1} = \Theta(2^n)\]
+nonostante la sua crescita è estremamente lenta rispetto ad una funzione esponenziale normale. Infatti, tali tipologie di funzioni sono impossibili tra trovare nella vita reale, secondo una valenza empirica.
+
+\begin{algorithm}[H]
+  \caption{Esempio}
+  \begin{algorithmic}[1]
+    \State $s=0$
+    \State \textbf{for} $i=1$ \textbf{to} $k$
+    \Indent
+      \State \textbf{for} $j=1$ \textbf{to} $k$
+      \Indent
+        \State $s = s + a_{i,j}$
+        \State $a_{i,j} = s$
+      \EndIndent
+      \State \textbf{next} $i$
+    \EndIndent
+    \State \textbf{next} $j$
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+Natualmente il numero di iterazioni è $k^2$, ma se esse fossero $2 + 2k^2$, la notazione $\Theta$ fa sì che in ogni caso la complessità sia $k^2$ ...continua... anche se il numero di iterazioni è differente, l'orine si mantiene inalterato.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che nel caso dell'algoritmo \textbf{insertion-sort}, il numero di iterazioni nel caso migliore è pari a $\Theta(n)$, in quanto le iterazioni sono $n-1$, mentre nel caso peggiore la complessità è $\Theta(n^2)$, in quanto le iterazioni sono $\frac{n \cdot (n-1)}{2}$. Per quanto concerne la complessità tipica, ovverosia la complessità media, dal punto di vista empirico si osserva che essa è $\Theta(n^2)$.\\
+Per quanto concerne l'algoritmo di Euclide, il numero di iterazioni, nel caso peggiore era di $1 + 2 \cdot \log_2(\min(m,n))$, per cui si ha che la complessità effettiva sia $O(\log(n))$.
+
+\vspace{1em}
+\noindent{Merge-Sort}
+L'algoritmo \textbf{merge-sort} è un algoritmo la cui idea alla base è molto più complessa dell'algoritmo \textbf{insertion-sort}.\\
+L'input, come di consueto, è dato da un \textbf{array} $A$ di lunghezza $length(A)=n$, per cui si dovranno ordinare $n$ numeri. Inoltre, due altri input sono $p,r$ le quali sono delle posizioni dell'array intermedie, tali che $1 \leq p \leq r \leq n$
+
+\begin{algorithm}[H]
+  \caption{Merge-sort}
+  \begin{algorithmic}[1]
+    \State \text{MERGE-SORT}$(A,p,r)$
+    \State \textbf{if} $p<r$
+    \Indent
+      \State \textbf{then} $q = \text{parte intera inferiore} \left[\dfrac{p+r}{2}\right]$
+      \State \text{MERGE-SORT}$(A,p,q)$
+      \State \text{MERGE-SORT}$(A,q+1,r)$
+      \State \text{MERGE}$(A,p,q,r)$
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+... continua ... In cui la procedura $MERGE$ non è ricorsiva, ma presenta due cicli for. Tale procedura inzia ad operare sue due insiemi di valori che sono già stati ordinati separatamente, con lo scopo di ricavare un unico insieme di valori ordinati, sfruttando l'ordinamento dell'insieme dei valori su cui si sta operando; dopodiché si confrontano tutti i valori in testa, prendendo sempre il più piccolo tra i due che vengono confrontati, fino ad arrivare all'ultimo valore (necessariamente molto elevato) che viene appositamente posto alla fine in modo da segnalare il termine dell'insieme di valori; in particolare si ha che $p < q < r$, in cui i valori che stanno tra $[p-q]$ e $[q-r]$ sono già stati ordinati. La procedura viene esposta di seguito
+
+\begin{algorithm}[H]
+  \caption{Merge}
+  \begin{algorithmic}[1]
+    \State \text{MERGE}$(A,p,q,r)$
+    \State $n_1=q-p+1$
+    \State $n_2=r-q$
+    \State Create two new arrays $L$ and $R$
+    \State \textbf{for} $i=1$ \textbf{to} $n_1$
+    \Indent
+      \State \textbf{do} $L[i]=A[p+i-1]$
+      \Indent
+        \State $R[j]=A[q+j]$
+      \EndIndent
+    \EndIndent
+    \State $L=[n_1+1]=+\infty, R[n_2+1]=+\infty$
+    \State $i=1, j=1$
+    \State \textbf{for} $k=p$ \textbf{to} $r$
+    \Indent
+      \State \textbf{do} \textbf{if} $L[i] \leq R[j]$
+      \Indent
+        \State \textbf{then} $A[k] = L[i]$
+        \Indent
+          \State $i = i + 1$
+        \EndIndent
+        \State \textbf{else} $A[k] = R[j]$
+        \Indent
+          \State $j = j + 1$
+        \EndIndent
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+In cui le iterazioni coinvolte, naturalmente, fino alla riga $9$ sono
+\[n_1 + n_2 = q - p + 1 + r - q = r - p + 1\]
+ovverosia il numero delle posizioni che vanno da $p$ a $r$.\\
+Mentre dalle righe $9$ in poi il numero di iterazioni è, ovviamente, ancora una volta $r - p + 1$; pertanto il numero di iterazioni complessive è pari al doppio di $r - p + 1$, quindi la complessità è dell'ordine
+\[\Theta(r-p+1)\]
+
+\vspace{1em}
+\noindent
+\textbf{Esempio}: Si consideri il seguente array
+\[\boxed{4} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{3} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{7} \hspace{0.5em} \boxed{2} \hspace{0.5em} \boxed{0} \hspace{0.5em} \boxed{9}\]
+in cui $n=8$. Per l'ordinamento di tale array, si divide lo stesso in due parti e poi successivamente ogni parte in ancora due parti e nuovamente in due parti fino ad ottenere una divisione dell'ordinamento riducendosi all'unità, in cui i singoli valori saranno automaticamente ordinati. Dopodiché si utilizza la procedure \emph{Merge} per ordinare i blocchi di due, ottenenendo
+\[\boxed{4} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{3} \hspace{0.5em} \boxed{2} \hspace{0.5em} \boxed{7} \hspace{0.5em} \boxed{0} \hspace{0.5em} \boxed{9}\]
+e poi procedendo con i blocchi di $4$, ottenendo
+\[\boxed{1} \hspace{0.5em} \boxed{3} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{0} \hspace{0.5em} \boxed{2} \hspace{0.5em} \boxed{7} \hspace{0.5em} \boxed{9}\]
+e infine si ordina il blocco completo
+\[\boxed{0} \hspace{0.5em} \boxed{1} \hspace{0.5em} \boxed{2} \hspace{0.5em} \boxed{3} \hspace{0.5em} \boxed{4} \hspace{0.5em} \boxed{5} \hspace{0.5em} \boxed{7} \hspace{0.5em} \boxed{9}\]
+Questa, naturalmente, è una esecuzione parallela, mentre quella dell'algoritmo è lineare, in quanto va ad analizzare progressiamente ogni ramo di un albero binario, risalendolo progresivamente.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Tale algoritmo è \textbf{profondamente rigido}, in quanto il numero delle iterazioni che si devono eseguire è sempre lo stesso, indipendente dal caso migliore, peggiore e generale.\\
+Questa non è una buona caratteristica, la quale rende ragionevole l'utilizzo di tale algoritmo quando i numeri sono inzialmente fortemente disordinati; se i numeri iniziali sono parzialmente ordinati è più conveniente impiegare l'algoritmo di insertion-sort.\\
+La sua complessità è \textbf{log-lineare} ed è estremamente ottima in quanto è una complessità generale, che nessun altro algoritmo può batterla. La tecnica impiegata per la risoluzione di tale problema prende il nome di \emph{Divide et impera} (o \emph{Divide and conquer}).
 
 
 
