@@ -17,4 +17,5 @@
 \contentsline {subsection}{\numberline {4.1}Algoritmo di Euclide}{17}{}%
 \contentsline {subsection}{\numberline {4.2}Notazione $\boldsymbol {O}$ grande}{20}{}%
 \contentsline {subsection}{\numberline {4.3}Funzioni di complessità}{22}{}%
-\contentsline {subsection}{\numberline {4.4}Classi di complessità}{23}{}%
+\contentsline {subsection}{\numberline {4.4}Classi di complessità}{24}{}%
+\contentsline {subsection}{\numberline {4.5}Merge-Sort}{25}{}%
