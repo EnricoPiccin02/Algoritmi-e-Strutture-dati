@@ -818,7 +818,7 @@ In questo caso, pertanto, affermare che $f(x)$ \quotes{assomiglia} a $g(x)$ sign
 \[f(x) \in \Theta \left(g(x)\right)\]
 che, generalmente, verrà denotato con
 \[f(x) = \Theta \left(g(x)\right)\]
-nonostante sia più propriamente corretto impiegare un segno di appartenza in luogo di uno di uguaglianza.
+nonostante sia più propriamente corretto impiegare un segno di appartenenza in luogo di uno di uguaglianza.
 
 % Tabella per le definizione di concetti, etc...
 \vspace{1em}
@@ -1165,4 +1165,190 @@ Questa, naturalmente, è una \textbf{esecuzione parallela}, mentre quella dell'a
 Questa non è una buona caratteristica, la quale rende ragionevole l'utilizzo di tale algoritmo quando i numeri sono inzialmente fortemente disordinati; se i numeri iniziali sono parzialmente ordinati è più conveniente impiegare l'algoritmo di insertion-sort.\\
 La complessità di tale algoritmo, tuttavia, nel caso peggiore è \textbf{log-lineare} ed è estremamente ottima in quanto un algortimo di ordinamento generale, come il merg-sort (che non richiede una specifica struttura dei dati in ingresso) non è in grado di battere una complessità log-lineare.\\
 Il principio di costruzione di tale algoritmo, nonché la tecnica impiegata per la risoluzione di tale problema, prende il nome di \emph{Divide et impera} (o \emph{Divide and conquer}).
+
+\newpage
+\noindent
+\begin{center}
+  16 Marzo 2022
+\end{center}
+Una componente fondamentale dello studio algoritmico è la \textbf{relazione di ricorrenza}, alla base degli algoritmi che si fondano sulla \textbf{ricorsività}.\\
+È noto che la sezione aurea si basa sulla suddivisione di un segmento
+\[a + b : a = b : b\]
+e ponendo $b=1$ si ottiene che
+\[a + 1 : a = 1 : b\]
+che dà vita ad una equazione di secondo grado
+\[a^2 - a - 1 = 0\]
+che produce due soluzioni
+\[a_{1,2} = \frac{1 \pm \sqrt{5}}{2}\]
+in cui la soluzione più importante è quella naturalmente positiva, ovvero:
+\[\psi = \frac{1 + \sqrt{5}}{2} \cong 1.62\]
+
+\vspace{1em}
+\noindent
+\textbf{Esempio}: Alla base dello studio della ricorsività si pone il problema della crescita demografica dei conigli, partendo dalla condizione iniziale che
+\[F_1 = F_2 = 1\]
+sapendo che la relazione che lega le due quantità sia
+\[F_n = F_{n-2} + F_{n-1}\]
+Il problema di determinare una formula chiusa trova soluzione nella seguente formula
+\[F_n = \frac{\psi^n - \gamma^n}{\sqrt{5}} \cong \frac{\psi^n}{\sqrt{5}}\]
+riuscendo ad ottenere il seguente risultato
+\[y = \frac{F_{n+1}}{F_n}\]
+
+\vspace{1em}
+\subsection{Master Theorem}
+Il \textbf{teorema maestro}, o il \textbf{teorema principale delle relazioni di ricorrenza}, si può applicare solamente in casi ben determinati. Tuttavia, tale teorema inizia ad operare partendo dalla condizione iniziale
+\[T(1) = \Theta(1)\]
+ovvero $T(1)$ appartiene alla classe di equivalenza $\Theta(1)$, la quale è una definizione decisamente vaga, per cui non vale la pena di scriverla. La relazione, invece, alla base del teorema è il seguente
+\[\boxed{T(n) = a_3 \cdot T \left(\frac{n}{\lfloor b \rfloor}\right) + a_2 \cdot T \left(\frac{n}{\lceil b \rceil}\right) + f(n)}\]
+Tuttavia, la perte intera inferiore o superiore è ininfluente, per cui si preferisce la formula abbreviata
+\[\boxed{T(n) = a \cdot T \left(\frac{n}{b}\right) + f(n)}\]
+imponendo che $a \geq 1$ e $b > 1$ (altrimenti non è possibile applicare il teorema considerato).\\
+L'applicazione del teorema maestro prevede $3$ differenti casi, a seconda della natura della funzione $f(n)$. Per confrontare tale funzione se ne definisca una secodnda, chiamata \textbf{funzione di confronto}:
+\[\psi(n) = n^{\log_b(a)}\]
+che assicura che la funzione sia crescente grazie alla base $b>1$ del logaritmo. Pertanto si ha che
+\begin{itemize}
+  \item La funzione $f(n)$ è \textbf{molto} più piccola della funzione $\psi(n)$
+  \item La funzione $f(n)$ rassomiglia alla funzione $\psi(n)$, ovvero
+  \[f(n) = \Theta(\psi(n))\]
+  \item La funzione $f(n)$ è \textbf{molto} più grande della funzione $\psi(n)$
+\end{itemize}
+Il caso che viene trattato è solo il secondo, a cui si può applicare il teorema solamente se viene soddisfatta una specifica condizione, la quale non è stobile rispetto alla classe di equivalenza di appartenenza della funzione $f(n)$: è possibile che due funzioni appartenenti alla stessa classe di equivalenza possano l'una soddisfare la condizione, la seconda no.\\
+... continua ...
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Nell'algoritmo \textbf{merge-sort} la procedura \textbf{merge} permette di ordinare dei valori partendo da due insiemi di valori già ordinati, ottenendo un ultimo insieme perfettamente ordinato. La procedura \emph{merge} non è una procedura ricorsiva, mentre l'algoritmo \textit{merge-sort} si basa sul meccanismo della ricorsività, andando a scorrere un albero binario da sinistra verso destra, risalendolo progressivammente.\\
+L'algoritmo è assolutamente corretto, dal punto di vista esecutivo, è ciò è evidente, anche solo dal punto di vista empirico; tuttavia, ciò che non appare evidente è la complessità dell'algoritmo considerato.\\
+Si ripropone di seguto il listato dell'algoritmo \textbf{merge-sort}:
+
+\begin{algorithm}[H]
+  \caption{Merge-sort}
+  \begin{algorithmic}[1]
+    \State \text{MERGE-SORT}$(A,p,r)$
+    \State \textbf{if} $p<r$
+    \Indent
+      \State \textbf{then} $q = \left \lfloor {\dfrac{p+r}{2}} \right \rfloor$
+      \Indent
+        \State \text{MERGE-SORT}$(A,p,q)$
+        \State \text{MERGE-SORT}$(A,q+1,r)$
+        \State \text{MERGE}$(A,p,q,r)$
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+Lo sforzo per ordinare $n$ numeri, naturalmente, è dato dalla seguente espressione
+\[T(n) = T \left(\frac{n}{2}\right) + T \left(\frac{n}{2}\right) + f(n)\]
+ovvero la somma dello sforzo per ordinare ciascuna metà più l'operazione di \emph{merge} $f(n)$, che, in forma più compatta, può essere scritta come segue
+\[T(n) = 2 \cdot T \left(\frac{n}{2}\right) + f(n)\]
+ed applicando tale formula a qualunque passo si ottiene
+\[T\left(\frac{n}{2}\right) = 2 \cdot T \left(\frac{n}{4}\right) + f(n)\]
+\[T\left(\frac{n}{4}\right) = 2 \cdot T \left(\frac{n}{8}\right) + f(n)\]
+e via dicendo. Inoltre, per quanto concerne la procedua merge, partendo da un array iniziale $A$, se ne creavano ulteriori due $R$, di dimensione $n_1$ e $L$, di dimensione $n_2$, e per farlo si necessitava di $n = n_1 + n_2$ iterazioni. Per l'ordinamento, ancora una volta, si necessitava di $n = n_1 + n_2$ iterazioni, con un totale di $2n$ iterazioni. Pertanto la complessità della procedura \emph{merge} è dell'ordine $\Theta(n)$.\\
+Pertanto, il problema da risolvere è il seguente
+\[T(n) = 2 \cdot T \left(\frac{n}{2}\right) + \Theta(n)\]
+Considerando la funzione di confronto
+\[\psi = n^{\log_b(a)}\]
+ma essendo $a=b=2$ si ottiene che
+\[\psi = n^{\log_b(a)} = n\]
+E per determinare la complessità si applica il \textbf{toerema maestro}, da cui si evince che la \textbf{complessità di merge-sort} è
+\[T(n) = \Theta(n \cdot \log(n))\]
+ovvero è log-lineare, la quale è una complessità generale e profondamente rigida, in quanto costante sia nel caso migliore che peggiore che medio.\\
+Una complessità log-lineare è leggermente peggiore rispetto ad una complessità lineare, ma è comunque una complessità ottima: infatti, un algoritmo di ordinamento generale, è destinato ad avere una complessità migliore e peggiore almeno \textbf{log-lineare}. Inoltre, si ha che tale algoritmo risulta essere particolarmente utile nel suo utilizzo quando i valori da ordinare non sono già ordinati, ma totalmente in disordine; nel caso fossero parzialmente ordinati, sarebbe più conveniente impiegare insertion-sort.
+
+\vspace{1em}
+\subsection{Heap-sort}
+La struttura di grafo più comunque è quella di \textbf{albero}; in un grafo semplice è sempre possibile costruiire un percorso chiuso, in cui partendo da un primo vertice e senza archi multipli si ritorna al vertice di partenza.
+
+% Tabella per le definizione di concetti, etc...
+\vspace{1em}
+\rowcolors{1}{black!5}{black!5}
+\setlength{\tabcolsep}{14pt}
+\renewcommand{\arraystretch}{2}
+\noindent
+\begin{tabularx}{\textwidth}{@{}|P|@{}}
+    \hline
+    {\textbf{ALBERO}}\\
+    \parbox{\linewidth}{Un grafo \textbf{senza percorsi chiusi} prende il nome di \textbf{albero}. \vspace{3mm}}\\
+    \hline
+\end{tabularx}
+\vspace{1em}
+
+\noindent
+Tuttavia, tale definizione è eccessivamente generica, in quanto molto spesso si preferisce operare con \textbf{alberi radicati} (rooted-tree), in cui è opportuno specificare la \textbf{radice}, ovvero un vertice specifico.\\
+Un esempio di \textbf{albero radicato} che verrà considerato sarà raffigurato come segue:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (a) {$a$};
+    \node[main node] (b) [below left of=a] {$b$};
+    \node[main node] (c) [below right of=a] {$c$};
+    \node[main node] (d) [below right of=c] {$d$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (a) edge node [left] {} (b)
+          edge node [left] {} (c)
+      (c) edge node [right] {} (d);
+  \end{tikzpicture}
+  \caption{Esempio di albero radicato di profondità $2$}
+  \label{fig:esempio_albero_radicato_profondita_due}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Dove per \textbf{profondità} è da intendersi il livello più basso raggiunto dai vertici dell'albero. I vertici che non presentano figli prendono, invece, il nome di \textbf{foglie}.\\
+L'albero che maggiormente verrà consideranto per la progettazione algoritmica è un \textbf{albero binario}, in cui i figli di ogni vertice sono \textbf{al più $\boldsymbol{2}$}. Un albero binario ben strutturato prevede che vi siano $n$ vertici e che l'albero sia completo, ovvero vengono saturati tutti i livelli di diversa profondità dell'albero prima di aggiungere al livello successivo, come mostrato di seguito:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (a) {$a$};
+    \node[main node] (b) [below left of=a] {$b$};
+    \node[main node] (c) [below right of=a] {$c$};
+    \node[main node] (d) [below right of=c] {$d$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (a) edge node [left] {} (b)
+          edge node [left] {} (c)
+      (c) edge node [right] {} (d);
+  \end{tikzpicture}
+  \caption{Esempio di albero binario completo}
+  \label{fig:esempio_albero_binario_completo}
+\end{figure}
+
+\vspace{1em}
+\noindent
+In cui la regola di completamento prevede di procedere da sinistra verso destra. In un albero binario completo è facile capire la profondità dello stesso, semplicemente osservando che
+\[2^k \leq n < 2^{k+1}\]
+in cui $k$ è la profondità dell'albero, mentre $n$ è il numero di vertici dell'albero. Pertanto si ottiene che
+\[k \leq \log_2(n) < k+1\]
+ovvero ciò significa che $k$ e $\log_2(n)$ appartengono alla stessa classe $\Theta$.\\
+Dire che un albero è \textbf{super completo} significa che $n$ deve essere una potenza di $2$ meno uno, ovvero $n=2^k-1$. Inoltre è facile osservare come il numero di nodi in un albero \textbf{super completo} sia
+\[2^0 + 2^1 + 2^2 + 2^3 + ... + 2^k = n\]
+in cui $k$ è la profondità dell'albero.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che la progessione geometrica
+\[1 + q + q^2 + q^3 + ... + q^k = \sum_{i=0}^k q^i = \frac{q^{k+1} - 1}{q - 1}\]
+In cui, nel caso in cui la ragione $q=2$, si ottiene che
+\[\sum_{i=0}^k 2^i = 2{k+1} - 1\]
+In cui è facile osservare che in un albero binario completo, nel livello delle foglie vi sarà sempre un numero di vertici superiore a tutto il resto dell'albero, ovvero
+\[\# \text{ numero vertici} \cong 2 \cdot \# \text{ numero foglie}\]
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Il numero di archi in un albero di $k$ vertici è esattamente pari a $k-1$, per cui dal punto di vista della notazione $\Theta$ il numero di vertici e il numero degli archi sono confondibili.\\
+L'algoritmo \textbf{heap-sort} è un algoritmo di ordinamento per cataste (ove per catasta è da intendersi un albero binario completo, non necessariamente super-completo).\\
+Per designare i vertici, all'interno della logica dell'\textbf{heap-sort}, si procede assegnando un valore numerico a ciascun vertice, facendo attenzione a far sì che il numero di ogni padre sia maggiore o uguale di ogni suo figlio (di tutti quelli nei livelli sottostanti), ottenendo una \textbf{catasta} (heap), come mostrato di seguito:
+
+
+
+
+
+
+
+
 \end{document}
