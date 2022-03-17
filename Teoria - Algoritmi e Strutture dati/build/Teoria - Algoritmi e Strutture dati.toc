@@ -19,5 +19,5 @@
 \contentsline {subsection}{\numberline {4.3}Funzioni di complessità}{22}{}%
 \contentsline {subsection}{\numberline {4.4}Classi di complessità}{24}{}%
 \contentsline {subsection}{\numberline {4.5}Merge-Sort}{25}{}%
-\contentsline {subsection}{\numberline {4.6}Master Theorem}{28}{}%
-\contentsline {subsection}{\numberline {4.7}Heap-sort}{30}{}%
+\contentsline {subsection}{\numberline {4.6}Master Theorem}{29}{}%
+\contentsline {subsection}{\numberline {4.7}Heap-sort}{31}{}%
