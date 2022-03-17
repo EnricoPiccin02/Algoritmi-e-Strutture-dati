@@ -1469,10 +1469,338 @@ L'algoritmo \textbf{heap-sort} è un algoritmo di ordinamento per cataste, ove p
 All'interno della logica dell'\textbf{heap-sort} è possibile distinguere tra \emph{maximum-heap} e \emph{minimum-heap}: nel primo caso è il padre ad avere il valore numerico maggiore rispetto ai figli, nel secondo il genitore deve essere dominato da entrambi i figli.\\
 Il primo algoritmo che si andrà a considerare prende il nome di \textbf{build-heap}, ovvero un algoritmo che è capace di creare una catasta che rispetta il vincolo del \emph{maximum-heap} partendo da un albero in cui i nodi sono già pesati.
 
+\newpage
+\noindent
+\begin{center}
+  17 Marzo 2022
+\end{center}
+Si consideri un array, ovverosia una struttura dati assolutamente fondamentale che presenta un numero di locazioni di memoria consecutive, pari alla sua lunghezza $length(A)=n$.\\
+Pertanto, scrivere
+\[A[3]\]
+signfica considerare il contenuto della $3$ cella di memoria consecutiva memorizzata nell'array $A$; inoltre, si ha che lo sforzo per accedere ad una precisa locazione di memoria è dell'ordine $\Theta(1)$, ovvero viene eseguito un \textbf{accesso diretto} (o \textbf{random acces}, accesso casuale, o \textbf{accesso arbitrario}) alla cella di memoria richiesta, indipendemente dalla lunghezza dell'array.\\
+Un array è, quindi, una struttura a random-access, ovvero ad accesso lineare, designato con una lettera maiuscola e di una lunghezza $n$. Tuttavia, l'accesso lineare si può interpretare come un albero binario:
 
+\vspace{1em}
+\noindent
+Tuttavia, la possibilità di considerare una struttura monodimensionale come un albero bidimensionale avviene tramite due procedure fondamentali:
 
+\begin{algorithm}[H]
+  \caption{Parent}
+  \begin{algorithmic}[1]
+    \State PARENT($i$)
+    \Indent
+      \State \textbf{return} $\left \lfloor \frac{i}{2} \right \rfloor$
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
 
+\begin{algorithm}[H]
+  \caption{Left}
+  \begin{algorithmic}[1]
+    \State LEFT($i$)
+    \Indent
+      \State \textbf{return} $2i$
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
 
+\begin{algorithm}[H]
+  \caption{Right}
+  \begin{algorithmic}[1]
+    \State RIGHT($i$)
+    \Indent
+      \State \textbf{return} $2i+1$
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
 
+\noindent
+In cui sono stati omessi degli opportuni controlli di validità dell'input $i$ (come se $i=0$ o se non esiste un nodo destro).\\
+In questo modo l'algoritmo interpreta una struttura monodimensionale come un albero bidimensionale; naturalmente, in questo caso, ogni nodo andrà ad individuare un sotto-albero.\\
+L'algoritmo \textbf{heapify} viene utilizzato solamente quando il sottoalbero è già una catasta che rispetta il vincolo \textit{maximum-heap}; vi è una sola eccezione, rappresentata dalla sottoradice, in cui è ammesso non rispettare tale vincolo.\\
+Per comprendere il funzionamento di \textbf{heapify} si consideri un sottoalbero come quello esposto:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (1) {$i$};
+    \node[main node] (2) [xshift=-2em, below left of=1] {$5$};
+    \node[main node] (3) [xshift=2em, below right of=1] {$7$};
+    \node[main node] (4) [xshift=2em, below left of=2] {$4$};
+    \node[main node] (5) [xshift=-2em, below right of=2] {$3$};
+    \node[main node] (6) [xshift=2em, below left of=3] {$2$};
+    \node[main node] (7) [xshift=-2em, below right of=3] {$1$};
+    \node[main node] (8) [xshift=4em, below left of=4] {$3$};
+    \node[main node] (9) [xshift=-4em, below right of=4] {$2$};
+    \node[main node] (10) [xshift=4em, below left of=5] {$1$};
+    \node[main node] (11) [xshift=-4em, below right of=5] {$0$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (1) edge node [left] {} (2)
+      (1) edge node [left] {} (3)
+      (2) edge node [left] {} (4)
+      (2) edge node [left] {} (5)
+      (3) edge node [left] {} (6)
+      (3) edge node [left] {} (7)
+      (4) edge node [right] {} (8)
+      (4) edge node [right] {} (9)
+      (5) edge node [right] {} (10)
+      (5) edge node [right] {} (11);
+  \end{tikzpicture}
+  \caption{Esempio di sottoalbero }
+  \label{fig:esempio_catasta_heap}
+\end{figure}
+
+\begin{algorithm}[H]
+  \caption{Heapify}
+  \begin{algorithmic}[1]
+    \State HEAPIFY($A,i$)
+    \State $l=$ LEFT($i$), $r=$ RIGHT(i)
+    \State \textbf{if} $l\leq$ heap-size[$A$] $\wedge$ $A[l]>A[i]$
+    \Indent
+      \State \textbf{then}
+      \Indent
+        \State largest$=l$
+      \EndIndent
+      \State \textbf{esle}
+      \Indent
+        \State largest$=i$
+      \EndIndent
+    \EndIndent
+    \State \textbf{if} $r\leq$ heap-size[$A$] $\wedge$ $A[r]>A[$largest$]$
+    \Indent
+      \State \textbf{then}
+      \Indent
+        \State largest$=r$
+      \EndIndent
+    \EndIndent
+    \State \textbf{if} largest$!=i$
+    \Indent
+      \State \textbf{then}
+      \Indent
+        \State Exchange:$A[i]=A[largest]$
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+Ovvero se esiste il figlio sinistro ($l\leq$ heap-size[$A$]) e si verifica che il valore del nodo sinistro è maggiore del nodo radice ($A[l]>A[i]$) si scambiano i valori per rispettare il vincolo \emph{maximum-heap}.\\ Naturalmente questa procedura deve essere ripetuta andando a scandagliare il sottoalbero di destra, se esiste ($r\leq$ heap-size[$A$]). Se questo è il caso, ovvero esiste il figlio, allora bisogna procedere ad effettuare lo scambio in modo tale da rispettare il vincolo.\\
+Si consideri il caso in cui si possa usare \textbf{hapify}, in cui la radice non è detto che domini i figli, ma il resto dell'albero rispetta il vincolo, come mostrato di seguito:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (1) {$2$};
+    \node[main node] (2) [xshift=-2em, below left of=1] {$6$};
+    \node[main node] (3) [xshift=2em, below right of=1] {$3$};
+    \node[main node] (4) [xshift=2em, below left of=2] {$4$};
+    \node[main node] (5) [xshift=-2em, below right of=2] {$1$};
+    \node[main node] (6) [xshift=2em, below left of=3] {$2$};
+    \node[main node] (7) [xshift=-2em, below right of=3] {$4$};
+    \node[main node] (8) [xshift=4em, below left of=4] {$2$};
+    \node[main node] (9) [xshift=-4em, below right of=4] {$4$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (1) edge node [left] {} (2)
+      (1) edge node [left] {} (3)
+      (2) edge node [left] {} (4)
+      (2) edge node [left] {} (5)
+      (3) edge node [left] {} (6)
+      (3) edge node [left] {} (7)
+      (4) edge node [right] {} (8)
+      (4) edge node [right] {} (9);
+  \end{tikzpicture}
+  \caption{Esempio di sottoalbero }
+  \label{fig:esempio_catasta_heap}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Applicando l'algoritmo \textbf{heapify}, partendo dal nodo $i=3$, si pone
+\[\boxed{6} \hspace{0.5em} \boxed{7} \hspace{0.5em} \boxed{6 \text{ o } 3 \text{ o } 4}\]
+in cui nella posizione finale \quotes{largest} vi può essere la posizione del padre, del figlio sinistro o del figlio destro (se nella posizione \quotes{largest} vi è un valore più grande della radice, avviene l'exchange), come in questo caso:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (1) {$2$};
+    \node[main node] (2) [xshift=-2em, below left of=1] {$6$};
+    \node[main node] (3) [xshift=2em, below right of=1] {$3$};
+    \node[main node] (4) [xshift=2em, below left of=2] {$4$};
+    \node[main node] (5) [xshift=-2em, below right of=2] {$1$};
+    \node[main node] (6) [xshift=2em, below left of=3] {$2$};
+    \node[main node] (7) [xshift=-2em, below right of=3] {$4$};
+    \node[main node] (8) [xshift=4em, below left of=4] {$2$};
+    \node[main node] (9) [xshift=-4em, below right of=4] {$4$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (1) edge node [left] {} (2)
+      (1) edge node [left] {} (3)
+      (2) edge node [left] {} (4)
+      (2) edge node [left] {} (5)
+      (3) edge node [left] {} (6)
+      (3) edge node [left] {} (7)
+      (4) edge node [right] {} (8)
+      (4) edge node [right] {} (9);
+  \end{tikzpicture}
+  \caption{Esempio di sottoalbero }
+  \label{fig:esempio_catasta_heap}
+\end{figure}
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che non sono presenti cicli in tale algoritmo, in quanto la complessità è data dalla ricorsività; infatti il numero delle iterazioni è
+\[\#\text{iterazioni}\leq h_i+1\]
+in cui $h_i$ è l'altezza del sottoalbero; pertanto la complessità è dell'ordine $O(\log(n))$, in cui $n$ è il numero dei nodi dell'albero completo (avendo interpretato il sottoalbero come un albero completo); infatti, nel caso in cui si consideri l'albero completo, con $H$ la sua altezza complessiva, allora si ha che
+\[\#\text{iterazioni}\leq H+1\]
+Tuttavia, gli algoritmi più importanti da dover considerare sono altri due: \textbf{heap-sort} e \textbf{build-heap}, l'ultimo del quale serve proprio per costruire una catasta partendo da un albero non catastizzato, come mostrato di seguito:
+
+\begin{algorithm}[H]
+  \caption{Build-Heap}
+  \begin{algorithmic}[1]
+    \State BUILD-HEAP($A$)
+    \State heap-size$=length[A]$
+    \State \textbf{for} $i = \left \lfloor \frac{n}{2} \right \rfloor$ \textbf{down to} $1$
+    \Indent
+      \textbf{do} HEAPIFY($A$,i)
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+In cui
+\[i = \left \lfloor \frac{n}{2} \right \rfloor\]
+è il primo nodo con figli e che, quindi, potrebbe non rispettare il vingolo di \emph{maximum-heap}. Si consideri il caso seguente:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (1) {$3$};
+    \node[main node] (2) [xshift=-2em, below left of=1] {$2$};
+    \node[main node] (3) [xshift=2em, below right of=1] {$4$};
+    \node[main node] (4) [xshift=2em, below left of=2] {$5$};
+    \node[main node] (5) [xshift=-2em, below right of=2] {$1$};
+    \node[main node] (6) [xshift=2em, below left of=3] {$6$};
+    \node[main node] (7) [xshift=-2em, below right of=3] {$2$};
+    \node[main node] (8) [xshift=4em, below left of=4] {$8$};
+    \node[main node] (9) [xshift=-4em, below right of=4] {$4$};
+    \node[main node] (10) [xshift=4em, below left of=7] {$3$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (1) edge node [left] {} (2)
+      (1) edge node [left] {} (3)
+      (2) edge node [left] {} (4)
+      (2) edge node [left] {} (5)
+      (3) edge node [left] {} (6)
+      (3) edge node [left] {} (7)
+      (4) edge node [right] {} (8)
+      (4) edge node [right] {} (9)
+      (7) edge node [right] {} (10);
+  \end{tikzpicture}
+  \caption{Esempio di sottoalbero }
+  \label{fig:esempio_catasta_heap}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Naturalmente le foglie non hanno alcun problema, ma risalendo l'albero si deve procedere ad applicare heapify, come mostrato di seguito:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (1) {$3$};
+    \node[main node] (2) [xshift=-2em, below left of=1] {$2$};
+    \node[main node] (3) [xshift=2em, below right of=1] {$4$};
+    \node[main node] (4) [xshift=2em, below left of=2] {$5$};
+    \node[main node] (5) [xshift=-2em, below right of=2] {$1$};
+    \node[main node] (6) [xshift=2em, below left of=3] {$6$};
+    \node[main node] (7) [xshift=-2em, below right of=3] {$2$};
+    \node[main node] (8) [xshift=4em, below left of=4] {$8$};
+    \node[main node] (9) [xshift=-4em, below right of=4] {$4$};
+    \node[main node] (10) [xshift=4em, below left of=7] {$3$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (1) edge node [left] {} (2)
+      (1) edge node [left] {} (3)
+      (2) edge node [left] {} (4)
+      (2) edge node [left] {} (5)
+      (3) edge node [left] {} (6)
+      (3) edge node [left] {} (7)
+      (4) edge node [right] {} (8)
+      (4) edge node [right] {} (9)
+      (7) edge node [right] {} (10);
+  \end{tikzpicture}
+  \caption{Esempio di sottoalbero }
+  \label{fig:esempio_catasta_heap}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Procedendo in questo modo, si procede alla creazione di una catasta, con un numero di iterazioni che dipende dalle chiamate ricorsive della procedura heapify; in particolare, la complessità della procedura heapify è $O(\log(n))$.\\
+Il numero di iterazioni della procedura \textbf{build-heap} è pari a
+\[\frac{n}{2}\]
+pertanto, si ha che la sua complessità è certamente $O(n \cdot log(n))$, ma anche $\Omega(n)$. Tuttavia, si può dimostrare che la complessità di calcolo di \textbf{build-heap} sia $\Theta(\log(n))$ e questo, dal punto di vista dell'ordinamento, è totalmente irrilevante, anzi deve essere così affinché la complessità generale di \textbf{heap-sort} sia quantomeno accettabile.
+
+\vspace{1em}
+\noindent
+Per conoscere come opera \textbf{heap-sort} si consideri l'albero binario seguente:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (1) {$3$};
+    \node[main node] (2) [xshift=-2em, below left of=1] {$2$};
+    \node[main node] (3) [xshift=2em, below right of=1] {$4$};
+    \node[main node] (4) [xshift=2em, below left of=2] {$5$};
+    \node[main node] (5) [xshift=-2em, below right of=2] {$1$};
+    \node[main node] (6) [xshift=2em, below left of=3] {$6$};
+    \node[main node] (7) [xshift=-2em, below right of=3] {$2$};
+    \node[main node] (8) [xshift=4em, below left of=4] {$8$};
+    \node[main node] (9) [xshift=-4em, below right of=4] {$4$};
+    \node[main node] (10) [xshift=4em, below left of=7] {$3$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (1) edge node [left] {} (2)
+      (1) edge node [left] {} (3)
+      (2) edge node [left] {} (4)
+      (2) edge node [left] {} (5)
+      (3) edge node [left] {} (6)
+      (3) edge node [left] {} (7)
+      (4) edge node [right] {} (8)
+      (4) edge node [right] {} (9)
+      (7) edge node [right] {} (10);
+  \end{tikzpicture}
+  \caption{Esempio di sottoalbero }
+  \label{fig:esempio_catasta_heap}
+\end{figure}
+
+\noindent
+Lavorando in loco, la prima operazione da eseguire su tale albero è quello di catastizzarlo, ottenendo una struttura completamente opposta rispetto a quella che si necesssita: sul nodo radice è presente il valore maggiore, e sull'ultima posizione il valore più piccolo.\\
+Allora si procede a sostituire il primo nodo con l'ultimo, cancellando l'ultimo nodo e l'arco che lo congiunge con il nodo padre. Ora si procede nuovamente a catastizzare, applicando heapify all'albero intero e sostituendo il primo nodo con l'ultimo, il quale viene eliminato insieme al suo collegamento con il nodo padre. Ecco che allora il penultimo nodo si trova perfettamente ordinato con gli altri e così via, fino ad ottenere l'array perfettamente ordinato.\\
+Di seguito si propone il listato dell'algoritmo \textbf{merge-sort}:
+
+\begin{algorithm}[H]
+  \caption{Heap-Sort}
+  \begin{algorithmic}[1]
+    \State HEAP-SORT($A$)
+    \State BUILD-HEAP(A)
+    \State \textbf{for} $i=length[A]$ \textbf{down to} $2$
+    \Indent
+      \State \textbf{do} Exchange $A[1] \leftrightarrow A[i]$
+      \Indent
+        \State heap-size[$A$] = heap-size[$A$] - 1
+        \State HEAPIFY($A,1$)
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+In questo caso il numero di iterazioni di ciclo for sono $n-1$ e sono tutte operazioni in serie.\\
+In particolare, in questo caso, la complessità di build-heap è $\Theta(n)$, mentre la complesità nel secondo blocco è $O(n \cdot \log(n))$, in quanto si fa largo uso di heapify su tutto l'albero e non su sottoalberi.\\
+Pertanto si evince che la complessità dell'algoritmo \textbf{heap-sort} è al più log-lineare, ovvero $O(n \cdot \log(n))$ e richiamando il teorema sugli algoritmi di ordinamento generale, è noto che la complessità nel caso medio sia almeno log-lineare, pertanto si evince che, alla fine, la complessità dell'algoritmo heap-sort è proprio \textbf{log-lineare}.
 
 \end{document}
