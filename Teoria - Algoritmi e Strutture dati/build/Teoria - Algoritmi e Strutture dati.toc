@@ -21,3 +21,5 @@
 \contentsline {subsection}{\numberline {4.5}Merge-Sort}{25}{}%
 \contentsline {subsection}{\numberline {4.6}Master Theorem}{29}{}%
 \contentsline {subsection}{\numberline {4.7}Heap-sort}{31}{}%
+\contentsline {subsection}{\numberline {4.8}Quick-sort}{47}{}%
+\contentsline {subsection}{\numberline {4.9}Randomize Quick-Sort}{48}{}%

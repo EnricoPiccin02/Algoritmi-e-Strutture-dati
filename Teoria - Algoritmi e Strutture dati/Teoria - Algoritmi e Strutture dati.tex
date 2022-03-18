@@ -2193,6 +2193,96 @@ mentre la complessità nel caso migliore è lineare, ovvero $\Theta(n)$. Richiam
 \begin{center}
   18 Marzo 2022
 \end{center}
+Si osservi che le operazioni in serie che vengono svolte dall'algoritmo \textbf{heap-sort} devono essere valutate in maniera attenta per comprenderne la complesità.\\
+Si considerino, a tal proposito, due funzioni $f(n)$ e $g(n)$, allora
+\[f(n) + g(n) \hspace{0.5em} \text{e} \hspace{0.5em} f(n) \vee g(n)\]
+appartengono alla stessa classe $\Theta$, in quanto si ha che
+\[f(n) + g(n) \leq f(n) \vee g(n) \leq 2 \cdot \left[ f(n)+ g(n) \right]\]
+In particolare, si osserva che l'algoritmo \textbf{heap-sort} procede dapprima realizzando una catasta tramite il sotto-algoritmo \textbf{build-heap}; dopo questa procedura si ottiene un albero che è ordinato al contrario; pertanto si procede a sostiuire il primo nodo con l'ultimo dei rimanenti ed eliminando progressivamente l'ultimo nodo e il collegamento con i rimanenti e procedendo ad ordinare la catasta ad ogni passaggio.\\
+Pertanto la complessità dell'algoritmo è log-lineare, che \textbf{asintoticamente} è ottima, come avvalorato dal teorema sulla complessità di un algoritmo di ordinamento generale.
+
+\vspace{1em}
+\subsection{Quick-sort}
+L'algoritmo di ordinamento \textbf{quick-sort} è un algoritmo che, come merge-sort, lavora su posizioni intermedie da $p$ a $r$ e opera in maniera ricorsiva.\\
+Il primo sotto-algoritmo adoperato da quick-sort prende il nome \textbf{partition}, il quale lavora con $p<r$, in cui inzialmente $p=1$ e $r=n$, come mostrato di seguito:
+\[\boxed{2}\boxed{8}\boxed{7}\boxed{2}\boxed{3}\boxed{5}\boxed{6}\boxed{4}\]
+Tale array verrà diviso in $4$ aree, in una delle quali (l'ultima, generalmente) è presente unn \textbf{perno} (\textbf{pivot}): nella prima area saranno contenuti valori $\leq$ del perno, nella seconda area saranno contenuti valori $>$ del perno, mentre nella terza area saranno contenuti valori che ancora con sono stati esaminati: è chiaro che progressivamente le prime due aree andranno progressivamente incrementandosi, mentre la terza area andrà via via riducendosi. Pertanto, vi sono i confini delle due prime aree che sono mobili, chiamati $i$ e $j$: il primo che divide la prima e la seconda area che si muove in maniera irregolare, il secondo che aumenta di un passo alla volta.\\
+Si osservi l'esecuzione di tale algoritmo: posto $p=1$ e $r=n$, si ha $i=p-1$ e $j=p$; e si verifica che il primo elemento è più piccolo o più grande dell'ultimo elemento (ossia del perno), come nel caso seguente $2 \leq 4$:
+\[\boxed{2}\boxed{8}\boxed{7}\boxed{2}\boxed{3}\boxed{5}\boxed{6}\boxed{4}\]
+allora $i$ si incrementa di $1$ e si cambia $A[i]\leftrightarrow A[j]$ e si incrementa $j$ di $1$. Ora si confronta il $j$-esimo elemento con il pivot e si ha che $8 > 4$ e si incrementa $j$ di uno, e così anche per l'iterazione successiva, in quanto $7 > 4$. Tuttavia, quando $j=4$, si ha che $2 \leq 4$, per cui si incrementa $i$ di $1$: tuttavia, adesso l'indice $i$ punta ad una zona errata, per cui si deve scambiare $A[i]\leftrightarrow A[j]$ ed incrementare $j$. Confrontando il $j$-esimo elemento, ancora una volta $3 \leq 4$, per cui si incrementa $i$ di $1$ si deve scambiare $A[i]\leftrightarrow A[j]$ ed incrementare $j$. Le due ultime due iterazioni prevedono solo di incrementare $j$ essendo tutti valori maggiori del perno.\\
+Ora da $1$ a $i$ vi sono valori più piccoli del pivot, mentre da $i+1$ a $j$ vi sono valori maggiori del perno. Ora è sufficiente scambiare l'ultima posizione con la posizione $i+1$ per porre il perno nella sua posizione corretta.\\
+Ora l'array è stato partizionato e di seguito si espone il listato dell'algoritmo \textbf{partition}:
+
+\begin{algorithm}[H]
+  \caption{Partition}
+  \begin{algorithmic}[1]
+    \State PARTITION($A$,$p$,$r$)
+    \State $x \gets A[r]$
+    \State $i=p-1$
+    \State \textbf{for} $j=p$ \textbf{to} $r-1$
+    \Indent
+      \State \textbf{do} \textbf{if} $A[j] \leq x$
+      \Indent
+        \State \textbf{then} $i=i+1$
+        \State Exchange: $A[i] \leftrightarrow A[j]$
+      \EndIndent
+    \EndIndent
+    \State Exchange: $A[i+1] \leftrightarrow A[r]$
+    \State \textbf{return} $i+1$
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+Mentre di seguito si espone il listato dell'algoritmo \textbf{quick-sort}:
+
+\begin{algorithm}[H]
+  \caption{Quick-Sort}
+  \begin{algorithmic}[1]
+    \State QICK-SORT($A$,$p$,$r$)
+    \State \textbf{if} $p<r$
+    \Indent
+      \State \textbf{then} $q=$ PARTITION($A$,$p$,$r$)
+      \State QUICK-SORT(A,p,q)
+      \State QUICK-SORT(A,q+1,r)
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+In cui in $q$ viene memorizzata la posizione del perno. Naturalmente ciò che permette di uscire dalla chiamata ricorsiva sono i tratti di lunghezza unitaria per cui $p=r$.
+
+\vspace{1em}
+\noindent
+\textbf{Esempio}: Si consideri l'array seguente:
+\[\boxed{3}\boxed{4}\boxed{1}\boxed{2}\]
+Allora, applicando Partition, nella prime due iterazioni non si deve eseguire alcuna operazione, tranne l'incremento di $j$. Quando $j=3$, allora si osserva che $1 \leq 2$, per cui si deve incrementare $i$ di $1$, scambiare $A[i] \leftrightarrow A[j]$ e incrementare $j$:
+\[\boxed{1}\boxed{4}\boxed{3}\boxed{2}\]
+Arrivati all'ultima iterazione, bisogna eseguire lo scambio $A[i+1] \leftrightarrow A[r]$, ottenendo:
+\[\boxed{1}\boxed{2}\boxed{3}\boxed{4}\]
+Ora bisogna applicare Quick-Sort da $p=1$ a $q=2$ e da $q+1=3$ a $r=4$\\
+... continua ...
+
+\vspace{1em}
+\noindent
+Per comprendere il numero di iterazioni che comporta l'utilizzo di quick-sort si osservi l'ordinamento di $n$ numeri che sono, in realtà, già ordinati.\\
+Allora la somma di tutte le iterazioni è pari a
+\[n-1 + n-2 + n-3 + .... + 1 = \frac{n \cdot (n+1)}{2} \cong n^2\]
+Ecco che allora si evince come la complessità di tale algoritmo, nel caso peggiore, è, appunto \textbf{quadratica}.\\
+Tuttavia, la complessità dell'algoritmo nel caso generale è \textbf{log-lineare}, che quindi rende tale algoritmo \textbf{asintoticamente} ottimo.
+
+\vspace{1em}
+\subsection{Randomize Quick-Sort}
+Per comprendere la complessità dell'algoritmo \textbf{quick-sort}, nel caso generale, bisogna considerare una variante aleatoria di tale algoritmo, il quale prende nome di \textbf{randomize quick-sort}.\\
+La probabilità di un evento riguarda non tanto l'evento, ma l'osservatore che, non potendo conoscere il risultato dell'evento stesso, lo reputa casuale.\\
+Il concetto di probabilità è strettamente connessa al calcolo combinatorio: infatti, la probabilità di un evento è definibile come il rapporto fra il numero di casi favorevoli e il numero di casi possibili, sempre nell'ipotesi che gli eventi elementari siano tutti equiprobabili.\\
+Dal punto di vista empirico, invece, si ha che
+\[P(E) = \lim_{n \to +\infty} \frac{\#\text{successi}}{n}\]
+ovvero il limite metafisico quando il numero degli esperimenti diverge all'infinito del rapporto tra il numero dei successi e il numero degli esperimenti.\\
+La probabilità soggettiva o neo-bayesiana (o definettiana) deve la sua concezione a \textbf{Bruno dei Finetti}, il quale è riuscito ad analizzare gli \emph{odds} tramite delle fondamenta teoriche precise, definendo la probabilità come la misura di quanto l'uomo è propenso a scommettere.
+
+
+
 
 
 \end{document}
