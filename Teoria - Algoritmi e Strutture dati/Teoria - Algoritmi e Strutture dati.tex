@@ -2332,9 +2332,133 @@ In cui è evidente come la probabilità combinatoria è contenuta nella probabil
 \begin{center}
   23 Marzo 2022
 \end{center}
+La definizione di probabilità più consona per una valutazione sperimentale è di tipo frequentista: la probabilità di un evento rappresenta il limite, per il numero degli esperimenti che tende all'infinito, del rapporto tra il numero di volte in cui tale evento si è verificato e il numero degli esperimenti effettuati:
+\[\boxed{P(E) = \lim_{n \to +\infty} \frac{\#\text{successi}}{n}}\]
+Ovviamente è un limite metafisico in quando un numero di esperimenti infinito è materialmente irrealizzabile. Da ciò appare evidente che
+\[\boxed{P(\overline{E}) = 1 - P(E)}\]
+Considerando, ora, due eventi $E$ e $F$, è nota che la probabilità dell'unione è proprio
+\[\boxed{P(E \vee F) = p(E) + p(F) - p(E \wedge F)}\]
+Naturalmente, nel caso in cui $E$ e $F$ sono incompatibili, la probabilità diviene additiva, in quanto la probabilità che si verifichino entrambi i due eventi è nulla, allora
+\[\boxed{P(E \vee F) = p(E) + p(F)}\]
+Per quando concerne la \textbf{probabilità condizionata}, dati due eventi $E$ e $F$, la probabilità che si verifica $E$ dopo che si è verificato $F$ si ottiene che:
+\[\boxed{P(E \vert F) = \frac{P(E \wedge F)}{p(F)}}\]
+nell'ipotesi in cui l'evento condizionante abbia una probabilità strettamente positiva.\\
+Nell'ipotesi in cui $F$ ed $E$ siano indipendenti l'uno rispetto all'altro, è ovvio che
+\[p(E \vert F) = P(E) \hspace{1em} \text{e} \hspace{1em} p(F \vert E) = P(F)\]
+Ma ricordando la formula per il calcolo della probabilità di eventi condizionanti, si ottiene:
+\[p(E \vert F) = P(E)= \frac{P(E \wedge F)}{p(F)} \hspace{1em} \text{e} \hspace{1em} p(F \vert E) = P(F) = \frac{P(E \wedge F)}{p(E)}\]
+ed ecco che si è ottenuta la \textbf{relazione di indipendenza di eventi}:
+\[\boxed{P(E \wedge F) = P(A) \cdot P(F)}\]
+per cui $E$ non condiziona $F$ \textbf{se e solo se} $F$ non condiziona $F$.\\
+Ecco che ora si può considerare $\mathcal{X}$ come \textbf{variabile} (o \textbf{qualità}) \textbf{aleatoria}, formato da uno spazio campionario $\{x_1,...,x_n\}$ di \textbf{eventi elementari} i quali devono essere \textbf{incompatibili} e \textbf{esausitivi}: effettuando un esperimento, si deve sempre verificare uno e uno solo degli eventi elementari. Ciascuno di tali eventi elementari presenta una probabilità $p_i$, ottenendo l'insieme delle probabilità elementari $\{p_1,...,p_n\}$.\\
+Nell'ipotesi in cui $\mathcal{X}$ sia un \textbf{numero aleatoria}, ovvero $\mathcal{X} \in \Omega_x \subset \mathbb{R}$, allora ha senso calcolare il suo \textbf{valore medio} (o \textbf{valore atteso}), ovvero $E(\mathcal{X})$.\\
+Data una variabile aleatoria $\mathcal{X}$ formata dagli eventi elementari seguenti:
 
+% Tabella per le definizione di concetti, etc...
+\vspace{1em}
+\rowcolors{1}{black!5}{black!5}
+\setlength{\tabcolsep}{14pt}
+\renewcommand{\arraystretch}{2}
+\noindent
+\begin{tabularx}{\textwidth}{@{}|P|@{}|P|@{}|P|@{}|P|@{}}
+    \hline
+    \text{Eventi elementari} & $x_1$ & $x_2$ & $x_3$\\
+    \hline
+    \text{Probabilità elementari} & $p_1$ & $p_2$ & $p_3$\\
+    \hline
+\end{tabularx}
+\vspace{1em}
 
+\noindent
+Allora è ovvio che
+\[E(\mathcal{X}) = \sum_{i}^n p_i \cdot x_i\]
 
+\vspace{1em}
+\subsection{Teorema di trasferimento}
+Si consideri una variabile aleatoria $\mathcal{Y}$ che è funzione deterministica di di $\mathcal{X}$, ovvero
+\[\boxed{\mathcal{Y} = f(\mathcal{X})}\]
+tale per cui $f(a)=f(b)=f(d)=0$, mentre $f(c)=1$. Allora appare evidente come
+\[\boxed{E(\mathcal{Y}) = \sum_{y}^n q_y \cdot y}\]
+in cui, per quello che si è supposto, si ha $q_0=p_a+p_b+p_d$ e $q_1=p_c$, ottenendo
+\[\left(p_a+p_b+p_d\right) \cdot 0 + p_c \cdot 1 = p_a f(a) + p_b f(c) + p_d f(d) + p_c f(c)\]
+che corrisponde esattamente a
+\[\boxed{E(\mathcal{Y}) = \sum_{x}^n p_x \cdot f(x)}\]
+che riscritta in modo alternativo, permette di ottenere la formula del teorema di trasferimento
+\[\boxed{E(f(\mathcal{X})) = \sum_{x}^n p_x \cdot f(x)}\]
+in cui non si richiede che $\mathcal{X}$ sia di natura numerica. Appliando il teorema del trasferimento a due variabili aleatorie $\mathcal{X}$ e $\mathcal{Y}$ si ottiene
+\[E \left[\mathcal{X} + \mathcal{Y}\right] = \sum_x \sum_y p_{xy} \cdot (x + y)\]
+ma sfruttando la proprietà distributiva si ottiene
+\[E \left[\mathcal{X} + \mathcal{Y}\right] = \sum_x \sum_y p_{xy} \cdot (x + y) = \sum_x \sum_y p_{xy} x + \sum_y \sum_x p_{xy} y = \sum_x x \sum_y p_{xy} x + \sum_y y \sum_x p_{xy}\]
+che corrisponde esattemte a
+\[\sum_x x \sum_y p_{xy} x + \sum_y y \sum_x p_{xy} = E(\mathcal{X}) + E(\mathcal{Y})\]
+che permette di concludere che la speranza matematica sia additiva: un risultato fondamentale, che è reso ancora più significativo in quanto valido in qualsiasi ipotesi di interdipendenza tra $\mathcal{X}$ e $\mathcal{Y}$.
 
+\vspace{1em}
+\noindent
+\textbf{Esempio}: Si consideri un indicatore di successo $I \in \{0,1\}$, in cui $p_0=1-p$ e $p_1=p$. Allora è evidente come
+\[E(I) = p_0 \cdot 0 + p_1 \cdot 1 = (1-p) \cdot 0 + p \cdot 1 = p\]
+Nell'ipotesi in cui $\mathcal{Z}$ sia una funzione deterministica di un numero $n$ di indicatori di successo
+\[\mathcal{Z} = I_1+I_2+...+I_n\]
+allora si ha che
+\[E(\mathcal{Z}) = n \cdot p\]
+Allora, senza impiegare il teorema del trasferimento, si può descrivere $\mathcal{Z}$ come segue
+\[\mathcal{Z}=\sum_{i=0}^n p_n b \{z=2\} \cdot i = \sum \binom{n}{i} p^i \cdot (1-p)^{n-i} \cdot i = n p\]
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si consideri una stringa binaria di lunghezza $n=5$ e di peso $i=3$, come mostrato di seguito
+\[\boxed{0}\boxed{1}\boxed{1}\boxed{0}\boxed{1}\]
+e se ne consideri una seconda
+\[\boxed{1}\boxed{1}\boxed{0}\boxed{1}\boxed{0}\]
+Allora in ciascuno di tali casi, la probabilità che si presenti pari a
+\[p^i \cdot (1-p)^{n-i}\]
+Da cui si evince che la probabilità che $\mathcal{Z}=i$ è proprio
+\[P \{\mathcal{Z}=i\} = \#\text{successi} = p^i \cdot (1-p)^{n-i}\]
+in cui $\#\text{successi}$ rappresenta il numero di stringhe di lunghezza $n$ avente peso $i$ che è, ovviamente:
+\[\#\text{successi} = \binom{n}{i} = \frac{n!}{i! \cdot (n-i)!}\]
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: È noto che la speranza matematica che si verifici la variabile combinatoria $\mathcal{Z}$ è
+\[E(\mathcal{Z}) = np = \mu_\mathcal{Z}\]
+Tuttavia, per valutare propriamente una variabile aleatoria, oltre a ciò è necessario conoscere anche la \textbf{dispersione attorno alla variabile $\boldsymbol{\mathcal{X}}$}, ossia la \textbf{varianza}, calcolata come segue
+\[var \mathcal{X} = E \left[(\mathcal{X}-\mu)^2\right]\]
+che può anche essere interpretata tramite lo \textbf{scarto quadratico medio}
+\[sqm \mathcal{X} = \sqrt{var \mathcal{X}}\]
+Allora, dal teorema del trasferimento si ottiene che
+\[var \mathcal{X} = \sum_{x} \left(x - \mu \right)^2 \cdot p_x\]
+e sviluppando il quadrato descritto, tale risultato si può descrivere come
+\[\sum_{x} x^2 \cdot p_x + ... continua ...\]
+Giungendo all'importante conclusione che
+\[\boxed{var \mathcal{X} = E\left[\mathcal{X}^2 \right] - \left[E(\mathcal{X})\right]^2}\]
+Volendo calcolare la varianza della somma di due variabili aleatorie, è fondamentale considerare l'ipotesi di indipendenza, da cui si evince che la varianza sia additiva:
+\[var \left[\mathcal{X} + \mathcal{Y}\right] = var \mathcal{X} + var \mathcal{Y}\]
+
+\vspace{1em}
+\noindent
+\textbf{Esempio}: Considerando, ora, un indicatore di successo $I$, volendo calcolarne la varianza, si perviene al risultato seguente:
+\[var I = E[I^2] - p^2\]
+ma siccome $I^2=I$, in quanto $0^2=0$ e $1^2=1$, si ottiene che
+\[var I = E[I^2] - p^2 = E[I] - p^2 = p - p^2 = p(1 - p) = pq\]
+E se si considera la \textbf{varianza binomiale} si ottiene
+\[\boxed{var \mathcal{Z}=npq}\]
+mentre il suo \textbf{valore atteso} è
+\[\boxed{E \mathcal{Z}=np}\]
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si consideri una variabile aleatoria $\mathcal{X}$ e uno spazio campionario $A$ tale che $\vert A \vert = k$, in cui la probabilità è uniforme, ovvero ciascuno degli eventi elementari presenta probabilità $\frac{1}{k}$.\\
+Considerando un sottoinsieme $B \subset A$, tale che $\vert B \vert = h$, volendo calcolare la provabilità condizionata
+\[P(X \vert B) = Prob\{\mathcal{X}=x \vert \mathcal{X} \in B\}\]
+allora si ottiene che
+\[P(\mathcal{X}\vert B) = \frac{P(\vert X \cap B)}{P(B)} = \frac{1}{h}\]
+in cui la probabilità degli eventi in $B$ si mantiene uniforme.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si consideri una variante aleatoria dell'algoritmo quick-sort, nella quale si deve procedere alla definizione della procedura RANDOM($p$,$q$), in cui si deve imporre che $p \leq q$, essendo essi due numeri interi.\\
+Naturalmente i numeri gnerati da $p$ a $q$ sono $q-p+1$, in cui ciascuno di tali valori presenta la probabilità
+\[\frac{1}{q-p+1}\]
+nell'ipotesi in cui la probabilità sia uniforme, ossia identica per ciascun valore.
 
 \end{document}
