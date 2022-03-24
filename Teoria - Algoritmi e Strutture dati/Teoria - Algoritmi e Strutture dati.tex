@@ -2332,26 +2332,35 @@ In cui è evidente come la probabilità combinatoria è contenuta nella probabil
 \begin{center}
   23 Marzo 2022
 \end{center}
-La definizione di probabilità più consona per una valutazione sperimentale è di tipo frequentista: la probabilità di un evento rappresenta il limite, per il numero degli esperimenti che tende all'infinito, del rapporto tra il numero di volte in cui tale evento si è verificato e il numero degli esperimenti effettuati:
+La definizione di probabilità più consona per una valutazione sperimentale è di tipo frequentista: la probabilità di un evento rappresenta il limite, per il numero degli esperimenti che tende all'infinito, del rapporto tra il numero di volte in cui tale evento si è verificato e il numero degli esperimenti effettuati (sempre nell'ipotesi che tali esperimenti ripetuti si siano svolti nelle medesime condizioni):
 \[\boxed{P(E) = \lim_{n \to +\infty} \frac{\#\text{successi}}{n}}\]
-Ovviamente è un limite metafisico in quando un numero di esperimenti infinito è materialmente irrealizzabile. Da ciò appare evidente che
+in cui, ovviamente, essendo il numero degli esperimenti teoricamente infinito, la frequenza di successo dell'evento aleatorio $E$ tende ad assestarsi su un valore che viene considerato la probabilità di $E$. Naturalmente, quello esposto è un limite metafisico in quando un numero di esperimenti infinito è materialmente irrealizzabile.\\
+È ovvio che, quindi, la probabilità che si verifichi l'evento $E$ è
+\[p(E) = \frac{\#\text{successi}}{n}\]
+mentre la probabilità che non si verifichi $E$ è
+\[p(\overline{E}) = \frac{n-\#\text{successi}}{n}\]
+Da ciò appare evidente come
 \[\boxed{P(\overline{E}) = 1 - P(E)}\]
 Considerando, ora, due eventi $E$ e $F$, è nota che la probabilità dell'unione è proprio
-\[\boxed{P(E \vee F) = p(E) + p(F) - p(E \wedge F)}\]
-Naturalmente, nel caso in cui $E$ e $F$ sono incompatibili, la probabilità diviene additiva, in quanto la probabilità che si verifichino entrambi i due eventi è nulla, allora
+\[\boxed{P(E \vee F) = \frac{n_E + n_F - n_{E \wedge F}}{n} = p(E) + p(F) - p(E \wedge F)}\]
+Naturalmente, nel caso in cui $E$ e $F$ siano \textbf{incompatibili}, la \textbf{probabilità} diviene \textbf{additiva}, in quanto la probabilità che si verifichino entrambi i due eventi è nulla, allora
 \[\boxed{P(E \vee F) = p(E) + p(F)}\]
-Per quando concerne la \textbf{probabilità condizionata}, dati due eventi $E$ e $F$, la probabilità che si verifica $E$ dopo che si è verificato $F$ si ottiene che:
-\[\boxed{P(E \vert F) = \frac{P(E \wedge F)}{p(F)}}\]
-nell'ipotesi in cui l'evento condizionante abbia una probabilità strettamente positiva.\\
-Nell'ipotesi in cui $F$ ed $E$ siano indipendenti l'uno rispetto all'altro, è ovvio che
+Per quando concerne la \textbf{probabilità condizionata}, dati due eventi $E$ e $F$, la probabilità che si verifichi $E$ (\textbf{evento condizionato}) dopo che si è verificato $F$ (\textbf{evento condizionante}), cosa che può essere vera o può essere una mera supposizione, si ottiene che:
+\[\boxed{P(E \vert F) = \frac{n_{E \wedge F}}{n_F} \cdot \frac{n}{n} = \frac{P(E \wedge F)}{p(F)}}\]
+ovvero il rapporto del numero degli esperimenti in cui si è verificato $E$ e anche $F$ e il numero di esperimenti in cui si è verificato $F$ (altrimenti tale probabilità non sarebbe condizionata); tale risultato ha significato matematico solamente nell'ipotesi in cui l'evento condizionante abbia una probabilità strettamente positiva.\\
+Nell'ipotesi in cui $F$ ed $E$ siano \textbf{indipendenti} l'uno rispetto all'altro (ovvero $F$ non condiziona $E$ e viceversa), è ovvio che
 \[p(E \vert F) = P(E) \hspace{1em} \text{e} \hspace{1em} p(F \vert E) = P(F)\]
 Ma ricordando la formula per il calcolo della probabilità di eventi condizionanti, si ottiene:
 \[p(E \vert F) = P(E)= \frac{P(E \wedge F)}{p(F)} \hspace{1em} \text{e} \hspace{1em} p(F \vert E) = P(F) = \frac{P(E \wedge F)}{p(E)}\]
-ed ecco che si è ottenuta la \textbf{relazione di indipendenza di eventi}:
-\[\boxed{P(E \wedge F) = P(A) \cdot P(F)}\]
-per cui $E$ non condiziona $F$ \textbf{se e solo se} $F$ non condiziona $F$.\\
-Ecco che ora si può considerare $\mathcal{X}$ come \textbf{variabile} (o \textbf{qualità}) \textbf{aleatoria}, formato da uno spazio campionario $\{x_1,...,x_n\}$ di \textbf{eventi elementari} i quali devono essere \textbf{incompatibili} e \textbf{esausitivi}: effettuando un esperimento, si deve sempre verificare uno e uno solo degli eventi elementari. Ciascuno di tali eventi elementari presenta una probabilità $p_i$, ottenendo l'insieme delle probabilità elementari $\{p_1,...,p_n\}$.\\
-Nell'ipotesi in cui $\mathcal{X}$ sia un \textbf{numero aleatoria}, ovvero $\mathcal{X} \in \Omega_x \subset \mathbb{R}$, allora ha senso calcolare il suo \textbf{valore medio} (o \textbf{valore atteso}), ovvero $E(\mathcal{X})$.\\
+ed ecco che si è ottenuta la \textbf{relazione di indipendenza tra due eventi} $E$ e $F$:
+\[\boxed{P(E \wedge F) = P(E) \cdot P(F)}\]
+per cui $E$ non condiziona (o influenza) $F$ \textbf{se e solo se} $F$ non condiziona (o influenza) $F$.
+
+\newpage
+\noindent
+Si consideri, ora, $\mathcal{X}$ come \textbf{variabile} (o \textbf{quantità} o \textbf{qualità}) \textbf{aleatoria}, formata da uno spazio campionario (in questo caso finito) $\{x_1,...,x_n\}$ di \textbf{eventi (o determinazioni) lementari} i quali devono essere \textbf{incompatibili} fra di loro ed \textbf{esausitivi}: effettuando un esperimento, si deve sempre verificare uno e uno solo degli eventi elementari, in quanto l'esaustività prevede tutti gli eventi elementari possibili. Ciascuno di tali eventi elementari, inoltre, presenta una probabilità $p_i$, ottenendo l'insieme delle probabilità elementari $\{p_1,...,p_n\}$.\\
+Naturalmente, siccome gli eventi elementari sono incompatibili fra di loro, la probabilità di un evento composto (o aggregato) è semplicemente la somma delle probabilità degli eventi elementari che lo compongono.\\
+Nell'ipotesi in cui $\mathcal{X}$ sia un \textbf{numero aleatorio}, ovvero $\mathcal{X} \in \Omega_x \subset \mathbb{R}$, allora ha senso calcolare il suo \textbf{valore medio} (o \textbf{valore atteso}), ovvero $E(\mathcal{X})$ (dall'inglese \quotes{expected value}, o speranza matematica).\\
 Data una variabile aleatoria $\mathcal{X}$ formata dagli eventi elementari seguenti:
 
 % Tabella per le definizione di concetti, etc...
@@ -2362,34 +2371,48 @@ Data una variabile aleatoria $\mathcal{X}$ formata dagli eventi elementari segue
 \noindent
 \begin{tabularx}{\textwidth}{@{}|P|@{}|P|@{}|P|@{}|P|@{}}
     \hline
-    \text{Eventi elementari} & $x_1$ & $x_2$ & $x_3$\\
+    \multicolumn{4}{|>{\hsize=\dimexpr4\hsize+6.2\tabcolsep\centering}P|}{\parbox{\linewidth}{\textbf{VARIABILE ALEATORIA}}}\\
     \hline
-    \text{Probabilità elementari} & $p_1$ & $p_2$ & $p_3$\\
+    \parbox{\linewidth}{\text{Eventi elementari}} & $x_1$ & $x_2$ & $x_3$\\
+    \hline
+    \parbox{\linewidth}{\text{Prob. elementari}} & $p_1$ & $p_2$ & $p_3$\\
     \hline
 \end{tabularx}
 \vspace{1em}
 
 \noindent
+Pertanto, se $x_1$ figura $n_1$ volte, $x_2$ figura $n_2$ volte e $x_3$ figura $n_3$ volte, si ha che il valore medio di $\mathcal{X}$ è
+\[E(\mathcal{X}) = \frac{n_1 \cdot x_1 + n_2 \cdot x_2 + n_3 \cdot x_3}{n}\]
 Allora è ovvio che
-\[E(\mathcal{X}) = \sum_{i}^n p_i \cdot x_i\]
+\[\boxed{E(\mathcal{X}) = \sum_{i}^n p_i \cdot x_i}\]
+che risulta esssere una definizione perfettamente consona della speranza matematica.
 
 \vspace{1em}
-\subsection{Teorema di trasferimento}
-Si consideri una variabile aleatoria $\mathcal{Y}$ che è funzione deterministica di di $\mathcal{X}$, ovvero
+\subsection{Teorema del trasferimento}
+Si consideri un numero aleatorio $\mathcal{Y}$ (che deve essere un numero aleatorio, altrimenti non ha senso parlare della sua speranza matematica) che è funzione deterministica di una quantità (o qualità) aleatoria $\mathcal{X}$ (la quale non deve essere necessariamente un numero aleatorio), ovvero
 \[\boxed{\mathcal{Y} = f(\mathcal{X})}\]
-tale per cui $f(a)=f(b)=f(d)=0$, mentre $f(c)=1$. Allora appare evidente come
-\[\boxed{E(\mathcal{Y}) = \sum_{y}^n q_y \cdot y}\]
+tale per cui $f(a)=f(b)=f(d)=0$, mentre $f(c)=1$, in cui $a,b,c,d$ sono valori di $\mathcal{X}$, aventi probabilità $p_a,p_b,p_c,p_d$. Naturalmente $\mathcal{Y}$ è un \textbf{numero aleatorio di tipo binario}, di cui si vuole calcolare la speranza matematica; non impiegando il teorema del trasferimento, si deve procedere al \textbf{calcolo delle distribuzioni}, determinando le probabilità dei valori di $\mathcal{Y}$, cosa che è resa possibile in questo caso in quanto si opera su un insieme finito di valori, mentre dovrebbe essere eseguito mediante un espediente differente se si operasse sul continuo.\\
+Allora appare evidente come
+\[\boxed{E(\mathcal{Y}) = \sum_{y} q_y \cdot y}\]
 in cui, per quello che si è supposto, si ha $q_0=p_a+p_b+p_d$ e $q_1=p_c$, ottenendo
-\[\left(p_a+p_b+p_d\right) \cdot 0 + p_c \cdot 1 = p_a f(a) + p_b f(c) + p_d f(d) + p_c f(c)\]
+\[q_0 \cdot 0 + q_1 \cdot 1 = \left(p_a+p_b+p_d\right) \cdot 0 + p_c \cdot 1 = p_a \cdot f(a) + p_b \cdot f(b) + p_d \cdot f(d) + p_c \cdot f(c)\]
 che corrisponde esattamente a
-\[\boxed{E(\mathcal{Y}) = \sum_{x}^n p_x \cdot f(x)}\]
-che riscritta in modo alternativo, permette di ottenere la formula del teorema di trasferimento
-\[\boxed{E(f(\mathcal{X})) = \sum_{x}^n p_x \cdot f(x)}\]
-in cui non si richiede che $\mathcal{X}$ sia di natura numerica. Appliando il teorema del trasferimento a due variabili aleatorie $\mathcal{X}$ e $\mathcal{Y}$ si ottiene
-\[E \left[\mathcal{X} + \mathcal{Y}\right] = \sum_x \sum_y p_{xy} \cdot (x + y)\]
-ma sfruttando la proprietà distributiva si ottiene
-\[E \left[\mathcal{X} + \mathcal{Y}\right] = \sum_x \sum_y p_{xy} \cdot (x + y) = \sum_x \sum_y p_{xy} x + \sum_y \sum_x p_{xy} y = \sum_x x \sum_y p_{xy} x + \sum_y y \sum_x p_{xy}\]
-che corrisponde esattemte a
+\[\boxed{E(\mathcal{Y}) = \sum_{x} p_x \cdot f(x)}\]
+che riscritta in modo alternativo, permette di ottenere la formula del \textbf{teorema del trasferimento}:
+\[\boxed{E \left[f(\mathcal{X}) \right] = \sum_{x} p_x \cdot f(x)}\]
+in cui non si richiede che $\mathcal{X}$ sia di natura numerica, ma che soprattutto permette di conoscere $E \left[f(\mathcal{X}) \right]$ senza dover procedere al calcolo delle distribuzioni di $f(\mathcal{X})$, ma lavorando unicamente con gli elementi di $\mathcal{X}$.\\
+Applicando il teorema del trasferimento a due variabili aleatorie $\mathcal{X}$ e $\mathcal{Y}$, si proceda al calcolo del valore atteso di $\mathcal{Z} = f(\mathcal{X},\mathcal{Y}) = \mathcal{X} + \mathcal{Y}$, in cui $\mathcal{Z}$ è una funzione deterministica della coppia $\mathcal{X}$ e $\mathcal{Y}$. Si ottiene, quindi:
+\[E \left[\mathcal{Z}\right] = E \left[\mathcal{X} + \mathcal{Y}\right] = \sum_x \sum_y p_{xy} \cdot f(x,y)\]
+Ma siccome $f(\mathcal{X},\mathcal{Y}) = \mathcal{X} + \mathcal{Y}$ per ipotesi, si ha che
+\[\sum_x \sum_y p_{xy} \cdot f(x,y) = \sum_x \sum_y p_{xy} \cdot (x + y)\]
+ma sfruttando la proprietà distributiva e commutativa (per cui l'ordine delle sommatorie può essere invertito) si ottiene
+\[E \left[\mathcal{X} + \mathcal{Y}\right] = \sum_x \sum_y p_{xy} \cdot (x + y) = \sum_x \sum_y p_{xy} \cdot x + \sum_y \sum_x p_{xy} \cdot y\]
+Ma siccome il primo termine non dipende dalla sommatoria in $y$ e il secondo termine non dipende dalla sommatoria in $x$, si può scrivere:
+\[\sum_x \sum_y p_{xy} \cdot x + \sum_y \sum_x p_{xy} \cdot y = \sum_x x \sum_y p_{xy} + \sum_y y \sum_x p_{xy}\]
+Ma siccome
+\[\sum_y p_{xy}\]
+prevede
+che corrisponde esattamente a
 \[\sum_x x \sum_y p_{xy} x + \sum_y y \sum_x p_{xy} = E(\mathcal{X}) + E(\mathcal{Y})\]
 che permette di concludere che la speranza matematica sia additiva: un risultato fondamentale, che è reso ancora più significativo in quanto valido in qualsiasi ipotesi di interdipendenza tra $\mathcal{X}$ e $\mathcal{Y}$.
 
@@ -2419,7 +2442,7 @@ in cui $\#\text{successi}$ rappresenta il numero di stringhe di lunghezza $n$ av
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: È noto che la speranza matematica che si verifici la variabile combinatoria $\mathcal{Z}$ è
+\textbf{Osservazione}: È noto che la speranza matematica che si verifichi la variabile combinatoria $\mathcal{Z}$ è
 \[E(\mathcal{Z}) = np = \mu_\mathcal{Z}\]
 Tuttavia, per valutare propriamente una variabile aleatoria, oltre a ciò è necessario conoscere anche la \textbf{dispersione attorno alla variabile $\boldsymbol{\mathcal{X}}$}, ossia la \textbf{varianza}, calcolata come segue
 \[var \mathcal{X} = E \left[(\mathcal{X}-\mu)^2\right]\]
@@ -2451,7 +2474,7 @@ mentre il suo \textbf{valore atteso} è
 Considerando un sottoinsieme $B \subset A$, tale che $\vert B \vert = h$, volendo calcolare la provabilità condizionata
 \[P(X \vert B) = Prob\{\mathcal{X}=x \vert \mathcal{X} \in B\}\]
 allora si ottiene che
-\[P(\mathcal{X}\vert B) = \frac{P(\vert X \cap B)}{P(B)} = \frac{1}{h}\]
+\[P(\mathcal{X}\vert B) = \frac{P(X \cap B)}{P(B)} = \frac{1}{h}\]
 in cui la probabilità degli eventi in $B$ si mantiene uniforme.
 
 \vspace{1em}
@@ -2460,5 +2483,113 @@ in cui la probabilità degli eventi in $B$ si mantiene uniforme.
 Naturalmente i numeri gnerati da $p$ a $q$ sono $q-p+1$, in cui ciascuno di tali valori presenta la probabilità
 \[\frac{1}{q-p+1}\]
 nell'ipotesi in cui la probabilità sia uniforme, ossia identica per ciascun valore.
+
+\newpage
+\noindent
+\begin{center}
+  24 Marzo 2022
+\end{center}
+La serie armonica è una serie che può divergere o convergere: è chiaro che una condizione necessaria affinché tale serie converga è che il termine generico della serie sia infinitesimo. Si consideri la serie armonica seguente:
+\[1+\frac{1}{2}+\frac{1}{3}+\frac{1}{4}+\frac{1}{5}+\frac{1}{6}+\frac{1}{7}+\frac{1}{8}+\frac{1}{9}+\frac{1}{10}+\frac{1}{11}+\frac{1}{12}+\frac{1}{13}+\frac{1}{14}+\frac{1}{15}+\frac{1}{16}+\frac{1}{17}+\frac{1}{18}\]
+Si osservi che raggruppando opportunamente tali rapporti si riesce ad ottenere una limitazione inferiore
+\[> 1 + \frac{1}{2} \cdot \left \lfloor \log_2(n) \right \rfloor\]
+Per voler ottenere una limitazione superiore, ora, si esegue il seguente raggruppamento:
+\[1+\underbrace{\frac{1}{2}+\frac{1}{3}}+\underbrace{\frac{1}{4}+\frac{1}{5}+\frac{1}{6}+\frac{1}{7}}+\underbrace{\frac{1}{8}+\frac{1}{9}+\frac{1}{10}+\frac{1}{11}+\frac{1}{12}+\frac{1}{13}+\frac{1}{14}+\frac{1}{15}}+\underbrace{\frac{1}{16}+\frac{1}{17}+\frac{1}{18}}\]
+ed ecco che si è ottenuta anche una limitazione superiore
+\[< 1 + \left \lfloor \log_2(n) \right \rfloor\]
+Pertanto la serie armonica risulta così limitata:
+\[1 + \frac{1}{2} \cdot \left \lfloor \log_2(n) \right \rfloor < \sum_{i=1}^n < 1 + \left \lfloor \log_2(n) \right \rfloor\]
+In cui le disuaguaglianze sono strette ammenoché, nel primo caso $n \neq 1 \wedge n \neq 2$ e nel secondo caso $n \neq 1$. Volendo allora migliorare le limitazioni inferiori e superiori, si può ottenere
+\[\frac{1}{2} \cdot \left \lfloor \log_2(n) \right \rfloor < \sum_{i=1}^n < 2 \left \lfloor \log_2(n) \right \rfloor\]
+che permette di concludere che
+\[\sum_{i=1}^n i = \Theta(\log_2(n))\]
+anche se la base del logaritmo è totalmente irrilevante per la notazione $\Theta$
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: La procedura \textbf{partition} veniva richiamata ricorsivamente dall'algoritmo \textbf{quik-sort} e permetteva di collocare progressivamente ogni pivot nella loro posizione definitiva.\\
+All'interno di partition vi è un ciclo for che presenta un numero di iterazioni pari a $r-1-p+1=r-p$; tuttavia, partition viene richiamato molteplici volte all'interno di quick-sort, eseguendo un numero di iterazioni progressivamente pari al $\#$ confronti con il \textbf{pivot}, in quanto in ogni iterazione vi è, per ogni valore, un solo confronto con esso.\\
+L'algoritmo quick-sort presenta il listato seguente:
+
+\begin{algorithm}[H]
+  \caption{Quick-Sort}
+  \begin{algorithmic}[1]
+    \State QICK-SORT($A$,$p$,$r$)
+    \State \textbf{if} $p<r$
+    \Indent
+      \State \textbf{then} $q=$ PARTITION($A$,$p$,$r$)
+      \State QUICK-SORT($A$,$p$,$q-1$)
+      \State QUICK-SORT($A$,$q+1$,$r$)
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+Come si vede, naturalmente, oltre ai confronti col pivot all'interno di partitiion, si devono considerare anche i confronti tra $p$ e $r$, quando $p=r$ e quando $p=r+1$: nel primo caso il numero di casi possibili è al più $\leq n$, mentre nel secondo caso il numero dei casi possibili è al più $\leq n+1$, per cui il numero di negativi che si devono valutare è sicuramente al più $\leq 2n+1$. Pertanto, si ha che il numero di iterazioni di quick-sort è dato da
+\[\#\text{confronit} + \#\text{negativi}\]
+ma è noto che, dal punto di vista della notazione $\Theta$, tra le due quantità prevale la peggiore, che è naturalmente la prima, in quanto è ovvio che anche solo per scrivere i dati lo sforzo è almeno lineare, per cui il numero di iterazioni di quick-sort è valutabile semplicemente tramite il conteggio del numero di confronti con il pivot.\\
+È noto che nel caso peggiore, quick-sort presenta una complessità quadratica, mentre negli altri casi è importante valutare la scelta della posizione di collocamento del pivot: a tal proposito si deve introdurre una variante aleatoria della procedura partition, che prende il nome di \textbf{Randomized-Partition}:
+
+\begin{algorithm}[H]
+  \caption{Randomized-Partition}
+  \begin{algorithmic}[1]
+    \State RANDOMIZED-PARTITION($p$,$r$)
+    \State $i=$ RANDOM($p$,$r$)
+    \State $A[i] \leftrightarrow A[r]$
+    \State PARTITION($p$,$r$)
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+In cui, naturalmente, la probabilità di estrarre un numero tra $p$ e $r$ è
+\[\frac{1}{p+r+1}\]
+Naturalmente l'istruzione $A[i] \leftrightarrow A[r]$ garantisce che il perno si trovi in una posizione perfettamente casuale, che quindi slega l'algoritmo dal vincolo di porre il pivot nell'ultima posizione.\\
+Ecco che allora, in questo caso, il numero di confronti con il pivot non è determinabile a priori, ma costituisce una \textbf{variabile aleatoria} $\mathcal{X}$, di cui si può formulare una previsione del suo valore.\\
+Per effettuare tale valutazione, si supponga che gli $n$ numeri da ordinare siano tutti diversi fra di loro tale che, una volta operato l'ordinamento si ottiene
+\[z_1 < z_2 < z_3 < ... < z_n\]
+Alla luce di ciò si considerino due valor $z_i$ e $z_j$, con $i \neq j$: è ovvio che è possibile che tra di essi non avvenga alcun confronto, oppure che vengano confrontati una e una sola volta, in quanto se tale confronto avviene, ciò signfica che uno dei due è un perno e dopo che il perno è stato collocato nella sua posizione definitiva, esso non viene più sottoposto ad alcuna operazione di confronto.\\
+Allora si ha che
+\[\mathcal{X}=\sum_{i=1}^{n-1} \sum_{j=i+1}^n \mathcal{X}_{i,j}\]
+in cui si è supposto $i<j$ e $\mathcal{X}_{i,j}$ rappresenta un indice di successo (o un \textbf{bit aleatorio}), che valuta il confronto di due termini $z_i$ e $z_j$.\\
+Volendo conoscere la speranza matematica di $\mathcal{X}$, si può sfruttare il fatto che la speranza matematica sia additiva. Inoltre, si ha che il bit aleatorio $\mathcal{X}_{i,j}$ è proprio la probabilità che $z_i$ e $z_j$ vengano confrontati.\\
+Nell'ipotesi in cui né $z_i$ né $z_j$ siano un perno e che il perno scelto sia $z_i \leq \text{ perno } \leq z_j$, allora $z_i$ e $z_j$ non verranno mai confrontati fra di loro, naturalmente, in quanto il perno, alla fine, si posizionerà tra $z_i$ e $z_j$ e partition si applicherà nei due tratti distinti. Se ne deduce che l'unica possibilità di un confronto tra $z_i$ e $z_j$ è che o l'uno o l'altro siano il primo pivot scelto sia l'uno o l'altro; la probabilità che ne deriva è data dalla somma di due probabilità, come mostrato di seguito:
+\[\text{Prob}\{z_i \text{ cfr } z_j\}=\text{Prob}\{z_i \text{ o } z_j \text{ è il primo perno estratto da } Z_{i,j}\}\]
+che, tuttavia, è una probabilità condizionata dall'insieme $Z_{i,j}$, ovvero:
+\[\text{Prob}\{z_i \text{ cfr } z_j \vert Z_{i,j}\}\]
+Ecco che allora la probabilità cercata è
+\[\boxed{\frac{2}{j-i+1}}\]
+in quando due sono gli eventi da sommare. Pertanto si ottiene che
+\[E \left[\mathcal{X}\right] = \sum_{i=1}^{n-1} \sum_{j=i+1}^n \frac{2}{j-i+1}\]
+Volendo semplificare l'espressione, si opera una sostituzione con $k=j-1$, sicché se $j$ partiva da $i+1$ e arrivava a $n$, $k$ parte da $1$ e giunge fino a $n-i$, allora si può ottenere:
+\[E \left[\mathcal{X}\right] = \sum_{i=1}^{n-1} \sum_{k=1}^{n-i} \frac{2}{k+1}\]
+Volendo ottenere una maggiorazione di tale aspettavia, si può fare in modo che la seconda sommatoria giunga fino a $n$ e l'$1$ del denominatore viene eliminato, ottenendo:
+\[E \left[\mathcal{X}\right] < 2 \cdot \sum_{i=1}^{n-1} \sum_{k=1}^{n} \frac{1}{k}\]
+in cui la seconda sommatoria è proprio la serie armonica precedentemente calcolata, per cui si può scrivere:
+\[E \left[\mathcal{X}\right] < 2 \cdot \sum_{i=1}^{n-1} \sum_{k=1}^{n} \frac{1}{k} < 2 \cdot \sum_{i=1}^{n-1} \Theta(\log_2(n)) = 2 \Theta(n \cdot \log_2(n)) = \Theta(n \cdot \log_2(n))\]
+Naturalmente, trattandosi di una maggiorazione, si ottiene che:
+\[E(\mathcal{X}) = O(n \cdot \log(n))\]
+e ricordando il teorema sulla complessità di un algoritmo di ordinamento generale, si ha anche che $E(\mathcal{X}) = \Omega(n \cdot \log(n))$, per cui si ottiene che:
+\[\boxed{E(\mathcal{X})= \Theta(n \cdot \log(n))}\]
+Per cui si ottiene che la complessità peggiore è quadratica, mentre nel caso medio (o tipico) e mmigliore, la complessità è \textbf{log-lineare}.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che gli algoritmi fino ad adesso esposti non alternano la loro esecuzione a seconda della natura o grandezza dei numeri da ordinare.\\
+Pertanto, gli algoritmi di ordinamento generale (per \textbf{confronti}) presentano una complessità nel caso peggiore:
+\[\boxed{T_{\text{worst}}(n)=\Omega(n \cdot \log(n))}\]
+mentre nel caso medio si ha una complessità, ancora una volta, almeno log-lineare:
+\[\boxed{T_{\text{avarage}}(n)=\Omega(n \cdot \log(n))}\]
+È chiaro che sapendo il secondo risultato, naturalmente si ottiene anche il primo.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che un algoritmo per confronti, al fine di procedere all'ordinamento di $n$ valori distinti, procede alla costruzione di un albero binario avente $n!$ foglie, in cui si trovano proprio gli ordinamenti possibili di $n$ valori distinti.
+
+
+
+
+
 
 \end{document}

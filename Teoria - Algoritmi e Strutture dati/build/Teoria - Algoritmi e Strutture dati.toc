@@ -23,4 +23,4 @@
 \contentsline {subsection}{\numberline {4.7}Heap-sort}{31}{}%
 \contentsline {subsection}{\numberline {4.8}Quick-sort}{47}{}%
 \contentsline {subsection}{\numberline {4.9}Randomize Quick-Sort}{50}{}%
-\contentsline {subsection}{\numberline {4.10}Teorema di trasferimento}{53}{}%
+\contentsline {subsection}{\numberline {4.10}Teorema del trasferimento}{53}{}%
