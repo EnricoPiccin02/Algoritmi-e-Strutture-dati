@@ -2224,8 +2224,8 @@ Le due ultime due iterazioni prevedono solo di incrementare $j$ essendo $A[j]$ t
 \[\overset{p}{\boxed{2}}\boxed{2}\boxed{3} \hspace{0.25em} \underset{i}{\left \vert \right.} \hspace{0.25em} \boxed{8} \boxed{7} \boxed{5}\boxed{6} \hspace{0.25em} \underset{j}{\left \vert \right.} \hspace{0.25em} \overset{r}{\boxed{4}}\]
 Ora da $p$ a $i$ vi sono valori più piccoli del pivot, mentre da $i+1$ a $j$ vi sono valori maggiori del perno. Ora è sufficiente scambiare l'ultima posizione con la posizione $i+1$ per porre il perno nella sua posizione corretta:
 \[\overset{p}{\boxed{2}}\boxed{2}\boxed{3} \hspace{0.25em} \underset{i}{\left \vert \right.} \hspace{0.25em} \boxed{4} \boxed{7} \boxed{5}\boxed{6} \hspace{0.25em} \underset{j}{\left \vert \right.} \hspace{0.25em} \overset{r}{\boxed{8}}\]
-Ecco che il \textbf{perno} è stato collocato proprio dove deve stare, all'interno dell'array: la sua posizione è definitiva e non verrà più cambiata, ed è questa la chiave di funzione dell'algoritmo \textbf{quick-sort}.\\
-Pertanto, ora, \emph{partition} dovrà essere applicato da $p$ ad $i$ e da $i+2$ a $r$, andando a collocare nella loro posizione esatta e definitiva tutti i perni; ora che l'array è stato partizionato, di seguito si espone il listato dell'algoritmo \textbf{partition}:
+Ecco che il \textbf{perno} è stato collocato proprio dove deve stare, all'interno dell'array: la sua posizione è definitiva e non verrà più cambiata, in quanto è preceduto da valori inferiori ed è seguito da valori maggiori: questa la chiave di funzione dell'algoritmo \textbf{quick-sort}.\\
+Pertanto, ora, \emph{partition} dovrà essere applicato da $p$ ad $i$ e da $i+2$ a $r$, andando a collocare nella loro posizione esatta e definitiva tutti i perni rimamenti; ora che l'array è stato partizionato, di seguito si espone il listato dell'algoritmo \textbf{partition}:
 
 \begin{algorithm}[H]
   \caption{Partition}
@@ -2253,7 +2253,7 @@ Mentre di seguito si espone il listato dell'algoritmo \textbf{quick-sort}:
 \begin{algorithm}[H]
   \caption{Quick-Sort}
   \begin{algorithmic}[1]
-    \State QICK-SORT($A$,$p$,$r$)
+    \State QUICK-SORT($A$,$p$,$r$)
     \State \textbf{if} $p<r$
     \Indent
       \State \textbf{then} $q=$ PARTITION($A$,$p$,$r$)
@@ -2500,8 +2500,8 @@ in quanto la probabilità degli eventi in $B$ si mantiene uniforme: tutti gli ev
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Si consideri una variante aleatoria dell'algoritmo quick-sort, nella quale si deve procedere alla definizione della procedura RANDOM($p$,$q$), in cui si deve imporre che $p \leq q$, essendo essi due numeri interi, procedura capace di generare dei numeri che, tuttavia, saranno solamente pseudocasuali; naturalmente i numeri generati da $p$ a $q$ (estremi inclusi) sono $q-p+1$, in cui ciascuno di tali valori presenta la probabilità
-\[\frac{1}{q-p+1}\]
+\textbf{Osservazione}: Si consideri una variante aleatoria dell'algoritmo quick-sort, nella quale si deve procedere alla definizione della procedura RANDOM($p$,$r$), in cui si deve imporre che $p \leq r$, essendo essi due numeri interi, procedura capace di generare dei numeri che, tuttavia, saranno solamente pseudocasuali; naturalmente i numeri generati da $p$ a $r$ (estremi inclusi) sono $r-p+1$, in cui ciascuno di tali valori presenta la probabilità
+\[P(\text{num})=\frac{1}{r-p+1}\]
 di essere generato ed estratto, nell'ipotesi in cui la \textbf{probabilità sia uniforme}, ossia identica per ciascun valore che significa che si ha totale casualitò.
 
 \newpage
@@ -2509,32 +2509,49 @@ di essere generato ed estratto, nell'ipotesi in cui la \textbf{probabilità sia 
 \begin{center}
   24 Marzo 2022
 \end{center}
-La serie armonica è una serie che può divergere o convergere: è chiaro che una condizione necessaria affinché tale serie converga è che il termine generico della serie sia infinitesimo. Si consideri la serie armonica seguente:
-\[1+\frac{1}{2}+\frac{1}{3}+\frac{1}{4}+\frac{1}{5}+\frac{1}{6}+\frac{1}{7}+\frac{1}{8}+\frac{1}{9}+\frac{1}{10}+\frac{1}{11}+\frac{1}{12}+\frac{1}{13}+\frac{1}{14}+\frac{1}{15}+\frac{1}{16}+\frac{1}{17}+\frac{1}{18}\]
-Si osservi che raggruppando opportunamente tali rapporti si riesce ad ottenere una limitazione inferiore
-\[> 1 + \frac{1}{2} \cdot \left \lfloor \log_2(n) \right \rfloor\]
+La serie armonica è così definita
+\[\sum_{k=1}^\infty \frac{1}{k}\]
+Tale serie, naturalmente, essendo a \textbf{termini positivi}, può divergere o convergere: è chiaro che una condizione necessaria affinché tale serie converga è che il termine generico della serie sia infinitesimo, ma non è una condizione sufficiente. Si consideri la \textbf{somma parziale} seguente:
+\[\sum_{k=1}^{18}\frac{1}{k}=1+\frac{1}{2}+\frac{1}{3}+\frac{1}{4}+\frac{1}{5}+\frac{1}{6}+\frac{1}{7}+\frac{1}{8}+\frac{1}{9}+\frac{1}{10}+\frac{1}{11}+\frac{1}{12}+\frac{1}{13}+\frac{1}{14}+\frac{1}{15}+\frac{1}{16}+\frac{1}{17}+\frac{1}{18}\]
+Volendo ottenere una limitazione inferiore di tale somma, si può procedere al raggruppamento seguente
+\[1+\underbrace{\frac{1}{2}}_{\frac{1}{2}}+\underbrace{\frac{1}{3}+\frac{1}{4}}_{> 2 \cdot \frac{1}{4}}+\underbrace{\frac{1}{5}+\frac{1}{6}+\frac{1}{7}+\frac{1}{8}}_{> 4 \cdot \frac{1}{8}}+\underbrace{\frac{1}{9}+\frac{1}{10}+\frac{1}{11}+\frac{1}{12}+\frac{1}{13}+\frac{1}{14}+\frac{1}{15}+\frac{1}{16}}_{> 8 \cdot \frac{1}{16}}+\frac{1}{17}+\frac{1}{18}\]
+in cui sono state via via ottenute delle minorazioni sostituendo all'interno di ogni ragguppamento ogni frazione con il reciproco di una opportuna potenza di due, come mostrato di seguito:
+\[\frac{1}{3}+\frac{1}{4} > \frac{1}{4}+\frac{1}{4} = 2^1 \cdot \frac{1}{4}\]
+Il numero di addendi da sommare è dato proprio da potenze crescenti di $2$. Il tratto interrotto e non raggruppato viene eliminato, dal momento che si sta cercando una limitazione inferiore, che è facile capire essere la seguente:
+\[\sum_{k=1}^{18}\frac{1}{k} > 1 + \frac{1}{2} \cdot \left \lfloor \log_2(n) \right \rfloor\]
+In cui è ovvio che il numero di $\frac{1}{2}$ che sono stati sommati è proprio pari alla parte intera inferiore del logaritmo in base $2$ del numero totale $n$ di rapporti sommati: nel caso seguente si ha
+\[\left \lfloor \log_2(18) \right \rfloor = 4\]
+in cui si ha disuguaglianza stetta a meno che $n \leq 2$. Ciò è sufficiente a dimostrare che la serie armonica diverge (nonostante il termine generico sia infinitesimo), dal momento che la limitazione inferiore contiente $\log_2(n)$ che in infinito, seppur sottoreale, per $n \to +\infty$.\\
 Per voler ottenere una limitazione superiore, ora, si esegue il seguente raggruppamento:
-\[1+\underbrace{\frac{1}{2}+\frac{1}{3}}+\underbrace{\frac{1}{4}+\frac{1}{5}+\frac{1}{6}+\frac{1}{7}}+\underbrace{\frac{1}{8}+\frac{1}{9}+\frac{1}{10}+\frac{1}{11}+\frac{1}{12}+\frac{1}{13}+\frac{1}{14}+\frac{1}{15}}+\underbrace{\frac{1}{16}+\frac{1}{17}+\frac{1}{18}}\]
-ed ecco che si è ottenuta anche una limitazione superiore
-\[< 1 + \left \lfloor \log_2(n) \right \rfloor\]
-Pertanto la serie armonica risulta così limitata:
-\[1 + \frac{1}{2} \cdot \left \lfloor \log_2(n) \right \rfloor < \sum_{i=1}^n < 1 + \left \lfloor \log_2(n) \right \rfloor\]
-In cui le disuaguaglianze sono strette ammenoché, nel primo caso $n \neq 1 \wedge n \neq 2$ e nel secondo caso $n \neq 1$. Volendo allora migliorare le limitazioni inferiori e superiori, si può ottenere
-\[\frac{1}{2} \cdot \left \lfloor \log_2(n) \right \rfloor < \sum_{i=1}^n < 2 \left \lfloor \log_2(n) \right \rfloor\]
+\[1+\underbrace{\frac{1}{2}+\frac{1}{3}}_{< 2 \cdot \frac{1}{2}}+\underbrace{\frac{1}{4}+\frac{1}{5}+\frac{1}{6}+\frac{1}{7}}_{< 4 \cdot \frac{1}{4}}+\underbrace{\frac{1}{8}+\frac{1}{9}+\frac{1}{10}+\frac{1}{11}+\frac{1}{12}+\frac{1}{13}+\frac{1}{14}+\frac{1}{15}}_{< 8 \cdot \frac{1}{8}}+\underbrace{\frac{1}{16}+\frac{1}{17}+\frac{1}{18}}_{< 16 \cdot \frac{1}{16}}\]
+in cui sono state via via ottenute delle maggiorazioni sostituendo all'interno di ogni ragguppamento ogni frazione con il reciproco di una opportuna potenza di due, come mostrato di seguito:
+\[\frac{1}{2}+\frac{1}{3} < \frac{1}{2}+\frac{1}{2} = 2^1 \cdot \frac{1}{2} = 1\]
+Ancora una volta, il numero di addendi da sommare è dato proprio da potenze crescenti di $2$. Il tratto interrotto e viene maggiorato fino al reciproco della potenza di due successiva, dal momento che si sta cercando una limitazione superiore, che è facile capire essere la seguente:
+\[\sum_{k=1}^{18}\frac{1}{k} < 1 + \left \lfloor \log_2(n) \right \rfloor\]
+Analogamente a quanto visto in precedenza, il numero di $1$ che sono stati sommati è proprio pari alla parte intera inferiore del logaritmo in base $2$ numero totale $n$ di rapporti sommati: nel caso seguente si ha
+\[\left \lfloor \log_2(18) \right \rfloor = 4\]
+in cui si ha disuguaglianza stretta a meno che $n=1$. Pertanto la serie armonica risulta così limitata:
+\[1 + \frac{1}{2} \cdot \left \lfloor \log_2(n) \right \rfloor < \sum_{k=1}^n \frac{1}{k} < 1 + \left \lfloor \log_2(n) \right \rfloor\]
+In cui le disuaguaglianze sono strette am meno che, nel primo caso $n = 1 \vee n = 2$ e nel secondo caso $n = 1$. Volendo allora migliorare le limitazioni inferiori e superiori, si può scrivere:
+\[1 + \frac{1}{2} \cdot \left \lfloor \log_2(n) \right \rfloor > 1 + \frac{1}{2} \cdot \left(\log_2(n) - 1\right) \geq \frac{1}{2} \cdot \log_2{n}\]
+inoltre si ha che
+\[1 + \left \lfloor \log_2(n) \right \rfloor \leq 1 + \log_2(n) \leq \log_2(n) + \log_2(n) = 2 \cdot \log_2(n)\]
+ed ecco quindi che si è ottenuta una nuova limitazione:
+\[\frac{1}{2} \cdot \log_2(n) \leq \sum_{k=1}^n \frac{1}{k} \leq 2 \cdot \log_2(n)\]
 che permette di concludere che
-\[\sum_{i=1}^n i = \Theta(\log_2(n))\]
-anche se la base del logaritmo è totalmente irrilevante per la notazione $\Theta$
+\[\sum_{k=1}^n \frac{1}{k} = \Theta(\log_2(n))\]
+anche se la base del logaritmo è totalmente irrilevante per la notazione $\Theta$.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: La procedura \textbf{partition} veniva richiamata ricorsivamente dall'algoritmo \textbf{quik-sort} e permetteva di collocare progressivamente ogni pivot nella loro posizione definitiva.\\
-All'interno di partition vi è un ciclo for che presenta un numero di iterazioni pari a $r-1-p+1=r-p$; tuttavia, partition viene richiamato molteplici volte all'interno di quick-sort, eseguendo un numero di iterazioni progressivamente pari al $\#$ confronti con il \textbf{pivot}, in quanto in ogni iterazione vi è, per ogni valore, un solo confronto con esso.\\
-L'algoritmo quick-sort presenta il listato seguente:
+\textbf{Osservazione}: La procedura \textbf{partition} veniva richiamata ricorsivamente dall'algoritmo \textbf{quick-sort} e permetteva di collocare progressivamente ogni pivot nella loro posizione definitiva (in quanto seguiti da valori maggiori e preceduti da valori minori); tuttavia, nel caso peggiore, è già noto che la complessità di quick-sort è quadratica. All'interno di partition vi è un ciclo for che presenta un numero di iterazioni pari a $r-1-p+1=r-p$; tuttavia, partition viene richiamato molteplici volte all'interno di quick-sort, per cui al fine di determinare la complessità dell'algoritmo è necessario sommare tutte le iterazioni che vengono effettivamente eseguite.\\
+Si può osservare, però, che \textbf{il numero di iterazioni che viene eseguito da partition è pari al $\boldsymbol{\#}$confronti con il \textbf{pivot}}, in quanto in ogni iterazione vi è, per ogni valore, uno e un solo confronto con esso: \textbf{contare il numero totale delle iterazioni for all'interno di quick-sort equivale a contare il numero totale di confronti con il pivot che vengono effettuati nel corso di tutto l'algoritmo nell'uso di ogni partition}.\\
+Oltre a ciò, tuttavia, è necessario considerare un'ulteriore componente di complessità; a tal proposito, si osservi il listato dell'algoritmo quick-sort:
 
 \begin{algorithm}[H]
   \caption{Quick-Sort}
   \begin{algorithmic}[1]
-    \State QICK-SORT($A$,$p$,$r$)
+    \State QUICK-SORT($A$,$p$,$r$)
     \State \textbf{if} $p<r$
     \Indent
       \State \textbf{then} $q=$ PARTITION($A$,$p$,$r$)
@@ -2544,60 +2561,79 @@ L'algoritmo quick-sort presenta il listato seguente:
   \end{algorithmic}
 \end{algorithm}
 
-\vspace{1em}
 \noindent
-Come si vede, naturalmente, oltre ai confronti col pivot all'interno di partitiion, si devono considerare anche i confronti tra $p$ e $r$, quando $p=r$ e quando $p=r+1$: nel primo caso il numero di casi possibili è al più $\leq n$, mentre nel secondo caso il numero dei casi possibili è al più $\leq n+1$, per cui il numero di negativi che si devono valutare è sicuramente al più $\leq 2n+1$. Pertanto, si ha che il numero di iterazioni di quick-sort è dato da
-\[\#\text{confronit} + \#\text{negativi}\]
+Come si vede, naturalmente, oltre ai confronti col pivot all'interno di partitition, si devono considerare anche i confronti tra $p$ e $r$ che \quotes{vanno a vuoto}, ossia quando $p=r$ e quando $p=r+1$; il primo caso si ha quando il perno viene collocato in penultima posizione al termine di partition e quindi si applica nuovamente partition tra $p=r$ e $r=r$, mentre il secondo caso si ha quando il perno viene collocato in ultima posizione (in quanto era il maggiore tra tutti i valori fin dall'inizio) e quindi applicando nuovamente partition si ha che $p=r+1$ e $r=r$. In ambedue i casi si deve fare uno sforzo $\Theta(1)$ per avere la certezza di aver finito la procedura: il numero di confronti negativi che si verificano quando $p=r$ può essere al massimo $\leq n$, mentre nel secondo caso il numero dei confronti negativi che si possono verificare quando $p=q+1$ è al più $\leq n+1$, per cui il numero di negativi che si devono valutare è sicuramente al più $\leq 2n+1$ (ossia è \textbf{linearmente controllato}). Pertanto, si ha che il numero di iterazioni di quick-sort (ossia la sua complessità) è dato da
+\[\#\text{confronti col pivot} + \#\text{confronti negativi}\]
 ma è noto che, dal punto di vista della notazione $\Theta$, tra le due quantità prevale la peggiore, che è naturalmente la prima, in quanto è ovvio che anche solo per scrivere i dati lo sforzo è almeno lineare, per cui il numero di iterazioni di quick-sort è valutabile semplicemente tramite il conteggio del numero di confronti con il pivot.\\
-È noto che nel caso peggiore, quick-sort presenta una complessità quadratica, mentre negli altri casi è importante valutare la scelta della posizione di collocamento del pivot: a tal proposito si deve introdurre una variante aleatoria della procedura partition, che prende il nome di \textbf{Randomized-Partition}:
+È noto che nel caso peggiore (come quando i numeri sono già ordinati), quick-sort presenta una complessità quadratica, mentre negli altri casi è importante valutare la scelta della posizione di collocamento del pivot: a tal proposito si deve introdurre una variante aleatoria della procedura partition, che prende il nome di \textbf{Randomized-Partition}, nella quale il perno viene scelto arbitrariamente tra uno dei valori compresi tra $p$ e $r$ (estremi inclusi):
 
 \begin{algorithm}[H]
   \caption{Randomized-Partition}
   \begin{algorithmic}[1]
-    \State RANDOMIZED-PARTITION($p$,$r$)
+    \State RANDOMIZED-PARTITION($A$,$p$,$r$)
     \State $i=$ RANDOM($p$,$r$)
     \State $A[i] \leftrightarrow A[r]$
     \State PARTITION($p$,$r$)
   \end{algorithmic}
 \end{algorithm}
 
-\vspace{1em}
 \noindent
-In cui, naturalmente, la probabilità di estrarre un numero tra $p$ e $r$ è
-\[\frac{1}{p+r+1}\]
+In cui, naturalmente, la probabilità di estrarre un numero tra $p$ e $r$ è casuale (e quindi uniforme)
+\[P(\text{num}) = \frac{1}{r-p+1}\]
 Naturalmente l'istruzione $A[i] \leftrightarrow A[r]$ garantisce che il perno si trovi in una posizione perfettamente casuale, che quindi slega l'algoritmo dal vincolo di porre il pivot nell'ultima posizione.\\
-Ecco che allora, in questo caso, il numero di confronti con il pivot non è determinabile a priori, ma costituisce una \textbf{variabile aleatoria} $\mathcal{X}$, di cui si può formulare una previsione del suo valore.\\
-Per effettuare tale valutazione, si supponga che gli $n$ numeri da ordinare siano tutti diversi fra di loro tale che, una volta operato l'ordinamento si ottiene
+La variante aleatoria di quick-sort è presto conclusa:
+
+\begin{algorithm}[H]
+  \caption{Randomized-Quick-Sort}
+  \begin{algorithmic}[1]
+    \State RANDOMIZED-QUICK-SORT($A$,$p$,$r$)
+    \State \textbf{if} $p<r$
+    \Indent
+      \State \textbf{then} $q=$ RANDOMIZED-PARTITION($A$,$p$,$r$)
+      \State RANDOMIZED-QUICK-SORT($A$,$p$,$q-1$)
+      \State RANDOMIZED-QUICK-SORT($A$,$q+1$,$r$)
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+Ecco che allora, in questo caso, il numero di confronti con il pivot non è determinabile a priori, ma costituisce una \textbf{variabile aleatoria} $\mathcal{X}$, di cui si può formulare una previsione del suo valore, determinandone la speranza matematica.\\
+Per effettuare tale valutazione, per semplicità si supponga, senza perdita di generalità, che gli $n$ numeri da ordinare siano tutti diversi fra di loro tale che, una volta operato l'ordinamento, si ottiene
 \[z_1 < z_2 < z_3 < ... < z_n\]
-Alla luce di ciò si considerino due valor $z_i$ e $z_j$, con $i \neq j$: è ovvio che è possibile che tra di essi non avvenga alcun confronto, oppure che vengano confrontati una e una sola volta, in quanto se tale confronto avviene, ciò signfica che uno dei due è un perno e dopo che il perno è stato collocato nella sua posizione definitiva, esso non viene più sottoposto ad alcuna operazione di confronto.\\
+Alla luce di ciò si considerino due valori arbitrari $z_i$ e $z_j$, con $i \neq j$: è ovvio che è possibile che tra di essi non avvenga alcun confronto (come nel caso in cui $z_i \leq \text{ perno } \leq z_j$), oppure che vengano confrontati una e una sola volta, in quanto se tale confronto avviene, ciò signfica che uno dei due è un perno e dopo che il perno è stato collocato nella sua posizione definitiva, esso non viene più sottoposto ad alcuna operazione di confronto.\\
 Allora si ha che
-\[\mathcal{X}=\sum_{i=1}^{n-1} \sum_{j=i+1}^n \mathcal{X}_{i,j}\]
-in cui si è supposto $i<j$ e $\mathcal{X}_{i,j}$ rappresenta un indice di successo (o un \textbf{bit aleatorio}), che valuta il confronto di due termini $z_i$ e $z_j$.\\
-Volendo conoscere la speranza matematica di $\mathcal{X}$, si può sfruttare il fatto che la speranza matematica sia additiva. Inoltre, si ha che il bit aleatorio $\mathcal{X}_{i,j}$ è proprio la probabilità che $z_i$ e $z_j$ vengano confrontati.\\
-Nell'ipotesi in cui né $z_i$ né $z_j$ siano un perno e che il perno scelto sia $z_i \leq \text{ perno } \leq z_j$, allora $z_i$ e $z_j$ non verranno mai confrontati fra di loro, naturalmente, in quanto il perno, alla fine, si posizionerà tra $z_i$ e $z_j$ e partition si applicherà nei due tratti distinti. Se ne deduce che l'unica possibilità di un confronto tra $z_i$ e $z_j$ è che o l'uno o l'altro siano il primo pivot scelto sia l'uno o l'altro; la probabilità che ne deriva è data dalla somma di due probabilità, come mostrato di seguito:
+\[\boxed{\mathcal{X}=\sum_{i=1}^{n-1} \sum_{j=i+1}^n \mathcal{X}_{i,j}}\]
+in cui si è supposto $i<j$, mentre $\mathcal{X}_{i,j}$ è un \textbf{numero aleatorio} che quantifica la probabilità che $z_i$ e $z_j$ vengono confrontati nel corso dell'algoritmo: in altre parole $\mathcal{X}_{i,j}$ rappresenta un indicatore di successo (o un \textbf{bit aleatorio}, che assume valore $1$ quando avviene il confronto, $0$ quando non avviene), che valuta il confronto di due termini $z_i$ e $z_j$.\\
+Volendo conoscere la speranza matematica di $\mathcal{X}$, si può sfruttare il fatto che la speranza matematica sia additiva: la speranza matematica di un numero finito di addendi è la somma delle speranze matematiche; ciò permette di concludere che
+\[\boxed{E(\mathcal{X}) = E \left(\sum_{i=1}^{n-1} \sum_{j=i+1}^n \mathcal{X}_{i,j}\right) = \sum_{i=1}^{n-1} \sum_{j=i+1}^n E( \mathcal{X}_{i,j})}\]
+pertanto è sufficiente calcolare la speranza matematica di $\mathcal{X}_{i,j}$ ed effettuarne la somma. Inoltre, è ovvio capire che la speranza matematica del bit aleatorio $\mathcal{X}_{i,j}$ è proprio la probabilità che $z_i$ e $z_j$ vengano confrontati, quindi
+\[E(\mathcal{X}_{i,j}) = 0 \cdot \text{Prob}(\text{insuccesso}) + 1 \cdot \text{Prob}(\text{successo}) = \text{Prob}\{z_i \text{ cfr } z_j\}\]
+Nell'ipotesi in cui né $z_i$ né $z_j$ siano un perno e che il perno scelto sia $z_i \leq \text{ perno } \leq z_j$, allora $z_i$ e $z_j$ non verranno mai confrontati fra di loro, naturalmente, in quanto il perno, alla fine della procedura partition, si posizionerà tra $z_i$ e $z_j$ e partition si applicherà nei due tratti distinti. Se ne deduce che l'unica possibilità di un confronto tra $z_i$ e $z_j$ è che o l'uno o l'altro siano il primo pivot scelto nell'intervallo $[z_i,z_j]$; la probabilità che ne deriva è data dalla somma di due probabilità, come mostrato di seguito:
 \[\text{Prob}\{z_i \text{ cfr } z_j\}=\text{Prob}\{z_i \text{ o } z_j \text{ è il primo perno estratto da } Z_{i,j}\}\]
-che, tuttavia, è una probabilità condizionata dall'insieme $Z_{i,j}$, ovvero:
-\[\text{Prob}\{z_i \text{ cfr } z_j \vert Z_{i,j}\}\]
-Ecco che allora la probabilità cercata è
-\[\boxed{\frac{2}{j-i+1}}\]
-in quando due sono gli eventi da sommare. Pertanto si ottiene che
+in cui $Z_{i,j}$ è l'insieme di tutti i numeri compresi tra $z_i$ e $z_j$ (estremi inclusi): ma ciò fa capire come taluna sia una \textbf{probabilità condizionata} dal fatto che il valore estratto appartenga all'insieme $Z_{i,j}$, ovvero:
+\[\text{Prob}\{z_i \text{ cfr } z_j \hspace{0.25em} \vert \hspace{0.25em} Z_{i,j}\}\]
+Ricordando che la probabilità uniforme su insieme di valori si mantiene uniforme quando si condiziona su un sottoinsieme dell'insieme di partenza (come mostrato in precedenza sull'insieme $B$ dell'esempio precedente). Ecco che allora la probabilità cercata è
+\[\boxed{E(\mathcal{X}_{i,j})=\text{Prob}\{z_i \text{ cfr } z_j\}=\frac{2}{j-i+1}}\]
+in quando due sono gli eventi da sommare (ossia $z_i$ e $z_j$, che hanno probabilità uniforme) e $\vert Z_{i,j} \vert = j-i+1$. Pertanto si ottiene che
 \[E \left[\mathcal{X}\right] = \sum_{i=1}^{n-1} \sum_{j=i+1}^n \frac{2}{j-i+1}\]
 Volendo semplificare l'espressione, si opera una sostituzione con $k=j-1$, sicché se $j$ partiva da $i+1$ e arrivava a $n$, $k$ parte da $1$ e giunge fino a $n-i$, allora si può ottenere:
 \[E \left[\mathcal{X}\right] = \sum_{i=1}^{n-1} \sum_{k=1}^{n-i} \frac{2}{k+1}\]
-Volendo ottenere una maggiorazione di tale aspettavia, si può fare in modo che la seconda sommatoria giunga fino a $n$ e l'$1$ del denominatore viene eliminato, ottenendo:
+Volendo ottenere una maggiorazione di tale aspettativa matematica, si può fare in modo che la seconda sommatoria giunga fino a $n$ e l'$1$ del denominatore venga eliminato, ottenendo:
 \[E \left[\mathcal{X}\right] < 2 \cdot \sum_{i=1}^{n-1} \sum_{k=1}^{n} \frac{1}{k}\]
-in cui la seconda sommatoria è proprio la serie armonica precedentemente calcolata, per cui si può scrivere:
-\[E \left[\mathcal{X}\right] < 2 \cdot \sum_{i=1}^{n-1} \sum_{k=1}^{n} \frac{1}{k} < 2 \cdot \sum_{i=1}^{n-1} \Theta(\log_2(n)) = 2 \Theta(n \cdot \log_2(n)) = \Theta(n \cdot \log_2(n))\]
+in cui la seconda sommatoria è proprio la serie armonica precedentemente calcolata e di cui si era visto che
+\[\sum_{k=1}^n \frac{1}{k} = \Theta(\log_2(n))\]
+Per cui si può scrivere:
+\[E \left[\mathcal{X}\right] < 2 \cdot \sum_{i=1}^{n-1} \sum_{k=1}^{n} \frac{1}{k} < 2 \cdot \sum_{i=1}^{n} \sum_{k=1}^{n} \frac{1}{k} = 2 \cdot \sum_{i=1}^{n} \Theta(\log_2(n)) = 2 \Theta(n \cdot \log_2(n)) = \Theta(n \cdot \log_2(n))\]
 Naturalmente, trattandosi di una maggiorazione, si ottiene che:
 \[E(\mathcal{X}) = O(n \cdot \log(n))\]
 e ricordando il teorema sulla complessità di un algoritmo di ordinamento generale, si ha anche che $E(\mathcal{X}) = \Omega(n \cdot \log(n))$, per cui si ottiene che:
 \[\boxed{E(\mathcal{X})= \Theta(n \cdot \log(n))}\]
-Per cui si ottiene che la complessità peggiore è quadratica, mentre nel caso medio (o tipico) e mmigliore, la complessità è \textbf{log-lineare}.
+Per cui si ottiene che la complessità di randomized-quick-sort \textbf{tipicamente} è \textbf{log-lineare}: più specificatamente è noto che nel caso peggiore la complessità è quadratica, mentre nel caso medio (o tipico) e nel caso migliore, la complessità è \textbf{log-lineare} (quindi si ha che tipicamente l'algoritmo opera molto più vicino al caso migliore).
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Si osservi che gli algoritmi fino ad adesso esposti non alternano la loro esecuzione a seconda della natura o grandezza dei numeri da ordinare.\\
-Pertanto, gli algoritmi di ordinamento generale (per \textbf{confronti}) presentano una complessità nel caso peggiore:
+\textbf{Osservazione}: Si osservi che gli algoritmi fino ad adesso esposti non alterano la loro esecuzione a seconda della natura o grandezza dei numeri da ordinare.\\
+Pertanto, gli algoritmi di ordinamento generale (per \textbf{confronti}) presentano una complessità nel caso peggiore è almeno log-lineare:
 \[\boxed{T_{\text{worst}}(n)=\Omega(n \cdot \log(n))}\]
 mentre nel caso medio si ha una complessità, ancora una volta, almeno log-lineare:
 \[\boxed{T_{\text{avarage}}(n)=\Omega(n \cdot \log(n))}\]
@@ -2605,11 +2641,151 @@ mentre nel caso medio si ha una complessità, ancora una volta, almeno log-linea
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Si osservi che un algoritmo per confronti, al fine di procedere all'ordinamento di $n$ valori distinti, procede alla costruzione di un albero binario avente $n!$ foglie, in cui si trovano proprio gli ordinamenti possibili di $n$ valori distinti.
+\textbf{Osservazione}: Per dimostrare che un algoritmo di ordinamento per confronti presenta una complessità almeno log-lineare, si osservi che un algoritmo per confronti, al fine di procedere all'ordinamento di $n$ valori distinti, procede alla costruzione di un albero binario avente $n!$ foglie, in cui si trovano proprio gli ordinamenti possibili di $n$ valori distinti.
 
+\newpage
+\noindent
+\begin{center}
+  25 Marzo 2022
+\end{center}
+In un algoritmo di ordinamento generale l'elemento fondamentale è dato dai confronti, i quali vanno a costituire un albero binario, sulle cui foglie sono contenuti tutti i possibili ordinamenti dei valori di partenza.\\
+Il numero di di ordinamenti possibili è ovviamente dato da $n!$. Inoltre la complessità nel caso peggiore è data dall'altezza dell'albero, mentre la complessità media è data dall media delle distanza.\\
+La soluzione più auscpicabile al fine di ottimizzare sia la complessità media che la complessità massima è quella di andare a costituire un albero ordinario complesto, riempiendo completamente tutti i livelli: taluna è la situazione più favorevole, in quanto la differenza tra l'altezza massima e quella minima è proprio $1$. Inoltre, l'altezza di un albero binario completo è data dal logaritmo del numero delle foglie, ovvero:
+\[\Omega(\log_2(n!))\]
+che corrisponde esattamente anche alla complessità minima di un algoritmo di ordinamento. La distanza media è data dalla somma di tutte le foglie dalla radice diviso da $n!$.\\
+Ogni permutazione, naturalmente, presenta la stessa probabilità di presentarsi come ordinamento, pari a
+\[\frac{1}{n!}\]
+da cui dipende la complessità della procedura: si pensi al caso di quick-sort applicato ad un insieme di numeri già ordinati. Dal punto di vista di quick-sort, estrarre casualmente una permutazione di $n$ numeri o estrarre di volta in volta in maniera casuale sono la stessa cosa: la complessità media di quick-sort e di randomized-quick-sort è sempre log-lineare.\\
+Dal momento che la complessità nel caso medio di un algoritmo di ordinamento basato sui confronti è proprio $\log_2(n!)$. Per capire l'entità del fattoriale di un numero $n$ è opportuno richiamare la \textbf{formula di Stirling}:
+\[\boxed{n! \cong \sqrt{2 \pi n} \cdot \left(\frac{n}{e}\right)^n = \text{St}(n)}\]
+in cui $\text{St}(n)$ è un'abbreviazione di formula di Sterling, la quale approssima il fattoriale di un numero $n$. Tale approssimazione non controlla certamente l'errore assoluto, ma controlla l'errore relativo, in quanto
+\[\boxed{\lim_{n \to \infty} \frac{n!}{St(n)}=1}\]
+In particolare si ha che
+\[\frac{n!}{St(n)}=1+\phi(n)\]
+in cui $\phi(n)$ è una funzione infinitesima per $n \to \infty$, come quella mostrate di seguito:
+\[1 < \frac{n!}{\text{St}(n)} < 1 + \frac{1}{11n}\]
+Per questo si preferisce scrivere, dal punto di vista formale:
+\[n! = \text{St}(n) \cdot \left[1 + O\left(\frac{1}{n}\right)\right]\]
+Ma siccome il rapporto tra $n!$ e $\text{St}(n)$ per $n \to \infty$ è uguale a $1$, quindi hanno lo stesso oprdine di infinito e quindi appartengono alla stessa classe $\Theta$, per cui
+\[\Theta(n!)=\Theta(\text{St}(n))\]
+Ma è facile dimostrare che se due infiniti stanno nella stessa classe $\Theta$, anche i loro logaritmi appartengono alla stessa classe $\Theta$, da cui si evince che:
+\[\Theta(\log(n!))=\Theta(\log(\text{St}(n)))\]
+In cui si può calcolare che
+\[\log(\text{St}(n)) = \log(\sqrt{2\pi n}) + n \cdot \log(n) - n \cdot \log(e)\]
+Al fine di ottenere una maggiorazione, si può eliminare il termine negativo e, siccome, $n \cdot \log(n) \geq \log(\sqrt{2\pi n})$, si può scrivere
+\[\log(\text{St}(n)) \leq n \cdot \log(n) - n \cdot \log(e) - \frac{1}{2} n \cdot \log(n) \leq n \cdot \log(n)\]
+Da cui si evince che
+\[\Theta(\log(n!)) = \Theta(n \cdot \log(n))\]
+Pertanto, si ha che la complessità di un algoritmo di ordinamento generale, nel caso medio e nel caso peggiore è $\Omega(n \cdot \log_n)$
 
+\newpage
+\noindent
+\section{Ordinamento di strutture dati determinate}
+Gli algoritmi fin d'ora considerati sono totalmente indipendenti dalle strutture dati da ordinare, mentre vi sono alcuni algoritmi che funzionano in maniera eccelsa quando in ingresso vi sono degli specifici pattern di valori.
 
+\vspace{1em}
+\subsection{Counting-Sort}
+Si considerino $n=200000$ valori da ordinare, i quali, tuttavia, sono tutti valori compresi tra $0$ e $k$, con $k << n$: è chiaro che i valori da ordinare saranno duplicati molteplici volte.\\
+È possibile, naturalmente, effettuare delle generalizzazioni dell'algoritmo, adattandolo all'ordinamento non solo di numeri interi, ma anche di numeri razionali o irrazionali, codificandoli opportunamente.\\
+Si propone di seguito il listato dell'algoritmo, il quale non rappresenta un ordinamento in loco, ma necessita di un array ausiliario $B$ per effettuare l'ordinamento:
 
+\begin{algorithm}[H]
+  \caption{Counting-Sort}
+  \begin{algorithmic}[1]
+    \State COUNTING-SORT($A$,$B$,$k$)
+    \State \textbf{for} $i=0$ \textbf{to} $k$
+    \Indent
+      \State \textbf{do} $C[i]=0$
+    \EndIndent
+    \State \textbf{for} $j=1$ \textbf{to} $n$
+    \Indent
+      \State \textbf{do} $C \left[A[j]\right]=C \left[A[j]\right]+1$
+    \EndIndent
+    \State \textbf{for} $i=1$ \textbf{to} $k$
+    \Indent
+      \State \textbf{do} $C[i]=C[i]+C[i-1]$
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
 
+\noindent
+In cui il numero di iterazione del primo ciclo è $k+1$, nel secondo ciclo è $n$, mentre nel terzo vi sono $k$ iterazioni: in totale si hanno $n+2k+1$ iterazioni.\\
+All'inizio dell'algoritmo, con il primo ciclo for, si costruisce l'array $C$ come segue:
+\[C=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{0}}\underset{3}{\boxed{0}}\]
+e si supponga che l'array $A$ da ordinare sia
+\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+Nel secondo ciclo for si deve procedere ad incrementari i valori all'interno dell'array $C$, come mostrato di seguito:
+\[C=\underset{0}{\boxed{2}}\underset{1}{\boxed{1}}\underset{2}{\boxed{0}}\underset{3}{\boxed{2}}\]
+in cui semplicemente si osserva come all'interno di tale array sono contenuti i conteggi di ogni valore presente in $A$, corrispondenti alle posizioni dell'array $C$.\\
+Nell'ultimo ciclo for si procede ad incrementare ogni elemento di ogni posizione con il valore della posizione precedente, ottenendo
+\[C=\underset{0}{\boxed{2}}\underset{1}{\boxed{3}}\underset{2}{\boxed{3}}\underset{3}{\boxed{5}}\]
+in cui in ogni posizione è contenuto il conteggio dei numeri che nell'array $A$ sono minore della posizione dell'array $C$. Per giungere a tale configurazione è stato effettuato uno sforzo di $n+2k+1$; si propone, adesso, la continuazione dell'algoritmo precednete:
+
+\begin{algorithm}[H]
+  \caption{Counting-Sort}
+  \begin{algorithmic}[1]
+    \State COUNTING-SORT($A$,$B$,$k$)
+    \State \textbf{for} $i=0$ \textbf{to} $k$
+    \Indent
+      \State \textbf{do} $C[i]=0$
+    \EndIndent
+    \State \textbf{for} $j=1$ \textbf{to} $n$
+    \Indent
+      \State \textbf{do} $C \left[A[j]\right]=C \left[A[j]\right]+1$
+    \EndIndent
+    \State \textbf{for} $i=1$ \textbf{to} $k$
+    \Indent
+      \State \textbf{do} $C[i]=C[i]+C[i-1]$
+    \EndIndent
+    \State \textbf{for} $j=n$ \textbf{down to} $1$
+    \Indent
+      \State \textbf{do} $B[C[A[j]]]=A[j]$
+      \Indent
+        \State $C[A[j]] = C[A[j]]-1$
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+Con l'ultimo ciclo introdotto, il numero di iterazioni complessive dell'algoritmo diviene $2n+2k+1$, che corrisponde alla classe $\Theta(n+k)$.\\
+L'ultimo ciclo (che va al contrario, anche se non cambierebbe nulla), semplicemente, va a collocare i valori di $A$ correttamente all'interno di $B$; avendo a disposizione gli array seguenti:
+\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[C=\underset{0}{\boxed{2}}\underset{1}{\boxed{3}}\underset{2}{\boxed{3}}\underset{3}{\boxed{5}}\]
+\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{0}}\underset{3}{\boxed{0}}\underset{4}{\boxed{0}}\]
+Si procede come segue: posto $j=n$, l'algoritmo valuta che vi sono $C[A[j]]$ valori che sono minori o uguali a $A[j]$, per cui basta porre in $B[C[A[j]]]$ il valore $A[j]$ cercato e decrementare il conteggio in $C[A[j]]$, ottenendo:
+\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[C=\underset{0}{\boxed{2}}\underset{1}{\boxed{2}}\underset{2}{\boxed{3}}\underset{3}{\boxed{5}}\]
+\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{1}}\underset{3}{\boxed{0}}\underset{4}{\boxed{0}}\]
+Procedendo con $j=n-1$ si ottiene
+\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[C=\underset{0}{\boxed{2}}\underset{1}{\boxed{2}}\underset{2}{\boxed{3}}\underset{3}{\boxed{4}}\]
+\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{1}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\]
+Procedendo con $j=n-2$ si ottiene
+\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[C=\underset{0}{\boxed{1}}\underset{1}{\boxed{2}}\underset{2}{\boxed{3}}\underset{3}{\boxed{4}}\]
+\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{1}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\]
+Procedendo con $j=n-3$ si ottiene
+\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[C=\underset{0}{\boxed{1}}\underset{1}{\boxed{2}}\underset{2}{\boxed{3}}\underset{3}{\boxed{3}}\]
+\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{1}}\underset{3}{\boxed{3}}\underset{4}{\boxed{3}}\]
+Procedendo con $j=n-4$ si ottiene
+\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[C=\underset{0}{\boxed{0}}\underset{1}{\boxed{2}}\underset{2}{\boxed{3}}\underset{3}{\boxed{3}}\]
+\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{1}}\underset{3}{\boxed{3}}\underset{4}{\boxed{3}}\]
+
+\vspace{1em}
+\noindent
+Per valutare la complessità dell'algoritmo, si parte dalla supposizione che $k << n$, ovvero $k = O(n)$; per cui, se la complessità è $\Theta(n+k)$ eseguendone la somma prevale il maggiore e quindi la complessità è lineare, ovvero $\Theta(n)$, sotto le opportune condizioni di partenza, ovviamente.
+
+\vspace{1em}
+\subsection{Bucket-Sort}
+L'\textbf{ordinamento per contenitori} è estremamente diffuso. Esso si basa su due \textbf{strutture dati fondamenti}: \emph{array} e \emph{lista sequenziale}.\\
+Gli array, come è noto, presentano una struttura sequenziale di celle di memoria, avente lunghezza $n$. Se si considera un array $A$ di $length(A)=n$, allora il costo di posizionarsi in una qualsiasi posizione $0 \leq i \leq n$ è semplicemente $\Theta(1)$, effettuando un \textbf{accesso libero (o lineare o random)}.\\
+Tale aspetto è estremamente significativo e vantaggioso; tuttavia, ciò comporta di sapere a priori la lunghezza dell'array, mostrandone la natura profondamente rigida: tuttavia, molto spesso non è nota a priori la lunghezza dei dati da memorizzare ed è più conveniente che essa cresca progessivamente nel corso dell'esecuzione dinamica della stessa.\\
+La dichiarazione di una lista necessita di $3$ fondamentali informazioni:
+\[\boxed{\text{NIL}}\boxed{\text{NIL}}\boxed{\text{O}}\]
+in cui nelle prime due celle sono presenti due valori nulli per specificare il puntatore al nodo iniziale e il puntatore al nodo finale, mentre nell'ultima cella è contenuta la lunghezza della lista.\\
+Quando viene eseguita l'istruzione INSERT($x$,$L$), viene creato un nodo avente due celle: un puntatore al nodo precedente e un puntatore al nodo successivo. È chiaro che il puntatore al nodo precedente punta all'origine della lista, mentre il secondo punta a NIL, essendo l'ultimo nodo. Le due cella della lista punteranno allo stesso nodo, essendo l'unico della lista, mentre il contatore viene incrementato di $1$.
 
 \end{document}
