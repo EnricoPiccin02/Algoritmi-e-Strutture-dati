@@ -2411,21 +2411,23 @@ Ma siccome il primo termine non dipende dalla sommatoria in $y$ e il secondo ter
 \[\sum_x \sum_y p_{xy} \cdot x + \sum_y \sum_x p_{xy} \cdot y = \sum_x x \sum_y p_{xy} + \sum_y y \sum_x p_{xy}\]
 Ma siccome
 \[\sum_y p_{xy}\]
-prevede
-che corrisponde esattamente a
-\[\sum_x x \sum_y p_{xy} x + \sum_y y \sum_x p_{xy} = E(\mathcal{X}) + E(\mathcal{Y})\]
-che permette di concludere che la speranza matematica sia additiva: un risultato fondamentale, che è reso ancora più significativo in quanto valido in qualsiasi ipotesi di interdipendenza tra $\mathcal{X}$ e $\mathcal{Y}$.
+è la somma delle probabilità in cui $x$ è fisso, mentre $y$ è arbitrario, allora taluna è la probabilità che $\mathcal{X}$ valga $x$ e $\mathcal{Y}$ sia arbitrario, ovvero la \textbf{probabilità marginale} di avere $x$, ossia $p_x$ (in quanto il valore di $y$ è totalmente ininfluente). Analogamente
+\[\sum_x p_{xy}\]
+è la somma delle probabilità in cui $y$ è fisso, mentre $x$ è arbitrario, allora taluna è la probabilità che $\mathcal{Y}$ valga $y$ e $\mathcal{X}$ sia arbitrario, ovvero la \textbf{probabilità marginale} di avere $y$, ossia $p_y$ (in quanto il valore di $x$ è totalmente ininfluente). Pertanto la sommatoria di cui sopra corrisponde esattamente a
+\[\sum_x x \sum_y p_{xy} + \sum_y y \sum_x p_{xy} = \sum_x x \cdot p_x + \sum_y y \cdot p_y = E(\mathcal{X}) + E(\mathcal{Y})\]
+che permette di concludere che la \textbf{speranza matematica è additiva}: un risultato fondamentale, che è reso ancora più significativo in quanto valido in qualsiasi ipotesi di interdipendenza tra $\mathcal{X}$ e $\mathcal{Y}$.
 
 \vspace{1em}
 \noindent
-\textbf{Esempio}: Si consideri un indicatore di successo $I \in \{0,1\}$, in cui $p_0=1-p$ e $p_1=p$. Allora è evidente come
+\textbf{Esempio}: Si consideri un \textbf{indicatore di successo} $I \in \{0,1\}$, ossia un \textbf{numero aleatorio binario}, in cui $p_0=1-p$ e $p_1=p$ (per la formula del calcolo della probabilità dell'evento complementare). Allora è evidente come
 \[E(I) = p_0 \cdot 0 + p_1 \cdot 1 = (1-p) \cdot 0 + p \cdot 1 = p\]
-Nell'ipotesi in cui $\mathcal{Z}$ sia una funzione deterministica di un numero $n$ di indicatori di successo
+Nell'ipotesi in cui $\mathcal{Z}$ sia una funzione deterministica di un numero $n$ di indicatori di successo, allora il numero di successi è dato da:
 \[\mathcal{Z} = I_1+I_2+...+I_n\]
-allora si ha che
-\[E(\mathcal{Z}) = n \cdot p\]
-Allora, senza impiegare il teorema del trasferimento, si può descrivere $\mathcal{Z}$ come segue
-\[\mathcal{Z}=\sum_{i=0}^n p_n b \{z=2\} \cdot i = \sum \binom{n}{i} p^i \cdot (1-p)^{n-i} \cdot i = n p\]
+Anche se le modalità sperimentali garantiscono l'indipendenza tra gli indicatori di successo, in realtà non ve ne è bisogno, in quanto la speranza matematica è data dalla somma della speranza matematica di ciascun indicatore di successo, ed avendo visto che $E(I) = p_0 \cdot 0 + p_1 \cdot 1 = (1-p) \cdot 0 + p \cdot 1 = p$ e che il numero di indicatori è $n$, è facile concludere che
+\[\boxed{E(\mathcal{Z}) = n \cdot p}\]
+Allora, senza impiegare il teorema del trasferimento, si può descrivere $\mathcal{Z}$ tramite il calcolo delle distribuzioni, andando a determinare il numero di valori che $\mathcal{Z}$ può assumere ($0$ successi, $1$ successo, ..., $n-1$ successi, $n$ successi), come mostrato di seguito:
+\[\mathcal{Z}=\sum_{i=0}^n \text{Prob}\left\{\mathcal{Z}=i\right\} \cdot i = \sum_{i} \binom{n}{i} p^i \cdot (1-p)^{n-i} \cdot i = n \cdot p\]
+Ovvero si è ottenuto lo stesso risultato ottenuto in precedenza, solamente che il processo escutivo si basato sul calcolo della probabilità che $\mathcal{Z}$ assuma il valore $i$-esimo, tenuto conto che $\mathcal{Z}$ è una funzione deterministica di $I_1,I_2,...,I_n$, ossia di $n$ indicatori di successo: è, in altre parole, un oggetto $n$-dimensionale.
 
 \vspace{1em}
 \noindent
@@ -2433,56 +2435,74 @@ Allora, senza impiegare il teorema del trasferimento, si può descrivere $\mathc
 \[\boxed{0}\boxed{1}\boxed{1}\boxed{0}\boxed{1}\]
 e se ne consideri una seconda
 \[\boxed{1}\boxed{1}\boxed{0}\boxed{1}\boxed{0}\]
-Allora in ciascuno di tali casi, la probabilità che si presenti pari a
+che naturalmente è ottenuta permutando la stringa binaria precedente. Tali stringhe binarie sono da reputarsi come la sequenza degli esiti di $n$ esperimenti binari, il cui risultato può essere o $0$ o $1$. Allora, in ciascuno di tali casi, la probabilità che si presenti una qualisasi stringa di peso $i=3$ e lunghezza $n=5$ è pari
 \[p^i \cdot (1-p)^{n-i}\]
-Da cui si evince che la probabilità che $\mathcal{Z}=i$ è proprio
-\[P \{\mathcal{Z}=i\} = \#\text{successi} = p^i \cdot (1-p)^{n-i}\]
-in cui $\#\text{successi}$ rappresenta il numero di stringhe di lunghezza $n$ avente peso $i$ che è, ovviamente:
+essendo gli esperimenti indipendenti e la probabilità moltiplicativa. Tale risultato è stato ottenuto in quanto si è assunto che la probabilità che, in ogni esperimento, figuri $1$ è $p$, mentre la probabilità che figuri $0$ è $1-p$, per cui la probabilità di ottenere la stringa binaria richiesta è $p$ elevato al numero dei successi $i$, moltiplicato per $1-p$, elevato al numero degli insuccessi $n-p$.\\
+Da ciò si evince che la probabilità di ottenere $i=3$ successi, con qualunque stringa come quelle considerate, è data dalla somma delle probabilità di ottenere ciascuna stringa, essendo esse incompatibili (il risultato dei $5$ esperimenti o è uno o è l'altro): pertanto, la probabilità che $\mathcal{Z}=i$ è proprio il prodotto tra il numero di stringhe aventi peso $i=3$ e lunghezza $n=5$ e la probabilità $p^i \cdot (1-p)^{n-i}$, ossia
+\[P \{\mathcal{Z}=i\} = \#\text{stringhe aventi peso i=3 e lunghezza n=3} \cdot p^i \cdot (1-p)^{n-i}\]
+in cui $\#\text{stringhe aventi peso i=3 e lunghezza n=3}$ rappresenta il numero di stringhe di lunghezza $n=5$ avente peso $i=5$ che è, ovviamente:
 \[\#\text{successi} = \binom{n}{i} = \frac{n!}{i! \cdot (n-i)!}\]
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: È noto che la speranza matematica che si verifichi la variabile combinatoria $\mathcal{Z}$ è
+\textbf{Osservazione}: È noto che la speranza matematica binomiale che si verifichi la variabile aleatoria $\mathcal{Z}$ è $n$ volte la probabilità di successo, ovvero
 \[E(\mathcal{Z}) = np = \mu_\mathcal{Z}\]
-Tuttavia, per valutare propriamente una variabile aleatoria, oltre a ciò è necessario conoscere anche la \textbf{dispersione attorno alla variabile $\boldsymbol{\mathcal{X}}$}, ossia la \textbf{varianza}, calcolata come segue
-\[var \mathcal{X} = E \left[(\mathcal{X}-\mu)^2\right]\]
-che può anche essere interpretata tramite lo \textbf{scarto quadratico medio}
-\[sqm \mathcal{X} = \sqrt{var \mathcal{X}}\]
-Allora, dal teorema del trasferimento si ottiene che
-\[var \mathcal{X} = \sum_{x} \left(x - \mu \right)^2 \cdot p_x\]
-e sviluppando il quadrato descritto, tale risultato si può descrivere come
-\[\sum_{x} x^2 \cdot p_x + ... continua ...\]
-Giungendo all'importante conclusione che
-\[\boxed{var \mathcal{X} = E\left[\mathcal{X}^2 \right] - \left[E(\mathcal{X})\right]^2}\]
-Volendo calcolare la varianza della somma di due variabili aleatorie, è fondamentale considerare l'ipotesi di indipendenza, da cui si evince che la varianza sia additiva:
-\[var \left[\mathcal{X} + \mathcal{Y}\right] = var \mathcal{X} + var \mathcal{Y}\]
+Tuttavia, per valutare propriamente un numero aleatorio, oltre alla speranza matematico necessario conoscere anche la \textbf{dispersione attorno al valore atteso} della variabile $\mathcal{X}$, ossia la \textbf{varianza}, che si potrebbe calcolare come
+\[\text{var}(\mathcal{X}) = E \left[\left \vert \mathcal{X}-\mu \right \vert \right]\]
+essendo la risposta più ovvia a tale problema. Tuttavia, volendo eliminare il valore assoluto si può procedere valutando il quadrato della differenza tra $\mathcal{X}$ e la sua speranza matematica, ossia:
+\[\boxed{\text{var}(\mathcal{X}) = E \left[(\mathcal{X}-\mu)^2\right]}\]
+per cui la varianza della variabile aleatoria $\mathcal{X}$ si definisce come \textbf{il valore atteso del quadrato della differenza tra $\boldsymbol{\mathcal{X}}$ e $\mu$}. Al fine di ottenere, tuttavia, una valutazione lineare e non quadratica, molto spesso al posto della varianza si consiedera lo \textbf{scarto quadratico medio}
+\[\text{sqm}(\mathcal{X}) = \sqrt{\text{var}(\mathcal{X})}\]
+Naturalmente, però, dal teorema del trasferimento, è noto che la varianza si può scrivere come
+\[\text{var}(\mathcal{X}) = \sum_{x} \left(x - \mu \right)^2 \cdot p_x\]
+essendo $f(\mathcal{X})=(\mathcal{X}-\mu)^2$ una funzione deterministica di $\mathcal{X}$; sviluppando il quadrato descritto, tale risultato si può scrivere come
+\[\sum_{x} x^2 \cdot p_x - 2 \mu \cdot \sum x \cdot p_x + \mu^2 \cdot \sum p_x\]
+ma siccome la somma di tutte le probabilità elementari è
+\[\sum p_x=1\]
+e la speranza $\mu$ si può ravvisare nel calcolo intermedio
+\[\sum x p_x = \mu\]
+si ottiene che
+\[\sum_{x} x^2 \cdot p_x - 2 \mu \cdot \sum x \cdot p_x + \mu^2 \cdot \sum p_x = \sum_{x} x^2 \cdot p_x - \mu^2\]
+Invocando ancora una volta il teorema del trasferimento, essendo $f(\mathcal{X})=\mathcal{X}^2$ una funzione deterministica di $\mathcal{X}$, si ottiene che:
+\[\boxed{\text{var}(\mathcal{X}) = E\left[\mathcal{X}^2 \right] - \left[E(\mathcal{X})\right]^2}\]
+Volendo calcolare la varianza della somma di due variabili aleatorie, si può procedere come segue:
+\[\text{var}(\mathcal{X}+\mathcal{Y})=E\left[(\mathcal{X}+\mathcal{Y})^2 \right] - \left[E(\mathcal{X} + \mathcal{Y})\right]^2\]
+tuttavia, in tale caso, è fondamentale considerare l'ipotesi di indipendenza seguente $p_{xy}=p_x \cdot q_y$, da cui si evince che la \textbf{varianza è additiva}:
+\[\boxed{\text{var}\left[\mathcal{X} + \mathcal{Y}\right] = \text{var}\left(\mathcal{X}\right) + \text{var}\left(\mathcal{Y}\right)}\]
 
 \vspace{1em}
 \noindent
-\textbf{Esempio}: Considerando, ora, un indicatore di successo $I$, volendo calcolarne la varianza, si perviene al risultato seguente:
-\[var I = E[I^2] - p^2\]
-ma siccome $I^2=I$, in quanto $0^2=0$ e $1^2=1$, si ottiene che
-\[var I = E[I^2] - p^2 = E[I] - p^2 = p - p^2 = p(1 - p) = pq\]
-E se si considera la \textbf{varianza binomiale} si ottiene
-\[\boxed{var \mathcal{Z}=npq}\]
+\textbf{Osservazione}: Si osservi che, in questo caso, la varianza non è, in generale, additiva, come la speranza matematica: la varianza è additiva solamente nell'ipotesi idi indipendenza tra $\mathcal{X}$ e $\mathcal{Y}$.\\
+L'indipendenza è una condizione sufficiente, ma non necessaria, per l'additività: ci sono situazioni che prendono il nome di \textbf{non correlazione}, in cui vi è additività anche senza indipendenza.
+
+\vspace{1em}
+\noindent
+\textbf{Esempio}: Considerando, ora, un indicatore di successo $I$, volendo calcolarne la varianza, applicando le formule note, si perviene al risultato seguente:
+\[\text{var}(I) = E[I^2]-E[I]^2 = E[I^2]-p^2\]
+siccome è noto che $E[I]=(1-p) \cdot 0 + p \cdot 1=p$. Tuttavia, siccome $I^2=I$, in quanto $0^2=0$ e $1^2=1$, allora si ha che $I^2 \in \{0,1\}$, in cui, ancora una volta $p_0=1-p$ e $p_1=p$. Si ottiene, quindi, che
+\[\text{var}(I) = E[I^2] - p^2 = E[I] - p^2 = p - p^2 = p(1 - p) = p \cdot q\]
+essendo $q=1-p$ la probabilità di insuccesso. Pertanto, se si considera la variabile aleatoria $\mathcal{Z}$, la quale prevede di eseguire $n$ esperimenti a ciascuno dei quali si associa un indicatore di successo $I_i$ indipendente rispetto agli altri, allora la \textbf{varianza binomiale} è additiva (in quanto vi è indipendenza), per cui è la somma delle $n$ varianze degli indicatori di successo (pari a $p \cdot q$), per cui si ottiene
+\[\boxed{\text{var}(\mathcal{Z})=n \cdot p \cdot q}\]
 mentre il suo \textbf{valore atteso} è
-\[\boxed{E \mathcal{Z}=np}\]
+\[\boxed{E(\mathcal{Z})=n \cdot p}\]
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Si consideri una variabile aleatoria $\mathcal{X}$ e uno spazio campionario $A$ tale che $\vert A \vert = k$, in cui la probabilità è uniforme, ovvero ciascuno degli eventi elementari presenta probabilità $\frac{1}{k}$.\\
-Considerando un sottoinsieme $B \subset A$, tale che $\vert B \vert = h$, volendo calcolare la provabilità condizionata
-\[P(X \vert B) = Prob\{\mathcal{X}=x \vert \mathcal{X} \in B\}\]
-allora si ottiene che
-\[P(\mathcal{X}\vert B) = \frac{P(X \cap B)}{P(B)} = \frac{1}{h}\]
-in cui la probabilità degli eventi in $B$ si mantiene uniforme.
+\textbf{Osservazione}: Si consideri una variabile aleatoria $\mathcal{X}$ e uno spazio campionario $A$ tale che $\vert A \vert = k$, in cui la probabilità è uniforme, ovvero ciascuno degli eventi elementari presenta probabilità
+\[P(E) = \frac{1}{\vert A \vert} = \frac{1}{k}, \hspace{1em} \forall E \in A\]
+Considerando un sottoinsieme $B \subset A$, tale che $\vert B \vert = h$, volendo calcolare la probabilità condizionata
+\[P(X \vert B) = \text{Prob}\{\mathcal{X}=x \vert \mathcal{X} \in B\}\]
+che ha significato, naturalmente, solamente quando $x \in B$. Alla luce di cio si ha che
+\[P(\mathcal{X}\vert B) = \frac{P(x \cap B)}{P(B)}\]
+ma è chiaro che se $x \in B$, allora $P(x \cap B) = P(x)$, per cui si ottiene che
+\[P(\mathcal{X}\vert B) = \frac{P(x \cap B)}{P(B)} = \frac{P(x)}{P(B)} = \dfrac{\dfrac{1}{k}}{h \cdot \dfrac{1}{k}} = \frac{1}{h}\]
+in quanto la probabilità degli eventi in $B$ si mantiene uniforme: tutti gli eventi di $B$ hanno la stessa probabilità, uno rispetto all'altro.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Si consideri una variante aleatoria dell'algoritmo quick-sort, nella quale si deve procedere alla definizione della procedura RANDOM($p$,$q$), in cui si deve imporre che $p \leq q$, essendo essi due numeri interi.\\
-Naturalmente i numeri gnerati da $p$ a $q$ sono $q-p+1$, in cui ciascuno di tali valori presenta la probabilità
+\textbf{Osservazione}: Si consideri una variante aleatoria dell'algoritmo quick-sort, nella quale si deve procedere alla definizione della procedura RANDOM($p$,$q$), in cui si deve imporre che $p \leq q$, essendo essi due numeri interi, procedura capace di generare dei numeri che, tuttavia, saranno solamente pseudocasuali; naturalmente i numeri generati da $p$ a $q$ (estremi inclusi) sono $q-p+1$, in cui ciascuno di tali valori presenta la probabilità
 \[\frac{1}{q-p+1}\]
-nell'ipotesi in cui la probabilità sia uniforme, ossia identica per ciascun valore.
+di essere generato ed estratto, nell'ipotesi in cui la \textbf{probabilità sia uniforme}, ossia identica per ciascun valore che significa che si ha totale casualitò.
 
 \newpage
 \noindent
