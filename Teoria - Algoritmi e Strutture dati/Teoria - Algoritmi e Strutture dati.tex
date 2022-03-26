@@ -2648,45 +2648,65 @@ mentre nel caso medio si ha una complessità, ancora una volta, almeno log-linea
 \begin{center}
   25 Marzo 2022
 \end{center}
-In un algoritmo di ordinamento generale l'elemento fondamentale è dato dai confronti, i quali vanno a costituire un albero binario, sulle cui foglie sono contenuti tutti i possibili ordinamenti dei valori di partenza.\\
-Il numero di di ordinamenti possibili è ovviamente dato da $n!$. Inoltre la complessità nel caso peggiore è data dall'altezza dell'albero, mentre la complessità media è data dall media delle distanza.\\
-La soluzione più auscpicabile al fine di ottimizzare sia la complessità media che la complessità massima è quella di andare a costituire un albero ordinario complesto, riempiendo completamente tutti i livelli: taluna è la situazione più favorevole, in quanto la differenza tra l'altezza massima e quella minima è proprio $1$. Inoltre, l'altezza di un albero binario completo è data dal logaritmo del numero delle foglie, ovvero:
-\[\Omega(\log_2(n!))\]
-che corrisponde esattamente anche alla complessità minima di un algoritmo di ordinamento. La distanza media è data dalla somma di tutte le foglie dalla radice diviso da $n!$.\\
-Ogni permutazione, naturalmente, presenta la stessa probabilità di presentarsi come ordinamento, pari a
+In un algoritmo di ordinamento generale l'elemento fondamentale è dato dai confronti, i quali vanno a costituire un albero binario, sulle cui foglie sono contenuti tutti i possibili ordinamenti dei valori di partenza: in particolare, ogni algoritmo di ordinamento di tipo generale presenta una complessità che è dettata unicamente dai confronti.\\
+È ovvio che, presi in considerazione $n$ numeri distinti, il numero di ordinamenti possibili è dato da $n!$: in un albero binario, qualunque sia l'algoritmo di ordinamento generale considerato (efficiente o meno), tali ordinamenti sarebbero tutti collocati sulle foglie: ecco che il modo per osservare la \textbf{complessità nel caso peggiore} è quello di determinare l'\textbf{altezza dell'albero} (da intendersi come altezza massima, ovvero la distanza tra la radice e la foglia più lontana); inoltre \textbf{la complessità media} è data dalla \textbf{media delle distanze} delle foglie dalla radice (ovvero la somma delle distanze dalla radice di tutte le foglie diviso per $n!$, con $n!$ numero di foglie).\\
+La soluzione più auspicabile al fine di ottimizzare sia la complessità media che la complessità massima, evitando che vi sia una differenza di distanza superiore a $1$ è quella di andare a costruire (tramite un algoritmo opportunamente definito) un \textbf{albero binario completo}, riempiendo completamente tutti i livelli: taluna è la situazione più favorevole, in quanto la differenza tra l'altezza massima e quella minima è proprio $1$ (per cui dal punto di vista della notazione $\Theta$ non cambia nulla).\\
+Pertanto, sapendo che l'altezza di un albero binario completo è data dal logaritmo del numero delle foglie, si deduce che la comlessità nel caso peggiore di un algoritmo di ordinamento che è in grado di produrre dei confronti che si diramano su un albero binario completo è
+\[T_{\text{worse}}(n)=\Omega(\log_2(n!))\]
+Questo, naturalmente, quando vi è un algoritmo capace di costruire un albero binario completo, altrimenti la situazione (così come la complessità), non può che peggiorare (e tale complessità è la stessa anche nel caso medio).
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che nel caso dell'algoritmo quick-sort, presa una qualsiasi permutazione di $n$ numeri in ingresso, essa presenterà la stessa probabilità di presentarsi rispetto alle altre nell'ordinameno, la quale è pari a
 \[\frac{1}{n!}\]
-da cui dipende la complessità della procedura: si pensi al caso di quick-sort applicato ad un insieme di numeri già ordinati. Dal punto di vista di quick-sort, estrarre casualmente una permutazione di $n$ numeri o estrarre di volta in volta in maniera casuale sono la stessa cosa: la complessità media di quick-sort e di randomized-quick-sort è sempre log-lineare.\\
-Dal momento che la complessità nel caso medio di un algoritmo di ordinamento basato sui confronti è proprio $\log_2(n!)$. Per capire l'entità del fattoriale di un numero $n$ è opportuno richiamare la \textbf{formula di Stirling}:
+Naturalmente, l'esecuzione dell'algoritmo quick-sort presenta un elemento di casualità, in quando dipende dall'estrazione di una possibile permutazione delle $n!$ $n$-uple in ingresso. Tuttavia, dal punto di vista di quick-sort, estrarre casualmente una permutazione di $n$ numeri o estrarre di volta in volta in maniera casuale un perno, rappresentano la stessa cosa (cosa che si può facilmente dimostrare) in quanto non si sta privilegiando una configurazione rispetto ad un'altra: la complessità media di quick-sort e di randomized-quick-sort permane sempre log-lineare.\\
+È noto che la complessità nel caso medio di un algoritmo di ordinamento basato sui confronti è almeno $\log_2(n!)$ (con $n$ numero di oggetti da ordinare); per capire l'entità del fattoriale di un numero $n$ è opportuno richiamare la \textbf{formula di Stirling}:
 \[\boxed{n! \cong \sqrt{2 \pi n} \cdot \left(\frac{n}{e}\right)^n = \text{St}(n)}\]
-in cui $\text{St}(n)$ è un'abbreviazione di formula di Sterling, la quale approssima il fattoriale di un numero $n$. Tale approssimazione non controlla certamente l'errore assoluto, ma controlla l'errore relativo, in quanto
-\[\boxed{\lim_{n \to \infty} \frac{n!}{St(n)}=1}\]
-In particolare si ha che
-\[\frac{n!}{St(n)}=1+\phi(n)\]
+in cui $\text{St}(n)$ è un'abbreviazione di formula di Stirling, la quale approssima il fattoriale di un numero $n$. Tale approssimazione non controlla certamente l'errore assoluto, ma controlla l'errore relativo (o percentuale), in quanto
+\[\boxed{\lim_{n \to +\infty} \frac{n!}{\text{St}(n)}=1}\]
+In particolare si ha che il rapporto di cui sopra è pari alla somma di $1$ e di una funzione infinitesima, come mostrato di seguito
+\[\frac{n!}{\text{St}(n)}=1+\phi(n)\]
 in cui $\phi(n)$ è una funzione infinitesima per $n \to \infty$, come quella mostrate di seguito:
 \[1 < \frac{n!}{\text{St}(n)} < 1 + \frac{1}{11n}\]
-Per questo si preferisce scrivere, dal punto di vista formale:
+in cui si può osservare come, in generale, $\text{St}(n)<n!$. Per questo si preferisce scrivere, dal punto di vista formale:
 \[n! = \text{St}(n) \cdot \left[1 + O\left(\frac{1}{n}\right)\right]\]
-Ma siccome il rapporto tra $n!$ e $\text{St}(n)$ per $n \to \infty$ è uguale a $1$, quindi hanno lo stesso oprdine di infinito e quindi appartengono alla stessa classe $\Theta$, per cui
+In cui dal punto di vista della notazione O-grande, ciò significa che
+\[1+O\left(\frac{1}{n}\right) := \exists c \geq 0 : 1+c\cdot \frac{1}{n} \leq 1+\frac{1}{n}\]
+in cui è noto, come mostrato nel precedente esempio, che $c=\frac{1}{11}$.\\
+Tuttavia, è noto che il rapporto tra $n!$ e $\text{St}(n)$ per $n \to +\infty$ è uguale a $1$, quindi hanno lo stesso ordine di infinito e quindi appartengono alla stessa classe $\Theta$, per cui
 \[\Theta(n!)=\Theta(\text{St}(n))\]
-Ma è facile dimostrare che se due infiniti stanno nella stessa classe $\Theta$, anche i loro logaritmi appartengono alla stessa classe $\Theta$, da cui si evince che:
+Ma è facile dimostrare che se due infiniti stanno nella stessa classe $\Theta$, anche i loro logaritmi appartengono alla stessa classe $\Theta$. Infatti, se è noto che
+\[\exists \overline{x}, c_1 \geq 0, c_2 \geq 0 : c_1 \cdot g(x) \leq f(x) \leq c_2 \cdot g(x), \hspace{1em} \forall x \geq \overline{x}\]
+Ma giacché per le proprietà dei logaritmi si può scrivere
+\[g(x) = a^{\log_a(g(x))}\]
+essendo ambedue le funzioni definitivamente positive, allora si ha che:
+\[\exists \overline{x}, c_1 \geq 0, c_2 \geq 0 : a^{\log_a(c_1)} \cdot a^{\log_a(g(x))} \leq a^{\log_a(f(x))} \leq a^{\log_a(c_2)} \cdot a^{\log_a(g(x))}, \hspace{1em} \forall x \geq \overline{x}\]
+E potendo ora trasferire la disuguaglianza agli esponenti, essendo tutte potenze con la stessa base si ottiene
+\[\exists \overline{x}, c_1 \geq 0, c_2 \geq 0 : \log_a(c_1) + \log_a(g(x)) \leq \log_a(f(x)) \leq \log_a(c_2) + \log_a(g(x)), \hspace{1em} \forall x \geq \overline{x}\]
+Volendo ottenere una minorazione nel primo caso e una maggiorazione nel secondo è possibile sostituire $\log_a(c_1)$ con $- \frac{1}{2} \cdot \log_a(g(x))$ (essendo una quantità negativa) e $\log_a(c_2)$ con $\log_a(g(x))$ (essendo una funzione infinita), ottenendo
+\[\exists \overline{x} : \frac{1}{2} \cdot \log_a(g(x)) \leq \log_a(f(x)) \leq 2 \cdot \log_a(g(x)), \hspace{1em} \forall x \geq \overline{x}\]
+Da cui si evince che:
 \[\Theta(\log(n!))=\Theta(\log(\text{St}(n)))\]
 In cui si può calcolare che
 \[\log(\text{St}(n)) = \log(\sqrt{2\pi n}) + n \cdot \log(n) - n \cdot \log(e)\]
-Al fine di ottenere una maggiorazione, si può eliminare il termine negativo e, siccome, $n \cdot \log(n) \geq \log(\sqrt{2\pi n})$, si può scrivere
-\[\log(\text{St}(n)) \leq n \cdot \log(n) - n \cdot \log(e) - \frac{1}{2} n \cdot \log(n) \leq n \cdot \log(n)\]
-Da cui si evince che
-\[\Theta(\log(n!)) = \Theta(n \cdot \log(n))\]
-Pertanto, si ha che la complessità di un algoritmo di ordinamento generale, nel caso medio e nel caso peggiore è $\Omega(n \cdot \log_n)$
+Al fine di ottenere una maggiorazione, si può eliminare il termine negativo e, siccome, $n \cdot \log(n) \geq \log(\sqrt{2\pi n})$ (nel senso che il primo è un infinito di ordine superiore al secondo), si può scrivere
+\[\log(\text{St}(n)) \leq n \cdot \log(n) + n \cdot \log(n) + 0 = 2n \cdot \log(n)\]
+Al fine di ottenere una minorazione, invece, si elimina il termine $\log(\sqrt{2\pi n})$ e si sottrae al rimanente $\frac{1}{2} n \cdot \log(n) $, ossia un infinito log-lineare, in luogo di $n \cdot \log(e)$ che è solo un infinito lineare, ottenendo
+\[\log(\text{St}(n)) \geq n \cdot \log(n) - n \cdot \log(e) \geq n \cdot \log(n) - \frac{1}{2} n \cdot \log(n) = \frac{1}{2} n \cdot \log(n)\]
+Da cui si evince che l'approssimazione di Stirling appartiene ad una classe log-lineare, ed appartenendo anche alla classe del logaritmo del fattoriale di $n$ se ne deduce che
+\[\boxed{\Theta(\log(n!)) = \Theta(n \cdot \log(n))}\]
+Pertanto, si ha che la complessità di un algoritmo di ordinamento generale (ossia per confronti), nel caso medio e nel caso peggiore è $\Omega(n \cdot \log(n))$.
 
 \newpage
 \noindent
-\section{Ordinamento di strutture dati determinate}
-Gli algoritmi fin d'ora considerati sono totalmente indipendenti dalle strutture dati da ordinare, mentre vi sono alcuni algoritmi che funzionano in maniera eccelsa quando in ingresso vi sono degli specifici pattern di valori.
+\section{Ordinamento di strutture dati specifiche}
+Gli algoritmi fin d'ora considerati sono totalmente indipendenti dalle strutture e dalla natura dei dati da ordinare, mentre vi sono alcuni algoritmi che funzionano in maniera eccelsa quando in ingresso vi sono degli specifici pattern di valori.\\
+Pertanto, in tal senso, non si contraddice il teorema appena dimostrato che afferma che un algoritmo di ordinamento generale (basato sui confronti) presenta una complessità media e peggiore almeno log-lineare, in quanto gli algoritmi di seguito esposti \textbf{non sono basati sui confronti}, in quanto \textbf{strettamente correlati alla natura dei dati} (e non al loro ordinamento iniziale).
 
 \vspace{1em}
 \subsection{Counting-Sort}
-Si considerino $n=200000$ valori da ordinare, i quali, tuttavia, sono tutti valori compresi tra $0$ e $k$, con $k << n$: è chiaro che i valori da ordinare saranno duplicati molteplici volte.\\
-È possibile, naturalmente, effettuare delle generalizzazioni dell'algoritmo, adattandolo all'ordinamento non solo di numeri interi, ma anche di numeri razionali o irrazionali, codificandoli opportunamente.\\
+Si considerino $n=200000$ \textbf{valori interi positivi} da ordinare, i quali, tuttavia, sono tutti valori compresi tra $0$ e $k$, con $k << n$: è chiaro che i valori da ordinare saranno \textbf{duplicati molteplici volte}.\\
+È possibile, naturalmente, effettuare delle generalizzazioni dell'algoritmo: se i numeri da ordinare andassero da $r$ a $r+k$, basterebbe sottrarre a ciascuno $r$ e si otterrebbe la configurazione di partenza (con valori comprersi tra $0$ e $k$); si potrebbe, inoltre, addattare l'algoritmo all'ordinamento non solo di numeri interi, ma anche di numeri razionali o irrazionali, codificandoli opportunamente.\\
 Si propone di seguito il listato dell'algoritmo, il quale non rappresenta un ordinamento in loco, ma necessita di un array ausiliario $B$ per effettuare l'ordinamento:
 
 \begin{algorithm}[H]
@@ -2713,13 +2733,13 @@ In cui il numero di iterazione del primo ciclo è $k+1$, nel secondo ciclo è $n
 All'inizio dell'algoritmo, con il primo ciclo for, si costruisce l'array $C$ come segue:
 \[C=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{0}}\underset{3}{\boxed{0}}\]
 e si supponga che l'array $A$ da ordinare sia
-\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[A=\underset{1}{\boxed{0}}\underset{2}{\boxed{3}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\underset{5}{\boxed{1}}\]
 Nel secondo ciclo for si deve procedere ad incrementari i valori all'interno dell'array $C$, come mostrato di seguito:
 \[C=\underset{0}{\boxed{2}}\underset{1}{\boxed{1}}\underset{2}{\boxed{0}}\underset{3}{\boxed{2}}\]
-in cui semplicemente si osserva come all'interno di tale array sono contenuti i conteggi di ogni valore presente in $A$, corrispondenti alle posizioni dell'array $C$.\\
+in cui semplicemente si osserva come all'interno di tale array sono contenuti i conteggi di ogni valore presente in $A$, corrispondenti alle posizioni dell'array $C$: la cella $C[0]$ memorizza il numero di $0$ all'interno dell'array $A$, la cella $C[1]$ memorizza il numero di $1$ all'interno dell'array $A$ e così via.\\
 Nell'ultimo ciclo for si procede ad incrementare ogni elemento di ogni posizione con il valore della posizione precedente, ottenendo
 \[C=\underset{0}{\boxed{2}}\underset{1}{\boxed{3}}\underset{2}{\boxed{3}}\underset{3}{\boxed{5}}\]
-in cui in ogni posizione è contenuto il conteggio dei numeri che nell'array $A$ sono minore della posizione dell'array $C$. Per giungere a tale configurazione è stato effettuato uno sforzo di $n+2k+1$; si propone, adesso, la continuazione dell'algoritmo precednete:
+in cui in ogni posizione è contenuto il conteggio dei numeri che nell'array $A$ sono minore (o uguali) della posizione dell'array $C$: nella cella $C[0]$ viene memorizzato il numero di valori che nell'array $A$ sono minori (o uguali) di $0$, nella cella $C[1]$ viene memorizzato il numero di valori che nell'array $A$ sono minori (o uguali) di $1$, e così via. Per giungere a tale configurazione è stato effettuato uno sforzo di $n+2k+1$ (corrispondente ad una complessità $\Theta(n+k)$); si propone, adesso, la continuazione dell'algoritmo precednete:
 
 \begin{algorithm}[H]
   \caption{Counting-Sort}
@@ -2750,42 +2770,42 @@ in cui in ogni posizione è contenuto il conteggio dei numeri che nell'array $A$
 \noindent
 Con l'ultimo ciclo introdotto, il numero di iterazioni complessive dell'algoritmo diviene $2n+2k+1$, che corrisponde alla classe $\Theta(n+k)$.\\
 L'ultimo ciclo (che va al contrario, anche se non cambierebbe nulla), semplicemente, va a collocare i valori di $A$ correttamente all'interno di $B$; avendo a disposizione gli array seguenti:
-\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[A=\underset{1}{\boxed{0}}\underset{2}{\boxed{3}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\underset{5}{\boxed{1}}\]
 \[C=\underset{0}{\boxed{2}}\underset{1}{\boxed{3}}\underset{2}{\boxed{3}}\underset{3}{\boxed{5}}\]
-\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{0}}\underset{3}{\boxed{0}}\underset{4}{\boxed{0}}\]
+\[B=\underset{1}{\boxed{0}}\underset{2}{\boxed{0}}\underset{3}{\boxed{0}}\underset{4}{\boxed{0}}\underset{5}{\boxed{0}}\]
 Si procede come segue: posto $j=n$, l'algoritmo valuta che vi sono $C[A[j]]$ valori che sono minori o uguali a $A[j]$, per cui basta porre in $B[C[A[j]]]$ il valore $A[j]$ cercato e decrementare il conteggio in $C[A[j]]$, ottenendo:
-\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[A=\underset{1}{\boxed{0}}\underset{2}{\boxed{3}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\underset{5}{\boxed{1}}\]
 \[C=\underset{0}{\boxed{2}}\underset{1}{\boxed{2}}\underset{2}{\boxed{3}}\underset{3}{\boxed{5}}\]
-\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{1}}\underset{3}{\boxed{0}}\underset{4}{\boxed{0}}\]
+\[B=\underset{1}{\boxed{0}}\underset{2}{\boxed{0}}\underset{3}{\boxed{1}}\underset{4}{\boxed{0}}\underset{5}{\boxed{0}}\]
 Procedendo con $j=n-1$ si ottiene
-\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[A=\underset{1}{\boxed{0}}\underset{2}{\boxed{3}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\underset{5}{\boxed{1}}\]
 \[C=\underset{0}{\boxed{2}}\underset{1}{\boxed{2}}\underset{2}{\boxed{3}}\underset{3}{\boxed{4}}\]
-\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{1}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\]
+\[B=\underset{1}{\boxed{0}}\underset{2}{\boxed{0}}\underset{3}{\boxed{1}}\underset{4}{\boxed{0}}\underset{5}{\boxed{3}}\]
 Procedendo con $j=n-2$ si ottiene
-\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[A=\underset{1}{\boxed{0}}\underset{2}{\boxed{3}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\underset{5}{\boxed{1}}\]
 \[C=\underset{0}{\boxed{1}}\underset{1}{\boxed{2}}\underset{2}{\boxed{3}}\underset{3}{\boxed{4}}\]
-\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{1}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\]
+\[B=\underset{1}{\boxed{0}}\underset{2}{\boxed{0}}\underset{3}{\boxed{1}}\underset{4}{\boxed{0}}\underset{5}{\boxed{3}}\]
 Procedendo con $j=n-3$ si ottiene
-\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[A=\underset{1}{\boxed{0}}\underset{2}{\boxed{3}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\underset{5}{\boxed{1}}\]
 \[C=\underset{0}{\boxed{1}}\underset{1}{\boxed{2}}\underset{2}{\boxed{3}}\underset{3}{\boxed{3}}\]
-\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{1}}\underset{3}{\boxed{3}}\underset{4}{\boxed{3}}\]
+\[B=\underset{1}{\boxed{0}}\underset{2}{\boxed{0}}\underset{3}{\boxed{1}}\underset{4}{\boxed{3}}\underset{5}{\boxed{3}}\]
 Procedendo con $j=n-4$ si ottiene
-\[A=\underset{0}{\boxed{0}}\underset{1}{\boxed{3}}\underset{2}{\boxed{0}}\underset{3}{\boxed{3}}\underset{4}{\boxed{1}}\]
+\[A=\underset{1}{\boxed{0}}\underset{2}{\boxed{3}}\underset{3}{\boxed{0}}\underset{4}{\boxed{3}}\underset{5}{\boxed{1}}\]
 \[C=\underset{0}{\boxed{0}}\underset{1}{\boxed{2}}\underset{2}{\boxed{3}}\underset{3}{\boxed{3}}\]
-\[B=\underset{0}{\boxed{0}}\underset{1}{\boxed{0}}\underset{2}{\boxed{1}}\underset{3}{\boxed{3}}\underset{4}{\boxed{3}}\]
+\[B=\underset{1}{\boxed{0}}\underset{2}{\boxed{0}}\underset{3}{\boxed{1}}\underset{4}{\boxed{3}}\underset{5}{\boxed{3}}\]
 
 \vspace{1em}
 \noindent
-Per valutare la complessità dell'algoritmo, si parte dalla supposizione che $k << n$, ovvero $k = O(n)$; per cui, se la complessità è $\Theta(n+k)$ eseguendone la somma prevale il maggiore e quindi la complessità è lineare, ovvero $\Theta(n)$, sotto le opportune condizioni di partenza, ovviamente.
+Per valutare la complessità globale dell'algoritmo, si parte dalla supposizione che $k << n$, ovvero $k = O(n)$; per cui, se la complessità dello sforzo dell'algoritmo è $\Theta(n+k)$, eseguendone la somma prevale il maggiore (e quindi lo sforzo più esoso) e quindi la \textbf{complessità diviene lineare}, ovvero $\Theta(n)$, sotto le opportune \textbf{condizioni di partenza}, ovviamente.
 
 \vspace{1em}
 \subsection{Bucket-Sort}
 L'\textbf{ordinamento per contenitori} è estremamente diffuso. Esso si basa su due \textbf{strutture dati fondamenti}: \emph{array} e \emph{lista sequenziale}.\\
-Gli array, come è noto, presentano una struttura sequenziale di celle di memoria, avente lunghezza $n$. Se si considera un array $A$ di $length(A)=n$, allora il costo di posizionarsi in una qualsiasi posizione $0 \leq i \leq n$ è semplicemente $\Theta(1)$, effettuando un \textbf{accesso libero (o lineare o random)}.\\
-Tale aspetto è estremamente significativo e vantaggioso; tuttavia, ciò comporta di sapere a priori la lunghezza dell'array, mostrandone la natura profondamente rigida: tuttavia, molto spesso non è nota a priori la lunghezza dei dati da memorizzare ed è più conveniente che essa cresca progessivamente nel corso dell'esecuzione dinamica della stessa.\\
-La dichiarazione di una lista necessita di $3$ fondamentali informazioni:
+Gli array, come è noto, presentano una struttura sequenziale di \textbf{celle di memoria consecutive}, avente lunghezza $n$. Se si considera un array $A$ di $length(A)=n$ (con $n \geq 1$), allora il costo di posizionarsi in una qualsiasi posizione $0 \leq i \leq n$ è semplicemente $\Theta(1)$, effettuando un \textbf{accesso libero (o lineare o random)}.\\
+Tale aspetto è estremamente significativo e vantaggioso; tuttavia, ciò comporta di sapere a priori la lunghezza dell'array (giacché si devono disporre $n$ celle di memoria consecutive), mostrandone la natura profondamente rigida: molto spesso, però, non è nota a priori la lunghezza dei dati da memorizzare ed è più conveniente che essa cresca progessivamente nel corso dell'esecuzione dinamica dell'algoritmo: tale esigenza viene soddisfatta dalla \textbf{lista sequenziale}.\\
+La dichiarazione di una lista $L$ necessita di $3$ fondamentali informazioni:
 \[\boxed{\text{NIL}}\boxed{\text{NIL}}\boxed{\text{O}}\]
-in cui nelle prime due celle sono presenti due valori nulli per specificare il puntatore al nodo iniziale e il puntatore al nodo finale, mentre nell'ultima cella è contenuta la lunghezza della lista.\\
-Quando viene eseguita l'istruzione INSERT($x$,$L$), viene creato un nodo avente due celle: un puntatore al nodo precedente e un puntatore al nodo successivo. È chiaro che il puntatore al nodo precedente punta all'origine della lista, mentre il secondo punta a NIL, essendo l'ultimo nodo. Le due cella della lista punteranno allo stesso nodo, essendo l'unico della lista, mentre il contatore viene incrementato di $1$.
+in cui nelle prime due celle sono presenti due valori nulli per specificare il \textbf{puntatore al nodo iniziale} e il \textbf{puntatore al nodo finale} della lista, mentre nell'ultima cella è contenuta la l\textbf{lunghezza della lista}.\\
+Quando viene eseguita l'istruzione INSERT($x$,$L$), viene creato un nodo avente due celle: un valore (o \textbf{chiave}) e un puntatore al nodo successivo. È chiaro che il puntatore al nodo successivo della lista punta a NIL, essendo l'ultimo nodo (ossia l'unico inserito). Le due cella della lista, invece, dopo aver inserito il primo nodo, punteranno allo stesso nodo, essendo l'unico della lista, mentre il contatore viene incrementato di $1$, e così via: ogni qualvolta verrà inserito un nuovo nodo, il nodo precedente punterà a quello successivo e il nuovo nodo punterà a NIL, mentre verrà aggiornato il puntatore della lista al nodo finale, così come il contatore del numero di nodi della lista.
 
 \end{document}

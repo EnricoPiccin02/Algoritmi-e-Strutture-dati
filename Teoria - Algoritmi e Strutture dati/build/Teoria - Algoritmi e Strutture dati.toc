@@ -24,6 +24,6 @@
 \contentsline {subsection}{\numberline {4.8}Quick-sort}{47}{}%
 \contentsline {subsection}{\numberline {4.9}Randomize Quick-Sort}{50}{}%
 \contentsline {subsection}{\numberline {4.10}Teorema del trasferimento}{53}{}%
-\contentsline {section}{\numberline {5}Ordinamento di strutture dati determinate}{65}{}%
+\contentsline {section}{\numberline {5}Ordinamento di strutture dati specifiche}{65}{}%
 \contentsline {subsection}{\numberline {5.1}Counting-Sort}{65}{}%
 \contentsline {subsection}{\numberline {5.2}Bucket-Sort}{67}{}%
