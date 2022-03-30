@@ -2808,4 +2808,131 @@ La dichiarazione di una lista $L$ necessita di $3$ fondamentali informazioni:
 in cui nelle prime due celle sono presenti due valori nulli per specificare il \textbf{puntatore al nodo iniziale} e il \textbf{puntatore al nodo finale} della lista, mentre nell'ultima cella è contenuta la l\textbf{lunghezza della lista}.\\
 Quando viene eseguita l'istruzione INSERT($x$,$L$), viene creato un nodo avente due celle: un valore (o \textbf{chiave}) e un puntatore al nodo successivo. È chiaro che il puntatore al nodo successivo della lista punta a NIL, essendo l'ultimo nodo (ossia l'unico inserito). Le due cella della lista, invece, dopo aver inserito il primo nodo, punteranno allo stesso nodo, essendo l'unico della lista, mentre il contatore viene incrementato di $1$, e così via: ogni qualvolta verrà inserito un nuovo nodo, il nodo precedente punterà a quello successivo e il nuovo nodo punterà a NIL, mentre verrà aggiornato il puntatore della lista al nodo finale, così come il contatore del numero di nodi della lista.
 
+\newpage
+\noindent
+\begin{center}
+  30 Marzo 2022
+\end{center}
+Le due struttre dati fondamentali impiegabili in algoritmica sono l'array e la lista sequenziale.\\
+Nel caso dell'array, è fondamentale sapere a priori di quante posizioni successive si necessita per la memorizzazione. L'array viene identificato con un nome simbolico che punta alla prima cella di memoria disponibile della sequenza. Tuttavia, il costo di posizionarsi su una specifica cella di memoria per un array è $\Theta(1)$: si parla, in tal caso, di \textbf{random-access} (anche definito libero o diretto).\\
+L'altra struttura dati prende il nome di \textbf{lista sequenziale}, per la quale non è necessario specificare a priori la lunghezza della lista, il che si rivela particolarmente utile quando non si conosce a priori la quantità di dati da dover memorizzare. La lista viene così dichiarata:
+\[L \boxed{\text{NIL}}\boxed{\text{NIL}}\boxed{O}\]
+in cui nelle prime due celle di memoria vengono memorizzate, rispettivamente, un puntatore che punta all'inizio della lista e un puntatore che punta alla fine della lista, mentre nella terza celle è presente la lunghezza della lista.\\
+Per l'inserimento di un nuovo nodo è sufficiente impiegare la procedura INSERT($x$,$L$), viene creata una doppia cella di memoria, contente il valore da memorizzare e un puntatore alla cella successiva (che per un inserimento in coda contiene naturalmente $NIL$, all'inizio). I puntatori dell'inizio e fine lista devono essere oppurtanemente aggiornati, così come il contatore della dimensione.\\
+Naturalmente, quando si necessita di cancellare un nodo in testa, si deve impiegare l'istruzione DELETE($L$), che provvede a cancellare il nodo in testa e di aggiornare gli opportuni puntatori.\\
+Ciò che penalizza, tuttavia, la lista, è il fatto che il costo di accesso ad un'ipotetica cella di memoria è $\Theta(n)$, in quanto l'\textbf{accesso può essere solamente sequenziale}.\\
+Tuttavia, nonostante tale complessità, l'operazione di \textbf{join} favorisce la lista sequenziale anziché l'array: infatti, crare un solo array $A$ partendo da due array $A_1$ e $A_2$ presenta un costo $\Theta(n_1+n_2)$, dove $n_1$ e $n_2$ sono gli elementi contenuti nei due array. Invece, la lista sequenziale presenta un costo per il join è semplicemente $\Theta(1)$, in quanto è sufficiente aggiornare il puntatore all'ultimo nodo della coda e per la lunghezza è sufficiente eseguire la somma tra i due contatore, quindi molto più conveniente.\\
+La lista sequenziale così descritta, che prevede un inserimento in \textbf{coda}, di tipo \textbf{FIFO} (first-in first-out), mentre se l'inserimento è in testa, si ottiene uno \textbf{stack}, che presenta una dinamica \textbf{LIFO} (last-in first-out).\\
+Le liste bidirezionali, invece, prevedono di impiegare due puntatori per ogni nodo, che quindi consentono di percorerre la lista in due direzioni, per cui il costo di accesso diviene $\Theta \left( \frac{n}{2} \right)$.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: La speranza matematica è sempre additiva, mentre la varianza no: una condizione sufficiente perché lo sia è l'indipendenza di eventi.\\
+Per esempio, se si considera la funzione deterministica $f(\mathcal{X}) = \alpha \cdot \mathcal{X} + \beta$, allora si ha che
+\[E\left[\alpha \cdot \mathcal{X} + \beta\right]\]
+e
+\[\text{var}\left[\alpha \cdot \mathcal{X} + \beta\right]=\alpha^2 \cdot \text{var}\left[\mathcal{X}\right]\]
+Se, invece, si considera, un numero $N = I_1 + I_2 + ... + I_n$ di indicatori di successo, allora si ottiene
+\[E \left[N\right] = np \hspace{1em} \text{e} \hspace{1em} \text{var} \left[N\right] = npq\]
+che è facilmente ottenibile come segue:
+\[\text{var} \left[N\right] = E \left[(N-\mu)^2\right] = E[N^2] - \left[E[N]\right]^2\]
+per cui è facile capire come
+\[E[N^2] = \text{var}[N] + \left[E[N]\right]^2 \longrightarrow npq + n^2p^2 + n \cdot p \cdot (q + np)\]
+ma essendo $q=1-p$ si ottiene che
+\[npq + n^2p^2 + n \cdot p \cdot (q + np) = ... continua ... = 2 - \frac{1}{n} < 2\]
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Dovendo ordinare valori $[\alpha, \beta]$, si può facilmente considerare l'intervallo $[0,1]$, giacché
+\[x_i=\frac{y_i - \alpha}{\beta - \alpha}\]
+per cui $x_i \in [0,1]$ quando $y_i \in [\alpha,\beta]$: pertanto i due intervalli sono perfettamente equivalente. Tuttavia, il calcolatore non può considerare un intervallo continuo $[0,1]$, in quanto la precisione di rappresentazione è fortemente limitata, per cui il numero di valori rappresentabili nell'intervallo $[0,1]$ è \textbf{finito}.\\
+Pertanto, considerando la legge di distribuzione di probabilità uniforme su un intervallo, calcolabile come l'integrale dell'area di piano sottesa al grafico della funzione costante $1$, si può facilmente approssimare tale concetto estraendo in maniera uniforme $10^8$ valori nell'intervallo $[0,1]$, escluso il valore estremo di destra, quindi $[0,1[$, ciascuno dei quali presenta una probabilità di $1$ su $10^8$ di essere estratto.\\
+È intuibile capire che lavorando con $n >> 1$ valori da ordinare, l'algoritmo \textbf{bucket-sort} funziona particolarmente bene quando i valori da ordinare presentano una distribuzione quanto più uniforme (dimodoché non vi siano intervalli di omogeneità uniforme)
+
+\begin{algorithm}[H]
+  \caption{Bucket-Sort}
+  \begin{algorithmic}[1]
+    \State BUCKET-SORT($A$)
+    \State $n=\text{length}(A)$
+    \State \textbf{for} $i=1$ \textbf{to} $n$
+    \Indent
+      \State \textbf{do} \textbf{insert} $A[i]$ \textbf{in} $B \left[ \left \lfloor n \cdot A[i] \right \rfloor \right]$
+    \EndIndent
+    \State \textbf{for} $i=0$ \textbf{to} $n-1$
+    \Indent
+      \State \textbf{do} \textbf{order} $B[i]$ \textbf{with} \emph{insertion-sort}
+    \EndIndent
+
+
+
+    \State \textbf{for} $j=1$ \textbf{to} $n$
+    \Indent
+      \State \textbf{do} $C \left[A[j]\right]=C \left[A[j]\right]+1$
+    \EndIndent
+    \State \textbf{for} $i=1$ \textbf{to} $k$
+    \Indent
+      \State \textbf{do} $C[i]=C[i]+C[i-1]$
+    \EndIndent
+    \State \textbf{for} $j=n$ \textbf{down to} $1$
+    \Indent
+      \State \textbf{do} $B[C[A[j]]]=A[j]$
+      \Indent
+        \State $C[A[j]] = C[A[j]]-1$
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+In cui, nel primo ciclo for vi sono $n$ iterazioni, per uno sforzo di $\Theta(n)$.\\
+Di fatto, si impiega un secondo array $B$ nel quale, da $0$ a $n-1$, si inserisce inizialmente il valore NIL, e progressivamente viene creata una lista concatenata per ciascuna (non necessariamente) posizione di $B$, come mostrato di seguito:
+
+\vspace{1em}
+\noindent
+Pertanto, se i valori di $A$ sono disposti uniformemente nell'intervallo $[0,1]$, allora ogni bucket (ossia ogni posizione di $B$) presenterà un numero pressoché identico di valori. Per tale ragione è possibile impiegare l'algoritmo \textbf{insertion-sort} per ordinare i valori di ciascun bucket (anche se la complessità di insertion-sort è quadratica).\\
+Dopodidché, sicché i valori di ciascun bucket sono inferiori dei valori dei bucket successivi, sarà sufficiente effettuare il \textbf{join} di tutte le liste di ciascun bucket: siccome si devono effettuare $n-1$ join con complessità $\Theta(1)$, il costo di tale operazione è $\Theta(n)$.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Al fine di verificare la complessità di bucket-sort, si può valutare la probabilità che i valori che devono essere ordinati siano uniformemente distribuiti nell'intervallo $[0,1[$ (in cui l'algoritmo bucket-sort funziona in maniera ottimale).\\
+Si impieghi, allora, la procedura RANDOM($0$,$0.99999999$) per estrarre un numero casuale tra $[0,1[$ e si calcoli la probabilità che tale valore si inserito all'interno del bucket $i$-esimo, avendo $n$ bucket (ossia $n$ valori da ordinare), si ottiene che
+\[E[N_i]=1 \hspace{1em} \text{e} \hspace{1em} E[N_i^2]=2-\frac{1}{n}<2\]
+che porta a concludere che, tipicamente, in ogni bucket vi sia contenuto uno e un solo valore (ovviamente tale risultato è aleatorio, in quanto vi è una bassa probabilità che in un solo bucket vi cadano $n$ valori, ossia la totalità).\\
+Si calcoli, sapendo che la speranza matematica della somma è la somma delle speranze matematiche:
+\[E \left[T(n,\mathcal{X})\right] = \Theta(n) + \sum_{i=0}^{n-1} E \left[T_i(\mathcal{X})\right]\]
+in quanto è necessario sommare la somma delle speranze matematiche della complessità di ordinamento del bucket $i$-esimo tramite insertion-sort. Ciò porta alla seguente maggiorazione
+\[\Theta(n) + \sum_{i=0}^{n-1} E \left[T_i(\mathcal{X})\right] \leq \Theta(n) + E \left(\gamma_i \cdot N_i^2\right) = \Theta(n) + \gamma \cdot E(N_i^2)\]
+Per cui, nel caso peggiore, siccome la speranza matematica di $\mathcal{X}^2$ è minore di $2$, si può ottenere la seguente maggiorazione:
+\[\Theta(n) + \gamma \cdot E(N_i^2) \leq \Theta(n) + n \cdot (\gamma \cdot 2)\]
+che porta a concludere che la speranza matematica di complessità si bucket-sort è lineare, da cui:
+\[E \left[T(n,\mathcal{X})\right]=\Theta(n)\]
+che è un risultato straordinario. Inoltre, siccome alla fine si è ottenuta una lista lunga $n$, è anche possibile costruire un array di lunghezza $n$ con tutti i valori ordinati.
+
+\vspace{1em}
+\subsection{Riassunto degli algoritmi di ordinamento}
+Al di là degli algoritmi di ordinamento bubble-sort e insertion-sort, un primo importante algoritmo di ordinamento è merge-sort, il quale presenta una complessità nel caso peggiore log-lineare, e che prevede di adottare un approccio \emph{dividi et impera}, in cui, tuttavia, le operazioni che vengono eseguite sono in serie, e non in parallelo. La complessità, di fatto è
+\[T(n)=2 \cdot T \left(\frac{n}{2}\right) + f(n)\]
+in cui la funzione $f(n)$ non è nota a priori, ma è nota solamente la sua classe $\Theta$.\\
+Applicando il teorema maestro, si ha che
+\[T(n) = 2 \cdot T \left(\frac{n}{2}\right) + n\]
+e dividendo ambo i membri per $n$ si ottiene che
+\[\frac{T(n)}{n} = \frac{T \left(\frac{n}{2}\right)}{n} + 1\]
+e nel caso successivo si si ottiene che
+\[T \left(\frac{n}{2}\right) = T \left(\frac{n}{4}\right) + \frac{n}{2}\]
+e dividendo per $\frac{n}{2}$ si ottiene:
+\[\frac{T \left(\frac{n}{2}\right)}{\frac{n}{2}} = \frac{T \left(\frac{n}{4}\right)}{\frac{n}{2}} + 1\]
+e così via, fino ad arrivare a
+\[T(1)=T(1)+1\]
+in cui progressivamente si esprime il termine a destra con il termine successivamente, per cui, dividendo $n$ volte per $2$ si ottiene che
+\[T(n)=\log(n) + n \cdot \log(n) = n \cdot \log(n)\]
+essendo prevalente la complessità peggiore nella somma.
+
+\vspace{1em}
+\noindent
+Nel caso di \textbf{heap-sort}, la maggior parte delle operazioni viene svolto da \textbf{heapify}, il quale controlla per ogni nodo se viene rispettato il vincolo di maximum-heap, andando a controllare tutti i sottoalberi di ogni nodo.\\
+Avendo costruito una catasta con il valore massimo in cima, si procede a sostituirlo con l'ultimo, accorciando la catasta e applicando nuovamente heapify per far rispettare il vincolo, fino ad ottenere un ordinamento sui nodi dell'albero, che viene riflesso sull'array di partenza.\\
+La complessità di build-heap è $O(n \cdot \log(n))$, così maggiorata nell'ipotesi che heapify abbia sempre complessità log-lineare. Tuttavia, tale maggiorazione potrebbe essere migliorata, giungendo ad affermare che la complessità è $\Theta(n)$.
+
+
 \end{document}
