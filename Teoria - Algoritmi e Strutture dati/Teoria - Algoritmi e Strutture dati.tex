@@ -2814,40 +2814,61 @@ Quando viene eseguita l'istruzione INSERT($x$,$L$), viene creato un nodo avente 
   30 Marzo 2022
 \end{center}
 Le due struttre dati fondamentali impiegabili in algoritmica sono l'array e la lista sequenziale.\\
-Nel caso dell'array, è fondamentale sapere a priori di quante posizioni successive si necessita per la memorizzazione. L'array viene identificato con un nome simbolico che punta alla prima cella di memoria disponibile della sequenza. Tuttavia, il costo di posizionarsi su una specifica cella di memoria per un array è $\Theta(1)$: si parla, in tal caso, di \textbf{random-access} (anche definito libero o diretto).\\
+Si tratta in ambedue i casi di liste, ma nel caso dell'array, è fondamentale sapere a priori di quante posizioni successive si necessita per la memorizzazione. L'array viene identificato con un nome simbolico che punta alla prima cella di memoria disponibile della sequenza di $n$ celle di memoria consecutive. Tuttavia, il costo di posizionarsi su una specifica cella di memoria per un array è $\Theta(1)$ (ovvero l'accesso ha un costo compreso tra due costanti positive $c_1 \leq c_2$): si parla, in questo caso, di \textbf{random-access} (anche definito \textbf{accesso libero} o \textbf{diretto}).\\
 L'altra struttura dati prende il nome di \textbf{lista sequenziale}, per la quale non è necessario specificare a priori la lunghezza della lista, il che si rivela particolarmente utile quando non si conosce a priori la quantità di dati da dover memorizzare. La lista viene così dichiarata:
-\[L \boxed{\text{NIL}}\boxed{\text{NIL}}\boxed{O}\]
-in cui nelle prime due celle di memoria vengono memorizzate, rispettivamente, un puntatore che punta all'inizio della lista e un puntatore che punta alla fine della lista, mentre nella terza celle è presente la lunghezza della lista.\\
-Per l'inserimento di un nuovo nodo è sufficiente impiegare la procedura INSERT($x$,$L$), viene creata una doppia cella di memoria, contente il valore da memorizzare e un puntatore alla cella successiva (che per un inserimento in coda contiene naturalmente $NIL$, all'inizio). I puntatori dell'inizio e fine lista devono essere oppurtanemente aggiornati, così come il contatore della dimensione.\\
-Naturalmente, quando si necessita di cancellare un nodo in testa, si deve impiegare l'istruzione DELETE($L$), che provvede a cancellare il nodo in testa e di aggiornare gli opportuni puntatori.\\
-Ciò che penalizza, tuttavia, la lista, è il fatto che il costo di accesso ad un'ipotetica cella di memoria è $\Theta(n)$, in quanto l'\textbf{accesso può essere solamente sequenziale}.\\
-Tuttavia, nonostante tale complessità, l'operazione di \textbf{join} favorisce la lista sequenziale anziché l'array: infatti, crare un solo array $A$ partendo da due array $A_1$ e $A_2$ presenta un costo $\Theta(n_1+n_2)$, dove $n_1$ e $n_2$ sono gli elementi contenuti nei due array. Invece, la lista sequenziale presenta un costo per il join è semplicemente $\Theta(1)$, in quanto è sufficiente aggiornare il puntatore all'ultimo nodo della coda e per la lunghezza è sufficiente eseguire la somma tra i due contatore, quindi molto più conveniente.\\
-La lista sequenziale così descritta, che prevede un inserimento in \textbf{coda}, di tipo \textbf{FIFO} (first-in first-out), mentre se l'inserimento è in testa, si ottiene uno \textbf{stack}, che presenta una dinamica \textbf{LIFO} (last-in first-out).\\
-Le liste bidirezionali, invece, prevedono di impiegare due puntatori per ogni nodo, che quindi consentono di percorerre la lista in due direzioni, per cui il costo di accesso diviene $\Theta \left( \frac{n}{2} \right)$.
+\[L \hspace{0.5em} \boxed{\text{NIL}}\boxed{\text{NIL}}\boxed{\text{O}}\]
+in cui nelle prime due celle di memoria vengono memorizzati, rispettivamente, un puntatore che punta all'inizio della lista e un puntatore che punta alla fine della lista, mentre nella terza cella è presente la lunghezza della lista.\\
+Per l'inserimento di un nuovo nodo è sufficiente impiegare la procedura INSERT($x$,$L$), grazie alla quale viene creata una doppia cella di memoria (una doppia-posizione), contente il valore da memorizzare e un puntatore alla cella successiva (che per un inserimento in coda contiene naturalmente NIL, all'inizio). I puntatori dell'inizio e fine lista devono essere oppurtanemente aggiornati (entrambi puntano allo stesso unico nodo, un quanto sia nodo iniziale che finale della lista), così come il contatore della dimensione (che viene incrementato di $1$), e così per ogni nuovo nodo che viene inserito.\\
+Naturalmente, quando si necessita di cancellare un nodo in testa, si deve impiegare l'istruzione DELETE($L$), che provvede a cancellare il nodo in testa, aggiornando il puntatore all'inizio della lista e decrementando il contatore della lunghezza della lista: ovviamente tale operazione palesa il problema dell'\textbf{underflow} che si potrebbe verificare quando si tenta di cancellare il nodo in testa di una lista vuota, avente lunghezza nulla (vero è che come si può verificare l'underflow si può verificare l'\textbf{overflow}, anche se quest'ultimo costituisce un'eventualità assai più remota della prima).\\
+Ciò che penalizza, tuttavia, la lista, è il fatto che il costo di accesso ad un'ipotetica cella di memoria è $O(n)$, in quanto l'\textbf{accesso può essere solamente sequenziale}.\\
+Tuttavia, nonostante tale complessità, l'operazione di \textbf{join} favorisce la lista sequenziale anziché l'array: infatti, crare un solo array $A$ partendo da due array $A_1$ e $A_2$ (ossia effettuando il join $A = A_1 \circ A_2$) presenta un costo $\Theta(n_1+n_2)$, dove $n_1$ e $n_2$ sono gli elementi contenuti nei due array, in quanto bisogna inserire $n_1+n_2$ valori all'interno di una serie di celle sequenziali. Invece, la lista sequenziale presenta un costo per il join (ossia $L=L_1 \circ L_2$) che è semplicemente $\Theta(1)$, in quanto è sufficiente aggiornare il puntatore all'ultimo nodo della lista e per la lunghezza è sufficiente eseguire la somma tra i due contatori, quindi molto più conveniente.\\
+La lista sequenziale così descritta, che prevede un inserimento in \textbf{coda}, presenta una logica di tipo \textbf{FIFO} (first-in first-out): rassomiglia, quindi, ad una coda che presenta i metodo ENQUEUE per l'inserimento e DEQUEUE per la cancellazione. Invece, se l'inserimento è in testa, si ottiene uno \textbf{stack} (o pila), che presenta una dinamica \textbf{LIFO} (last-in first-out).\\
+Le liste bidirezionali, invece, prevedono di impiegare due puntatori per ogni nodo (uno che punta al nodo precedente e uno che punta al nodo successivo), che quindi consentono di percorerre la lista in due direzioni, per cui il costo di accesso diviene $O \left( \frac{n}{2} \right)$.
 
 \vspace{1em}
 \noindent
 \textbf{Osservazione}: La speranza matematica è sempre additiva, mentre la varianza no: una condizione sufficiente perché lo sia è l'indipendenza di eventi.\\
 Per esempio, se si considera la funzione deterministica $f(\mathcal{X}) = \alpha \cdot \mathcal{X} + \beta$, allora si ha che
-\[E\left[\alpha \cdot \mathcal{X} + \beta\right]\]
+\[\boxed{E\left[\alpha \cdot \mathcal{X} + \beta\right] = \alpha \cdot E\left[\mathcal{X}\right] + \beta}\]
 e
-\[\text{var}\left[\alpha \cdot \mathcal{X} + \beta\right]=\alpha^2 \cdot \text{var}\left[\mathcal{X}\right]\]
-Se, invece, si considera, un numero $N = I_1 + I_2 + ... + I_n$ di indicatori di successo, allora si ottiene
-\[E \left[N\right] = np \hspace{1em} \text{e} \hspace{1em} \text{var} \left[N\right] = npq\]
-che è facilmente ottenibile come segue:
-\[\text{var} \left[N\right] = E \left[(N-\mu)^2\right] = E[N^2] - \left[E[N]\right]^2\]
-per cui è facile capire come
-\[E[N^2] = \text{var}[N] + \left[E[N]\right]^2 \longrightarrow npq + n^2p^2 + n \cdot p \cdot (q + np)\]
-ma essendo $q=1-p$ si ottiene che
-\[npq + n^2p^2 + n \cdot p \cdot (q + np) = ... continua ... = 2 - \frac{1}{n} < 2\]
+\[\boxed{\text{var}\left[\alpha \cdot \mathcal{X} + \beta\right]=\alpha^2 \cdot \text{var}\left[\mathcal{X}\right]}\]
+volendo recuperare la dimensione di $\mathcal{X}$, è sufficiente passare allo scarto quadratico medio, o alla deviazione standard:
+\[\boxed{\text{sqm}\left[\alpha \cdot \mathcal{X} + \beta\right] = \sqrt{\alpha^2 \cdot \text{var}\left[\mathcal{X}\right]} = \vert \alpha \vert \cdot \text{sqm} \left[\mathcal{X}\right]}\]
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Dovendo ordinare valori $[\alpha, \beta]$, si può facilmente considerare l'intervallo $[0,1]$, giacché
+Se si conidera un indicatore di successo $I$ (ossia un bit aleatorio che vale $1$ con probabilità $p$ e vale $0$ con probabilità $q=1-p$), è facile capire come $E \left[I\right] = p$, mentre $\text{var} \left[I\right]=pq$.\\
+Se, invece, si considera, un numero $n$ di esperimenti (ripetuti nelle stesse condizioni), a cui vengono associati $n$ indicatori di successo $N = I_1 + I_2 + ... + I_n$, sommando il numero aleaorio di successi $N$, si giunge alla distribuzione binomiale seguente, per la quale, essendo la speranza matematica additiva, così come la varianza essendo esperimenti indipendenti l'uno dall'altro:
+\[E \left[N\right] = np \hspace{1em} \text{e} \hspace{1em} \text{var} \left[N\right] = npq\]
+Volendo determinare la speranza matematica di $N^2$, si può facilmente osservare che:
+\[\text{var} \left[N\right] = E \left[(N-\mu)^2\right] = E[N^2] - \left[E[N]\right]^2\]
+dove $\mu = E[N]$. Per cui è facile capire come
+\[E[N^2] = \text{var}[N] + \left[E[N]\right]^2 \longrightarrow npq + n^2p^2 = np \cdot (q + np)\]
+ma essendo la probabilità di insuccesso $q=1-p$ si ottiene che
+\[npq + n^2p^2 = n p \cdot (q + np) = n p \cdot (1 - p + np)\]
+Ma siccome in bucket-sort è fondamentale valutare la speranza matematica di $N^2$ quando la probabilità di successo $p=\frac{1}{n}$, si può facilmente capire come si semplificano la speranza matematica e la varianza, da cui
+\[E[N]=np=n \cdot \frac{1}{n}=1\]
+da cui
+\[n p \cdot (1 - p + np) = n \cdot \frac{1}{n} \cdot \left(1 - \frac{1}{n} + n \cdot \frac{1}{n}\right) = 2 - \frac{1}{n} < 2\]
+ottenenendo
+\[\boxed{E \left[N^2 \right]=2 - \frac{1}{n} < 2}\]
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: In bucket-sort, dovendo ordinare valori reali in un ipotetico intervallo $[\alpha, \beta]$ con $\alpha < \beta$, si può facilmente considerare, per semplicità, l'intervallo $[0,1]$, giacché la trasformazione lineare seguente
 \[x_i=\frac{y_i - \alpha}{\beta - \alpha}\]
-per cui $x_i \in [0,1]$ quando $y_i \in [\alpha,\beta]$: pertanto i due intervalli sono perfettamente equivalente. Tuttavia, il calcolatore non può considerare un intervallo continuo $[0,1]$, in quanto la precisione di rappresentazione è fortemente limitata, per cui il numero di valori rappresentabili nell'intervallo $[0,1]$ è \textbf{finito}.\\
-Pertanto, considerando la legge di distribuzione di probabilità uniforme su un intervallo, calcolabile come l'integrale dell'area di piano sottesa al grafico della funzione costante $1$, si può facilmente approssimare tale concetto estraendo in maniera uniforme $10^8$ valori nell'intervallo $[0,1]$, escluso il valore estremo di destra, quindi $[0,1[$, ciascuno dei quali presenta una probabilità di $1$ su $10^8$ di essere estratto.\\
-È intuibile capire che lavorando con $n >> 1$ valori da ordinare, l'algoritmo \textbf{bucket-sort} funziona particolarmente bene quando i valori da ordinare presentano una distribuzione quanto più uniforme (dimodoché non vi siano intervalli di omogeneità uniforme)
+permette di ricondurre l'intervallo $[\alpha,\beta]$ all'intervallo $[0,1]$, con $x_i \in [0,1]$ quando $y_i \in [\alpha,\beta]$ (infatti, per $y_i=\alpha$ e $y_i=\beta$ si ottengono gli estremi dell'intervallo unitario): pertanto i due intervalli sono perfettamente equivalenti.\\
+Tuttavia, il calcolatore non può considerare un intervallo continuo $[0,1]$, in quanto la precisione di rappresentazione è fortemente limitata, per cui il numero di valori rappresentabili nell'intervallo $[0,1]$ è \textbf{finito}.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che i valori numerici non hanno un'unica rappresentazione, in quanto il valore $1$ può anche essere scritto come $0.\overline{9}$, così come il valore $0.323$ può essere scritto come $0.322\overline{9}$; ciò, naturalmente, quando il numero di cifre decimali a disposizione è infinito.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Naturalmente, l'intervallo $[0,1]$ presenta la cardinalità del continuo, mentre il calcolatore non solo non è capace di avere una precisione infinita di rappresentazione, ma non è in grado nemmeno di garantire la precisione infinita razionale (e non continua) dell'intervallo $[0,1]$. Ciò che è possibile fare è fissare un numero massimo di cifre decimali (come $8$ nel caso di un byte), come $0.03211448$.\\
+Pertanto, considerando la legge di distribuzione di probabilità continua sull'intervallo $[0,1]$, per cui la probabilità si un sottointervallo di $[0,1]$ è naturalmente calcolabile come l'integrale dell'area di piano sottesa al grafico della funzione costante $1$, si può facilmente approssimare tale concetto estraendo in maniera uniforme $10^8$ valori nell'intervallo $[0,1]$, escluso il valore estremo di destra, quindi $[0,1[$, ciascuno dei quali presenta una probabilità di $1$ su $10^8$ di essere estratto.\\
+È intuibile capire che lavorando con $n >> 1$ valori da ordinare, l'algoritmo \textbf{bucket-sort} funziona particolarmente bene quando i valori da ordinare presentano una distribuzione quanto più uniforme (dimodoché non vi siano intervalli di omogeneità difforme)
 
 \begin{algorithm}[H]
   \caption{Bucket-Sort}
@@ -2862,24 +2883,7 @@ Pertanto, considerando la legge di distribuzione di probabilità uniforme su un 
     \Indent
       \State \textbf{do} \textbf{order} $B[i]$ \textbf{with} \emph{insertion-sort}
     \EndIndent
-
-
-
-    \State \textbf{for} $j=1$ \textbf{to} $n$
-    \Indent
-      \State \textbf{do} $C \left[A[j]\right]=C \left[A[j]\right]+1$
-    \EndIndent
-    \State \textbf{for} $i=1$ \textbf{to} $k$
-    \Indent
-      \State \textbf{do} $C[i]=C[i]+C[i-1]$
-    \EndIndent
-    \State \textbf{for} $j=n$ \textbf{down to} $1$
-    \Indent
-      \State \textbf{do} $B[C[A[j]]]=A[j]$
-      \Indent
-        \State $C[A[j]] = C[A[j]]-1$
-      \EndIndent
-    \EndIndent
+    \State \textbf{join lists} $B[0],B[1],...,B[n-1]$ in this order
   \end{algorithmic}
 \end{algorithm}
 
@@ -2933,6 +2937,179 @@ essendo prevalente la complessità peggiore nella somma.
 Nel caso di \textbf{heap-sort}, la maggior parte delle operazioni viene svolto da \textbf{heapify}, il quale controlla per ogni nodo se viene rispettato il vincolo di maximum-heap, andando a controllare tutti i sottoalberi di ogni nodo.\\
 Avendo costruito una catasta con il valore massimo in cima, si procede a sostituirlo con l'ultimo, accorciando la catasta e applicando nuovamente heapify per far rispettare il vincolo, fino ad ottenere un ordinamento sui nodi dell'albero, che viene riflesso sull'array di partenza.\\
 La complessità di build-heap è $O(n \cdot \log(n))$, così maggiorata nell'ipotesi che heapify abbia sempre complessità log-lineare. Tuttavia, tale maggiorazione potrebbe essere migliorata, giungendo ad affermare che la complessità è $\Theta(n)$.
+
+\newpage
+\noindent
+\begin{center}
+  31 Marzo 2022
+\end{center}
+La maggiorazione della complessità di build-heap a $O(n \cdot \log(n))$ è esagerata, e sarebbe molto più utile dimostrare che la sua complessità è perfettamente lineare.\\
+Per farlo, bisogna dimostrare che nel caso di interesse, la derivata di una somma infinita di termini sia la somma delle derivate. In particolare si ha che:
+\[\sum_{i=0}^{n} q^i = \frac{1-q^{n+1}}{1-q}\]
+in cui, se $0<q<1$, quando $n \to +\infty$ tende ad un valore ben preciso, ossia a
+\[\lim_{n \to +\infty} \sum_{i=0}^{n} q^i = \lim_{n \to +\infty} \frac{1-q^{n+1}}{1-q} = \frac{1}{1-q}\]
+e se $q=\frac{1}{2}$ allora tale limite è $2$.\\
+Allora, derivando tale sommatoria rispetto a $q$ si ottiene
+\[\frac{1}{q} \sum_{i=1} i \cdot q^i = \frac{(1-q) \cdot (-(n+1) \cdot q^n) + (1-q^{n+1})}{(1-q)^2}\]
+E tale derivata, quando $n \to +\infty$ si traduce semplicemente in
+\[\frac{q}{(1-q)^2}\]
+e se $q=\frac{1}{2}$ allora tale limite è $2$.\\
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Nell'algoritmo build-heap si deve considerare un albero binario (non necessariamente completo) sul quale viene eseguito heapify per ogni nodo.\\
+Al fine di ottenere una limitazione superiore del numeor di iterazioni eseguire all'interno di build-heap, si suppone che l'albero binario sia completo, avente altezza totale $H$, da cui
+\[\# \text{iterazioni} \leq \sum_{h=0}^H 2^{H-h} \cdot (h+1)\]
+Naturalmente tale sommatoria può essere riscritta come
+\[\sum_{h=0}^H 2^{H-h} \cdot (h+1) = \sum_{h=0}^H 2^{H-h} + \sum_{h=0}^H 2^{H-h} = 2^H \cdot \sum_{h=0}^H h \cdot \frac{1}{2^h} + 2^H \cdot \sum_{h=0}^H \frac{1}{2^h}\]
+e sicomme si sono ottenute due sommatorie finite, si può maggiorare ulteriormente, supponendo di aggiungere tutti gli infiniti termini per ottenere delle serie infinite, il cui limite in ambo i casi è $2$, per cui
+\[2^H \cdot \sum_{h=0}^H h \cdot \frac{1}{2^h} + 2^H \cdot \sum_{h=0}^H \frac{1}{2^h} \leq 4 \cdot 2^H\]
+È noto, inoltre, che l'altezza di un albero binario appartiene alla classe $\Theta(\log_2(n))$, da cui si evince che
+\[4 \cdot 2^H \cong 4 \cdot 2^{c \cdot \log_2(n)} \cong 4c \cdot n\]
+ecco che allora si evince come la \textbf{complessità di build-heap} è esattamente \textbf{lineare}.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Nel caso dell'algoritmo quick-sort, si considera un perno (o pivot) e due confini mobili identificati da due indici: l'indice $i$ divide i valori minori o uguali al perno da quelli maggiori, mentre l'indice $j$ divide i valori maggiori o uguali al perno da quelli che ancora non sono stati confrontati.\\
+Al termine della separazione, il perno viene posizionato nella sua posizione definitiva, ripetendo tale algoritmo per ciascuna delle due parti in cui l'array di ordinare. È chiaro che se la ripartizione avviene sempre in maniera squilibrata e non omogenea, allora la complessità di quick-sort diventa quadratica (naturalmente nel caso peggiore).\\
+La complessità di quick-sort, nel caso medio, è log-lineare e si è dimostrato che un algoritmo di ordinamento generale, basato sui confronti, presenta una complessità nel caso generale e nel caso peggiore almeno log-lineare.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Passando ad algoritmi di ordinamento basati su strutture dati in ingresso ben precise, si è osservato che \textbf{counting-sort} presenta una complessità lineare: naturalmente, tale algoritmo si applica quando $k << n$ (anche se si potrebbe scrivere che $k = O(n)$).\\
+La prima fase dell'algoritmo si deve procedere ad inizializzare un array $C$ di $k$ posizioni a $0$, per poi effettuare $n$ iterazioni all'interno dell'array $A$ per contare quanti valori sono più piccoli di ciascuna posizione di $C$: lo sforzo compiuto è, naturalmente, dato da $\Theta(n+k)$.\\
+Effettuando, poi, un nuovo ciclo di $n$ iterazioni, si procede ad effettuare l'ordinamento non in loco, ma su un nuovo array $B$, andando progressivamente a decrementare, nell'array $C$, il contatore del numero di valori ancora disponibili, minori o uguali ad ogni posizione dell'array $C$.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: L'algoritmo bucket-sort permette di ordinare valori reali compresi in un intervallo $[0,1]$ (o in qualsiasi intervallo, per come si è visto in precedenza); naturalmente, la precisione di rappresentazione per un calcolatore è finita.\\
+La complesssità calcolata in precedenza prevede di estrarre casualmente dei valori arbitrari nell'intervallo prescelto e determinare la speranza matematica della complessità, giungengo ad un risultato molto favorevole: all'interno di ogni bucket ci si aspetta tipicamente di avere $1$ solo dei valori di partenza:
+\begin{flalign*}
+  \boxed{1} & \hspace{1em} \boxed{0.52} \hspace{2em} \boxed{0} \hspace{1em} \boxed{B[0]} \longrightarrow \boxed{0.11}\\
+  \boxed{1} & \hspace{1em} \boxed{0.52} \hspace{2em} \boxed{0} \hspace{1em} \boxed{B[0]} \longrightarrow \boxed{0.11} \longrightarrow \boxed{0.34}
+\end{flalign*}
+\noindent
+All'interno dell'array $B$ saranno contenuti dei puntatori a delle liste sequenziali: ogni valore dell'array $A$, a seconda del proprio valore, deve essere inserito all'interno di uno specifico bucket, secondo la regola seguente:
+\[B \left[ \left \lfloor n \cdot A[j] \right \rfloor \right]\]
+Naturalmente, ciascun bucket dovrà essere ordinato per mezzo di un algoritmo di ordinamento che funziona particolarmente bene quando i valori da ordinare sono ridotti.\\
+Alla fine, concatenando fra di loro tutte le liste di bucket, si ottiene l'array di valori perfettamente ordinamento.
+
+\newpage
+\section{Algoritmi sui grafi}
+Eulero fu il primo ad introdurre il concetto di grafo per la risoluzione di un problema di collegamento di canali:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (a) {$A$};
+    \node[main node] (b) [below of=a] {$B$};
+    \node[main node] (c) [above of=a] {$C$};
+    \node[main node] (d) [right of=a] {$D$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (a) edge node [left] {$c$} (c)
+      (a) edge node [right] {$d$} (c)
+          edge [bend left, out=60, in=120, out looseness=1, in looseness=1] node[left] {} (c)
+          % edge [loop above] node {0.1} (1)
+      (b) edge node [right] {} (c)
+          edge node {} (d)
+          % edge [loop left] node {0.4} (2)
+          % edge [bend right] node[left] {0.1} (3)
+      (c) edge node [right] {} (d)
+          % edge [bend right] node[right] {0.2} (4)
+      (d) edge node [left] {} (a);
+          % edge [loop right] node {0.6} (4)
+          % edge [bend right] node[right] {0.2} (1);
+  \end{tikzpicture}
+  \caption{Probllema di Eulero}
+  \label{fig:problema_eulero}
+\end{figure}
+
+\vspace{1em}
+\noindent
+In questo caso, ossia in un multigrafo, il collegamento tra $A$ e $C$ e tra $A$ e $B$ presenta una molteplicità doppia: in un grafo semplice non è possibile avere una molteplictià $\geq 2$.\\
+Inoltre in un multigrafo è possibile avere dei \textbf{loop}, ossia degli archi chiusi su uno stesso nodo, mentre in un grafo semplice no.\\
+La definizione di \textbf{grado} di un vertice è presto detta: il grado di un vertice è il numero di archi che insistono sul vertice considerato; per esempio $\text{deg}(C)=3$.\\
+Un grafo, inoltre, si dice \textbf{connesso} se esiste un percorso che permette di collegare fra di loro ogni coppia di vertici. Un grafo, inoltre, si dice \textbf{euleriano} se esise un percorso chiuso che permette di collegare tutti i vertici impiegando tutti gli archi una e una sola volta: un grafo è euleriano se è connesso e se il \textbf{grado di tutti i vertici è pari}.
+
+\vspace{1em}
+\noindent
+\subsection{Algoritmo di Hamilton}
+Il problema di Hamilton è: partendo da un vertice, si costruisca un percorso chiuso che unisca tutti i vertici una e una sola volta: se un percorso di tale tipo esiste, allora il grafo si dice \textbf{hamiltoniano}\\
+È chiaro che tale problema riguarda un grafo semplice, in quanto avere molteplicità maggiore di $1$ non è utile alla risoluzione del problema, in quando sempre due nodi vengono collegati.\\
+Naturalmente, verificare la correttezza di una soluzione al problema è molto semplice, mentre la risoluzione del problema è molto più complessa: si dice che è $np$ \textbf{completo}, ovvero al risoluzione non può che avvenire tramite algoritmi di complessità esponenziale; esattamente come per vertex-cover, ci si deve accontentare di algoritmi approssimati.
+
+\vspace{1em}
+\noindent
+\subsection{Teorema delle strette di mano}
+Si osservi che un loop, ossia un arco chiuso in uno stesso nodo, contribuisce alla molteplicità del nodo con un contributo di $2$. Si consideri, allora, il grafo seguente:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (a) {$A$};
+    \node[main node] (b) [below of=a] {$B$};
+    \node[main node] (c) [above of=a] {$C$};
+    \node[main node] (d) [right of=a] {$D$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (a) edge node [left] {$c$} (c)
+      (a) edge node [right] {$d$} (c)
+          edge [bend left, out=60, in=120, out looseness=1, in looseness=1] node[left] {} (c)
+          % edge [loop above] node {0.1} (1)
+      (b) edge node [right] {} (c)
+          edge node {} (d)
+          % edge [loop left] node {0.4} (2)
+          % edge [bend right] node[left] {0.1} (3)
+      (c) edge node [right] {} (d)
+          % edge [bend right] node[right] {0.2} (4)
+      (d) edge node [left] {} (a);
+          % edge [loop right] node {0.6} (4)
+          % edge [bend right] node[right] {0.2} (1);
+  \end{tikzpicture}
+  \caption{Probllema di Eulero}
+  \label{fig:problema_eulero}
+\end{figure}
+
+\noindent
+E si scrivano i vertici in colonna tante volte quant'è la loro molteplicità:
+\begin{flalign*}
+  \boxed{A} \hspace{1em} \boxed{\alpha}\\
+  \boxed{B} \hspace{1em} \boxed{\alpha}\\
+  \boxed{B} \hspace{1em} \boxed{\beta}\\
+  \boxed{B} \hspace{1em} \boxed{\gamma}\\
+  \boxed{C} \hspace{1em} \boxed{\beta}\\
+  \boxed{C} \hspace{1em} \boxed{\gamma}\\
+\end{flalign*}
+e tale teorema afferma che la somma degli archi è sempre pari:
+\[\boxed{\sum_{i=1}^n \text{deg}(v_i) = 2 \cdot \vert \xi \vert}\]
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che in un ipercubo $n$-dimensionale i vertici sono in tutto $2^n$, mentre il massimo della distanza fra due vertici è pari a $n$ (in quanto è sufficiente alterare ad uno ad uno gli $n$ bit di rappresentazione di ogni vertice).\\
+Se tale problema riguardasse il collegamento comunicativo tra $2^n$ vertici, con tale soluzione si avrebbe che alcune linee sarebbero eccessivamente occupate, sfavorendone delle altre.\\
+Per la risoluzione del problema, si potrebbe estrarre del tutto a caso un nodo ... continua ...
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Il numero degli archi in un grafo semplice è sempre
+\[0 \leq \vert \xi \vert \leq \frac{k \cdot \left(k-1\right)}{2}\]
+Nell'ipotesi in cui il gravo fosse connesso, si dimostrerà che tale grafo conterrà sempre un albero al suo interno, e quindi si ottiene che
+\[\Theta(\vert v \vert) = \vert v \vert - 1 \leq \vert \xi \vert \leq \frac{\vert v \vert \cdot \left(\vert v \vert - 1\right)}{2} = \Theta(\vert v \vert^2)\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
