@@ -2867,8 +2867,9 @@ Tuttavia, il calcolatore non può considerare un intervallo continuo $[0,1]$, in
 \vspace{1em}
 \noindent
 \textbf{Osservazione}: Naturalmente, l'intervallo $[0,1]$ presenta la cardinalità del continuo, mentre il calcolatore non solo non è capace di avere una precisione infinita di rappresentazione, ma non è in grado nemmeno di garantire la precisione infinita razionale (e non continua) dell'intervallo $[0,1]$. Ciò che è possibile fare è fissare un numero massimo di cifre decimali (come $8$ nel caso di un byte), come $0.03211448$.\\
-Pertanto, considerando la legge di distribuzione di probabilità continua sull'intervallo $[0,1]$, per cui la probabilità si un sottointervallo di $[0,1]$ è naturalmente calcolabile come l'integrale dell'area di piano sottesa al grafico della funzione costante $1$, si può facilmente approssimare tale concetto estraendo in maniera uniforme $10^8$ valori nell'intervallo $[0,1]$, escluso il valore estremo di destra, quindi $[0,1[$, ciascuno dei quali presenta una probabilità di $1$ su $10^8$ di essere estratto.\\
-È intuibile capire che lavorando con $n >> 1$ valori da ordinare, l'algoritmo \textbf{bucket-sort} funziona particolarmente bene quando i valori da ordinare presentano una distribuzione quanto più uniforme (dimodoché non vi siano intervalli di omogeneità difforme)
+Pertanto, considerando la legge di distribuzione di probabilità continua sull'intervallo $[0,1]$, la probabilità di un sottointervallo $[a,b] \subset [0,1]$ è naturalmente calcolabile come l'integrale sull'intervallo $[a,b]$ della funzione costante $1$; tuttavia, tale risultato non può essere ottenuto da un calcolatore con una precisione finita, ma può essere fornita un'approssimazione di tale concetto estraendo in maniera uniforme $10^8$ valori (ossia sempre un numero finito, da $0.00000001$ a $0.99999999$) nell'intervallo $[0,1]$, escluso il valore estremo di destra, quindi $[0,1[$, ciascuno dei quali presenta una probabilità di $1$ su $10^8$ di essere estratto.\\
+È intuibile capire che lavorando con $n >> 1$ valori da ordinare, l'algoritmo \textbf{bucket-sort} funziona particolarmente bene quando i valori da ordinare presentano una distribuzione quanto più uniforme nell'intervallo $[0,1[$ (dimodoché non vi siano sottointervalli di omogeneità eccessivamente difforme).\\
+Di seguito si espone il listato dell'algoritmo \textbf{bucket-sort}:
 
 \begin{algorithm}[H]
   \caption{Bucket-Sort}
@@ -2887,56 +2888,79 @@ Pertanto, considerando la legge di distribuzione di probabilità continua sull'i
   \end{algorithmic}
 \end{algorithm}
 
-\vspace{1em}
 \noindent
-In cui, nel primo ciclo for vi sono $n$ iterazioni, per uno sforzo di $\Theta(n)$.\\
-Di fatto, si impiega un secondo array $B$ nel quale, da $0$ a $n-1$, si inserisce inizialmente il valore NIL, e progressivamente viene creata una lista concatenata per ciascuna (non necessariamente) posizione di $B$, come mostrato di seguito:
+Per l'ordinamento, quindi, oltre all'array iniziale $A$, si impiega un secondo array $B$ nel quale, da $0$ a $n-1$, si inserisce inizialmente il valore NIL, e progressivamente viene creata una lista concatenata per ciascuna (non necessariamente) posizione di $B$ (ovvero nelle posizioni dell'array $B$ si inserirà un puntatore ad una lista sequenziale), tramite il primo ciclo for, in cui vi sono $n$ iterazioni, per uno sforzo complessivo di $\Theta(n)$, come mostrato di seguito:
+
+\begin{flalign*}
+   & \hspace{1.6em} A \hspace{6em} B\\
+  \boxed{1} & \hspace{1em} \boxed{0.78} \hspace{2em} \boxed{0} \hspace{1em} \boxed{B[0]} \longrightarrow \boxed{0.17}\\
+  \boxed{2} & \hspace{1em} \boxed{0.17} \hspace{2em} \boxed{1} \hspace{1em} \boxed{B[1]} \longrightarrow \boxed{0.39} \longrightarrow \boxed{0.26}\\
+  \boxed{3} & \hspace{1em} \boxed{0.39} \hspace{2em} \boxed{2} \hspace{1em} \boxed{\text{NIL}}\\
+  \boxed{4} & \hspace{1em} \boxed{0.26} \hspace{2em} \boxed{3} \hspace{1em} \boxed{\text{NIL}}\\
+  \boxed{5} & \hspace{1em} \boxed{0.94} \hspace{2em} \boxed{4} \hspace{1em} \boxed{B[4]} \longrightarrow \boxed{0.94}
+\end{flalign*}
 
 \vspace{1em}
 \noindent
-Pertanto, se i valori di $A$ sono disposti uniformemente nell'intervallo $[0,1]$, allora ogni bucket (ossia ogni posizione di $B$) presenterà un numero pressoché identico di valori. Per tale ragione è possibile impiegare l'algoritmo \textbf{insertion-sort} per ordinare i valori di ciascun bucket (anche se la complessità di insertion-sort è quadratica).\\
-Dopodidché, sicché i valori di ciascun bucket sono inferiori dei valori dei bucket successivi, sarà sufficiente effettuare il \textbf{join} di tutte le liste di ciascun bucket: siccome si devono effettuare $n-1$ join con complessità $\Theta(1)$, il costo di tale operazione è $\Theta(n)$.
+Pertanto, se i valori di $A$ sono disposti uniformemente nell'intervallo $[0,1]$, allora ogni bucket (ossia ogni posizione di $B$) presenterà un numero pressoché identico di valori (e siccome i bucket sono $n$ e i numeri sono $n$, su ogni bucket vi saranno $0$,$1$ o $2$ elementi). Per tale ragione è possibile impiegare l'algoritmo \textbf{insertion-sort} per ordinare i valori di ciascun bucket (anche se la complessità di insertion-sort è quadratica, per cui il prezzo da pagare è almeno $\Omega(n)$).\\
+Dopodiché, avendo ordinato ciascun bucket, sicché i valori di ciascun bucket sono inferiori dei valori dei bucket successivi, sarà sufficiente effettuare il \textbf{join} di tutte le liste di ciascun bucket: siccome si devono effettuare $n-1$ join con complessità $\Theta(1)$, il costo di tale operazione è $\Theta(n)$.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Al fine di verificare la complessità di bucket-sort, si può valutare la probabilità che i valori che devono essere ordinati siano uniformemente distribuiti nell'intervallo $[0,1[$ (in cui l'algoritmo bucket-sort funziona in maniera ottimale).\\
-Si impieghi, allora, la procedura RANDOM($0$,$0.99999999$) per estrarre un numero casuale tra $[0,1[$ e si calcoli la probabilità che tale valore si inserito all'interno del bucket $i$-esimo, avendo $n$ bucket (ossia $n$ valori da ordinare), si ottiene che
+\textbf{Osservazione}: Naturalmente, l'impiego di bucket-sort è stato subordinato ad una condizione vaga posta in principio: la supposizioni che i valori da ordinare siano disposti in maniera uniforme all'interno dell'intervallo $[0,1]$.\\
+Al fine di stimare la complessità di bucket-sort, si può valutare la probabilità che i valori che devono essere ordinati siano uniformemente distribuiti nell'intervallo $[0,1[$ (in cui l'algoritmo bucket-sort funziona in maniera ottimale): in altre parole, impiegando la distribuzione uniforme, si generano a caso $n$ numeri sull'intervallo $[0,1[$, provvedendo ad ordinarli tramite bucket-sort, la cui complessità d'esecuzione dipende da quali numeri sono stati estratti, in altre parole si ha una \textbf{complessità aleatoria}, di cui si provvede a calcolare la speranza matematica, al fine di disporre di una stima della complessità dell'algoritmo.\\
+Si impieghi, allora, la procedura RANDOM($0$,$0.99999999$) per estrarre $n$ volte, mediante la distribuzione uniforme, un numero reale nell'intervallo $[0,1[$ e si calcoli la probabilità che tale valore si trovi inserito all'interno del bucket $i$-esimo, avendo $n$ bucket (ossia $n$ valori da ordinare); si osservi che i bucket che vengono costruiti presentano tutti la medesima ampiezza all'interno della distribuzione uniforme, per cui ogni numero presenta la stessa probabilità di finire nel bucket $i$-esimo, ossia pari a
+\[p=\frac{1}{n}\]
+essendo $n$ i bucket. Allora considerando $N_i$ il numero di successi, ossia il numero di numeri che vengono inseriti all'interno del bucket $i$-esimo con probabilità $p=\frac{1}{n}$, per quando visto all'inizio, si ottiene che
 \[E[N_i]=1 \hspace{1em} \text{e} \hspace{1em} E[N_i^2]=2-\frac{1}{n}<2\]
-che porta a concludere che, tipicamente, in ogni bucket vi sia contenuto uno e un solo valore (ovviamente tale risultato è aleatorio, in quanto vi è una bassa probabilità che in un solo bucket vi cadano $n$ valori, ossia la totalità).\\
-Si calcoli, sapendo che la speranza matematica della somma è la somma delle speranze matematiche:
+che porta a concludere che, tipicamente, in ogni bucket vi sarà contenuto uno e un solo valore (ovviamente tale risultato è aleatorio, in quanto vi è comunque una bassa probabilità che in un solo bucket vi cadano $n$ valori, ossia la totalità, per cui la complessità pessima di insertion-sort su $n$ elementi, verrebbe riflessa su bucket-sort).\\
+Tralasciando la dimostrazione che $E\left[\Theta(f(n))\right] = \Theta \left(E()\right)$, si calcoli la speranza matematica di una complessità, sapendo che la speranza matematica della somma è la somma delle speranze matematiche e che la complessità $T$ dipende da tanto da $n$ quanto da una $n$-upla aleatoria $\mathcal{X}$ corrispondente alle $n$ estrazioni di numeri casuali che sono state effettuate, per cui:
 \[E \left[T(n,\mathcal{X})\right] = \Theta(n) + \sum_{i=0}^{n-1} E \left[T_i(\mathcal{X})\right]\]
-in quanto è necessario sommare la somma delle speranze matematiche della complessità di ordinamento del bucket $i$-esimo tramite insertion-sort. Ciò porta alla seguente maggiorazione
-\[\Theta(n) + \sum_{i=0}^{n-1} E \left[T_i(\mathcal{X})\right] \leq \Theta(n) + E \left(\gamma_i \cdot N_i^2\right) = \Theta(n) + \gamma \cdot E(N_i^2)\]
-Per cui, nel caso peggiore, siccome la speranza matematica di $\mathcal{X}^2$ è minore di $2$, si può ottenere la seguente maggiorazione:
+in cui figura $\Theta(n)$ dal momento che il primo ciclo for presenta una complessità lineare (essendo $n$ iterazioni); inoltre, è necessario eseguire la somma delle speranze matematica del costo di ordinamento del bucket $i$-esimo tramite insertion-sort, che è naturalmente un costo aleatorio che dipende da $\mathcal{X}$, ossia da quali numeri sono stati estratti e quali di tali numeri sono capitati nel bucket $i$-esimo. Dal momento che la complessità di insertion-sort, nel caso peggiore, è quadratica, è possibile effettuare una maggiorazione per la quale, al posto della complessità $T_i(\mathcal{X})$ si inserisce $\gamma_i \cdot N_i^2$, ove $\gamma_i$ è la costante che definisce la classe $\Theta(N_i^2)$ (in cui figura $N_i^2$ dal momento che insertion-sort viene applicato al bucket $i$-esimo, supponendo che la complessità sia la peggiore, quindi quadratica), ovvero:
+\[\Theta(n) + \sum_{i=0}^{n-1} E \left[T_i(\mathcal{X})\right] \leq \Theta(n) + \sum_{i=0}^{n-1} E \left(\gamma_i \cdot N_i^2\right) = \Theta(n) + \sum_{i=0}^{n-1} \gamma \cdot E(N_i^2)\]
+avendo sostituito $\gamma_i$ con il massimo tra tutti i $\gamma_i$, ossia $\gamma$. Per cui, nel caso peggiore, siccome la speranza matematica di $\mathcal{X}^2$ è minore di $2$, è facile capire come
+\[\sum_{i=0}^{n-1} \gamma \cdot E(N_i^2) \leq n \cdot (\gamma \cdot 2)\]
+avendo eseguito una somma che coinvolge $n$ addendi ciascuno $\leq \gamma \cdot 2$. Attraverso tale approccio si può ottenere la seguente maggiorazione della speranza matematica della complessità:
 \[\Theta(n) + \gamma \cdot E(N_i^2) \leq \Theta(n) + n \cdot (\gamma \cdot 2)\]
-che porta a concludere che la speranza matematica di complessità si bucket-sort è lineare, da cui:
-\[E \left[T(n,\mathcal{X})\right]=\Theta(n)\]
-che è un risultato straordinario. Inoltre, siccome alla fine si è ottenuta una lista lunga $n$, è anche possibile costruire un array di lunghezza $n$ con tutti i valori ordinati.
+Ma ma essendo anche $n \cdot (\gamma \cdot 2)$ una funzione lineare in $n$, si può concludere che la \textbf{speranza matematica della complessità si bucket-sort} è \textbf{lineare}, da cui:
+\[\boxed{E \left[T(n,\mathcal{X})\right]=\Theta(n)}\]
+che è un risultato straordinario, pur non avendo affermato che la complessità sia lineare.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che, siccome alla fine di bucket-sort si è provveduto a concatenare tutte le liste sequenziali puntate dalle posizioni dell'array $B$, ottenenendo una lista lunga $n$, eseguendo uno sforzo $\Theta(n)$ è anche possibile trasformare tale lista in un array di lunghezza $n$ con tutti i valori ordinati.\\
+In realtà, se l'obiettivo finale è quello di ottenere un array, non serve nemmeno concatenare fra di loro tutte le liste: avendo la loro lunghezza (tramite i contatori), è sufficiente provvedere direttamente a inserire ciascuna sottolista all'interno dell'array, riservando un numero di celle consecutive già noto.
 
 \vspace{1em}
 \subsection{Riassunto degli algoritmi di ordinamento}
-Al di là degli algoritmi di ordinamento bubble-sort e insertion-sort, un primo importante algoritmo di ordinamento è merge-sort, il quale presenta una complessità nel caso peggiore log-lineare, e che prevede di adottare un approccio \emph{dividi et impera}, in cui, tuttavia, le operazioni che vengono eseguite sono in serie, e non in parallelo. La complessità, di fatto è
+Al di là degli algoritmi di ordinamento bubble-sort e insertion-sort, un primo importante algoritmo di ordinamento è merge-sort, il quale presenta una complessità nel caso peggiore log-lineare, e che prevede di adottare un approccio \emph{dividi et impera}, in cui, tuttavia, le operazioni che vengono eseguite sono in serie, e non in parallelo. La complessità, di fatto, di merge sort, ad un passo generico $n$ è
 \[T(n)=2 \cdot T \left(\frac{n}{2}\right) + f(n)\]
 in cui la funzione $f(n)$ non è nota a priori, ma è nota solamente la sua classe $\Theta$.\\
 Applicando il teorema maestro, si ha che
 \[T(n) = 2 \cdot T \left(\frac{n}{2}\right) + n\]
 e dividendo ambo i membri per $n$ si ottiene che
-\[\frac{T(n)}{n} = \frac{T \left(\frac{n}{2}\right)}{n} + 1\]
-e nel caso successivo si si ottiene che
-\[T \left(\frac{n}{2}\right) = T \left(\frac{n}{4}\right) + \frac{n}{2}\]
+\[\frac{T(n)}{n} = \dfrac{T \left(\dfrac{n}{2}\right)}{\dfrac{n}{2}} + 1\]
+e nel caso successivo (siccome ogni volta si divide l'array da ordinare in due parti) si ottiene che
+\[T \left(\frac{n}{2}\right) = 2 \cdot T \left(\frac{n}{4}\right) + \frac{n}{2}\]
 e dividendo per $\frac{n}{2}$ si ottiene:
-\[\frac{T \left(\frac{n}{2}\right)}{\frac{n}{2}} = \frac{T \left(\frac{n}{4}\right)}{\frac{n}{2}} + 1\]
+\[\dfrac{T \left(\dfrac{n}{2}\right)}{\dfrac{n}{2}} = \dfrac{T \left(\dfrac{n}{4}\right)}{\dfrac{n}{4}} + 1\]
 e così via, fino ad arrivare a
-\[T(1)=T(1)+1\]
-in cui progressivamente si esprime il termine a destra con il termine successivamente, per cui, dividendo $n$ volte per $2$ si ottiene che
-\[T(n)=\log(n) + n \cdot \log(n) = n \cdot \log(n)\]
-essendo prevalente la complessità peggiore nella somma.
+\[\frac{T(2)}{2}=T(1)+1\]
+in cui progressivamente si esprime il termine a destra dell'uguaglianza precedente con il termine successivo; infatti, nella prima uguaglianza si ha
+\[\frac{T(n)}{n} = \dfrac{T \left(\dfrac{n}{2}\right)}{\dfrac{n}{2}} + 1\]
+ma $\frac{T \left(\frac{n}{2}\right)}{\frac{n}{2}}$ è noto essere
+\[\dfrac{T \left(\dfrac{n}{2}\right)}{\dfrac{n}{2}} = \dfrac{T \left(\dfrac{n}{4}\right)}{\dfrac{n}{4}} + 1\]
+e così via. Per cui, dividendo $n$ volte per $2$ si ottiene che
+\[\frac{T(n)}{n}=T(1)+\log_2(n)\]
+in cui $\log_2(n)$ deriva dalla somma di tutti gli $1$ che si ottengono sostituendo ad ogni espressione l'espressione successiva. Moltiplicando ambo i mmembri per $n$ si ottiene che
+\[T(n)= c \cdot n + n \cdot \log(n) = n \cdot \log(n)\]
+ottenendo una complessità loglineare, essendo prevalente la complessità peggiore nella somma.
 
 \vspace{1em}
 \noindent
-Nel caso di \textbf{heap-sort}, la maggior parte delle operazioni viene svolto da \textbf{heapify}, il quale controlla per ogni nodo se viene rispettato il vincolo di maximum-heap, andando a controllare tutti i sottoalberi di ogni nodo.\\
+Nel caso di \textbf{heap-sort}, la maggior parte delle operazioni viene svolta da \textbf{heapify}, il quale verifica se viene rispettato il vincolo di maximum-heap, andando a controllare tutti i sottoalberi di ogni nodo.\\
 Avendo costruito una catasta con il valore massimo in cima, si procede a sostituirlo con l'ultimo, accorciando la catasta e applicando nuovamente heapify per far rispettare il vincolo, fino ad ottenere un ordinamento sui nodi dell'albero, che viene riflesso sull'array di partenza.\\
-La complessità di build-heap è $O(n \cdot \log(n))$, così maggiorata nell'ipotesi che heapify abbia sempre complessità log-lineare. Tuttavia, tale maggiorazione potrebbe essere migliorata, giungendo ad affermare che la complessità è $\Theta(n)$.
+La complessità di build-heap è $O(n \cdot \log(n))$, così maggiorata nell'ipotesi che heapify abbia sempre complessità log-lineare. Tuttavia, tale maggiorazione potrebbe essere migliorata, giungendo ad affermare che la complessità è $\Theta(n)$, in quanto in build-heap gli heapify vengono richiamati a partire da vertici prossimi alle foglie, anzi quasi tutti i vertici sono prossimi alle foglie, per cui i sottoalberi che dovranno essere controllati saranno molto più contenuti rispetto alla totalità dell'albero di partenza: ha rilevanza specificare nel dettaglio la complessità di build-heap in quanto esso non viene impiegato solamente in heap-sort.
 
 \newpage
 \noindent
@@ -2983,7 +3007,7 @@ Effettuando, poi, un nuovo ciclo di $n$ iterazioni, si procede ad effettuare l'o
 \vspace{1em}
 \noindent
 \textbf{Osservazione}: L'algoritmo bucket-sort permette di ordinare valori reali compresi in un intervallo $[0,1]$ (o in qualsiasi intervallo, per come si è visto in precedenza); naturalmente, la precisione di rappresentazione per un calcolatore è finita.\\
-La complesssità calcolata in precedenza prevede di estrarre casualmente dei valori arbitrari nell'intervallo prescelto e determinare la speranza matematica della complessità, giungengo ad un risultato molto favorevole: all'interno di ogni bucket ci si aspetta tipicamente di avere $1$ solo dei valori di partenza:
+La complessità calcolata in precedenza prevede di estrarre casualmente dei valori arbitrari nell'intervallo prescelto e determinare la speranza matematica della complessità, giungengo ad un risultato molto favorevole: all'interno di ogni bucket ci si aspetta tipicamente di avere $1$ solo dei valori di partenza:
 \begin{flalign*}
   \boxed{1} & \hspace{1em} \boxed{0.52} \hspace{2em} \boxed{0} \hspace{1em} \boxed{B[0]} \longrightarrow \boxed{0.11}\\
   \boxed{1} & \hspace{1em} \boxed{0.52} \hspace{2em} \boxed{0} \hspace{1em} \boxed{B[0]} \longrightarrow \boxed{0.11} \longrightarrow \boxed{0.34}
