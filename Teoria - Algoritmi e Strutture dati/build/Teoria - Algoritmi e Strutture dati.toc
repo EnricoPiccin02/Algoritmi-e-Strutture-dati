@@ -31,3 +31,5 @@
 \contentsline {section}{\numberline {6}Algoritmi sui grafi}{76}{}%
 \contentsline {subsection}{\numberline {6.1}Algoritmo di Hamilton}{76}{}%
 \contentsline {subsection}{\numberline {6.2}Teorema delle strette di mano}{76}{}%
+\contentsline {subsection}{\numberline {6.3}Breadth-First-Search (BFS)}{79}{}%
+\contentsline {subsection}{\numberline {6.4}Depth-First-Search (DFS)}{80}{}%

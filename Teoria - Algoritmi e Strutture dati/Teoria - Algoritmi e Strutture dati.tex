@@ -3121,6 +3121,157 @@ Per la risoluzione del problema, si potrebbe estrarre del tutto a caso un nodo .
 Nell'ipotesi in cui il gravo fosse connesso, si dimostrerà che tale grafo conterrà sempre un albero al suo interno, e quindi si ottiene che
 \[\Theta(\vert v \vert) = \vert v \vert - 1 \leq \vert \xi \vert \leq \frac{\vert v \vert \cdot \left(\vert v \vert - 1\right)}{2} = \Theta(\vert v \vert^2)\]
 
+\newpage
+\noindent
+\begin{center}
+  1 Aprile 2022
+\end{center}
+Si dimostri che due funzioni definitivamente infinite appartengano alla stessa classe di complessità $\Theta$, allora anche i loro logaritmi appartengono alla medesima classe $\Theta$.\\
+In altre parole, è noto che
+\[f(x) = \Theta(g(x)) \hspace{1em} \text{ ovvero } \hspace{1em} c_1 \cdot g(x) \leq f(x) \leq c_2 \cdot g(x)\]
+Allora applicando i logaritmi a tale diseguaglianza si ottiene che
+\[\log(c_1) + \log(g(x)) \leq \log(f(x)) \leq \log(c_2) + \log(g(x))\]
+Per cui è sufficiente considerare
+\[\frac{\log(g(x))}{2} \leq \log(f(x)) \leq 2 \cdot \log(g(x))\]
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si consideri una coda, allora i metodi di inserimento prendono il nome di ENQUEUE($x$,$Q$), mentre $x=$DEQUEUE($Q$) restituisce il nodo cancellato.\\
+Nell'utilizzo della coda, si farà sempre in modo che la sua lunghezza sia sempre inferiore a $n$. Inoltre, è possibile anche impiegare un array per realizzare una \textbf{coda circolare}, in cui l'ultimo elemento punta al primo, come mostrato di seguito:
+\[\boxed{\text{NIL}}\boxed{\text{NIL}}\boxed{...}\boxed{15}\boxed{6}\boxed{9}\boxed{8}\boxed{4}\boxed{\text{NIL}}\]
+in cui è immediato capire come la testa sia in corrispondenza del valore $15$, mentre la coda è in corrispondenza dell'ultimo \text{NIL}. Al fine di accedere ai diversi elementi dell'array è necessario eseguire una \textbf{somma circolare} $\oplus$, ovveero la somma di due posizioni modulo la lunghezza dell'array, ovvero
+\[10 \oplus 4 = 14 \% 12 = 2\]
+Per esempio, nel caso seguente
+\[\boxed{\text{NIL}}\boxed{\text{NIL}}\boxed{...}\boxed{15}\boxed{6}\boxed{9}\boxed{8}\boxed{4}\boxed{\text{NIL}}\]
+l'operazione ENQUEUE($x$,$Q$), si inserirà il nodo $x$ nell'ultima posizione, ovvero $Q[\text{tail} \circ 1]=x$.\\
+Se, invece, si deve cancellare un nodo dalla coda, si usa l'operazione DEQUEUE.\\
+Per conoscere la lunghezza $l$ della coda, nel caso in cui $h \leq t$, sarà semplicemente data da $l=t-h$, in caso cntrario si ha $l=n-t+h$.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Nel caso degli algoritmi di ordinamento, la complessità di elaborazione dell'input è dettata solamente da $n$, ignorando completamente altri fattori di complessità.\\
+Pertanto, nel caso dei grafi, sarebbe più conveniente provvedere a definire la complessità di inserimento dell'input in funzione del numero dei vertici $\vert v \vert$ e del numero degli archi $\vert \xi \vert$.\\
+È noto che i grafi semplici non presentano loop, né tantomeno una moltpelicità $\geq 2$.\\
+Il modo più immediato al fine di descrivere l'input dei vertici e degli archi è quello di impiegare una \textbf{lista di adiacenza}:
+\[\boxed{a}\boxed{;}\boxed{d}\boxed{;}\boxed{b};\boxed{d}\boxed{;}\boxed{c}\boxed{;}\boxed{;}\boxed{d}\boxed{;}\boxed{a}\boxed{b}\boxed{;}\]
+La complessità di tale descrizione dell'input è data da
+\[\boxed{3 \cdot \vert v \vert + 2 \cdot \vert \xi \vert}\]
+in quanto ogni vertice è presente $3$ volte nella descrizione (incluso i punti e virgola), mentre gli archi vengono contati due volte (in quanto compaiono nella descrizione di ciascuno dei vertici che collega l'arco considerato).\\
+Ciò porta a concludere che la complessità di descrizione dell'input in funzione del numero di vertici e archi è $\Theta(\vert v \vert + \vert \xi \vert)$.\\
+Nel caso di presenza di cappi sui nodi, giacché questi incidono su un solo vertice, essi vengono contati una sola volta, per cui si avrebbe che la complessità è
+\[3 \cdot \vert v \vert + 2 \cdot \vert \xi \vert - \#\text{loop}\]
+Ma si avrebbe sempre che $2 \cdot \vert \xi \vert - \#\text{loop} \geq \vert \xi \vert$, ma dal punto di vista della notazione $\Theta$ sarebbe esattamente equivalente.\\
+Nel caso della moltiplicità $\geq 2$, allora il numero dei vertici dovrebbe essere moltiplicato per il numero della molteplicità dei vertici, ma ancora una volta è equivalente per la notazione $\Theta$.\\
+In conclusione, la complessità della descrizione dell'input per un generico grafo è $\Theta(\vert v \vert + \vert \xi \vert)$.\\
+Un'altro modo per descrivere l'input è la \textbf{matrice di adiacenza}, nella quale è possibile non solo descrivere gli archi, ma anche i cappi e la molteplicità; in questo caso, tuttavia, la complessità è data da $\vert v \vert^2 + 2 \cdot \vert v \vert$, ovvero è $\Theta(\vert v \vert^2)$.\\
+Ciò porterebbe ad eliminare la seconda soluzione in favore della prima, in quanto in un albero il numero degli archi è lineare con il numero dei vertici, mentre in un grafo denso la complessità è in ogni casi quadratica: pertanto, nel caso di un grafo denso impiegare l'una o l'altra descrizione è equivalente, mentre nel caso di un grafo sparso è più conveniente, in termini di complessità, impiegare la lista di adiacenza.
+
+\vspace{1em}
+\subsection{Breadth-First-Search (BFS)}
+Si consideri un grafo semplice nel quale viene messo in evidenza un vertice, denominato \textbf{source} (che si può interpretare come un grafo connesso, ma solo dal punto di vista concettuale).\\
+La visita di un grafo in ampiezza viene di seguito esposta tramite l'algoritmo \textbf{breadth-first-search}, il quale prevede di partire dal vertice sorgente e considerare tutte le adiacenze dei vertici successivi fino a concludere tutti i vertici del grafo.\\
+Al fine di semplificare la visualizzazione delle operazioni, si considera la seguente notazione:
+\begin{itemize}
+  \item White: vertice mai visitato;
+  \item Gray: vertice visitato ma non ancora abbandonato;
+  \item Black: vertice visitato e abbandonato
+\end{itemize}
+
+\begin{algorithm}[H]
+  \caption{Breadth-First-Search}
+  \begin{algorithmic}[1]
+    \State BREADTH-FIRST-SEARCH($G$,$s$)
+    \State \textbf{for} $u \in v[G]-\{s\}$
+    \Indent
+      \State \textbf{do} \emph{color$[u]=$} WHITE
+      \Indent
+          \State $d[u]=\infty$
+          \State $\pi[u]=$ NIL
+      \EndIndent
+    \EndIndent
+    \State \emph{color$[s]=$} GRAY
+    \State $d[s]=0$
+    \State $\pi[s]=$ NIL
+    \State $Q=\varnothing$
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+In cui semplicemente si impostano tutti i vertici al colore WHITE, tranne la sorgente, sulla quale si inizia ad operare; inoltre, presentano tutti distanza infinita e progenitore NIL, eccezion fatta per la sorgente che ha distanza nulla.\\
+Taluna è la fase preparatoria, mentre di seguito si espone la continuazione del listato:
+
+\begin{algorithm}[H]
+  \caption{Breadth-First-Search}
+  \begin{algorithmic}[1]
+    \State BREADTH-FIRST-SEARCH($G$,$s$)
+    \State \textbf{for} $u \in v[G]-\{s\}$
+    \Indent
+      \State \textbf{do} \emph{color$[u]=$} WHITE
+      \Indent
+          \State $d[u]=\infty$
+          \State $\pi[u]=$ NIL
+      \EndIndent
+    \EndIndent
+    \State \emph{color$[s]=$} GRAY
+    \State $d[s]=0$
+    \State $\pi[s]=$ NIL
+    \State $Q=\varnothing$
+
+    \State ENQUEUE($Q$,$s$);
+    \State \textbf{whilte} $Q \neq 0$
+    \Indent
+      \State \textbf{do} $u=$ DEQUEUE($Q$)
+      \Indent
+        \State \textbf{for} $v \in$ Adj[$u$]
+        \Indent
+          \State \textbf{do} \textbf{if} \emph{color}$[v]=$ WHITE
+          \Indent
+              \State \textbf{then} \emph{color}$[v]=$ GRAY
+              \Indent
+                \Indent
+                  \State $d[v]=d[u]+1$
+                  \State $\pi[v]=u$
+                  \State ENQUEUE($Q$,$v$)
+                \EndIndent
+              \EndIndent
+          \EndIndent
+        \EndIndent
+        \State DEQUEUE($Q$)
+        \State \emph{color}$[u]=$ BLACK
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+\textbf{Esempio}: Si consideri il grafo seguente:
+
+
+
+\noindent
+Nella fase preliminare tutti i vertici presentano colore WHITE, hanno distanza infinita (eccezion fatta per la radice, che ha distanza nulla) e progenitore NIL.\\
+Ecco che alla fine dell'esecuzione dell'algoritmo è stato ottenuto esattamente un albero, in cui si specifica la distanza dalla sorgente e il progenitore per ciascun vertice. Inoltre, se tutti i vertici sono stati visitati, è stato anche dimostrato che tale grafo è connesso; non solo, ma l'albero che ne deriva è anche il cosiddetto \textbf{spanning tree}, ovvero un albero di visita del grafo che impiega il minor numero di vertici.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Al fine di valutare la complessità di tale algoritmo è necessario impiegare il \textbf{metodo dell'agglomerazione}: per esempio, se si considerano due cicli for annidati, il primo di lunghezza $n$ e il secondo di lunghezza $m$, allora il numero totale di iterazioni è $n \times m$; ma se le iterazioni del secondo ciclo for sono variabili, e sono $m_i$ (ossia dipendono da $i$), allora, ovviamente, le iterazioni eseguite sono $m_1+m_2+...+m_n$.\\
+Naturalmente, giacché in tale algoritmo
+\[\boxed{\sum_{\text{all } u} \vert \text{Adj}(u) \vert}\]
+Ma naturalmente, sommare le giacenze significa sommare il grado di ciascun vertice; ma è noto che la somma del grado di ciascun vertice significa ottenere $2 \cdot \vert \xi \vert$.\\
+Nell'ipotesi in cui il grafo sia connesso, è noto che $\vert \xi \vert \geq \vert v \vert - 1$ si deduce che $\vert \xi \vert = \Omega(\vert v \vert)$, per cui si ha che
+\[\vert v \vert + \vert \xi \vert - 1 \leq 2 \cdot \vert \xi \vert \leq 2 \cdot \left(\vert v \vert + \vert \xi \vert \right)\]
+che permette di concludere come la complessità dell'algoritmo diviene lineare, ovvero $\Theta(\vert v \vert + \vert \xi \vert)$; ciò, naturlmente, nell'ipotesi in cui il grafo $G$ sia connesso: se esso non è connesso, invece, il numero delle operazioni da eseguire potrebbe diminuire anhe drasticamente, il che porta a concludere come la complessità di un ipotetico grafo $G$ sia $O(\vert v \vert + \vert \xi \vert)$.
+
+\vspace{1em}
+\subsection{Depth-First-Search (DFS)}
+Per visualizzare la logica dell'algoritmo di visita dei vertici di un grafo in profondità, si parta dall'ipotesi che il grafo da visitare sia un albero: più precisamente, l'obiettivo è quello di allontanarsi dalla sorgente il prima possibile, andando a percorrere il grafo dalla distanza maggiore, per poi tornare indietro.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: L'algoritmo di Eulero prevede di verificare se esista un percorso euleriano per visitare tutti i nodi del grafo impiegando tutti gli archi: semplicemente si procede a decrementare tutti i gradi dei vertici ogni volta che si esce o si entra in uno di tali vertici, fino a che le valenze non sono tutte nulle
+
 
 
 
