@@ -33,3 +33,6 @@
 \contentsline {subsection}{\numberline {6.2}Teorema delle strette di mano}{76}{}%
 \contentsline {subsection}{\numberline {6.3}Breadth-First-Search (BFS)}{79}{}%
 \contentsline {subsection}{\numberline {6.4}Depth-First-Search (DFS)}{80}{}%
+\contentsline {subsection}{\numberline {6.5}Teorema delle parentesi}{83}{}%
+\contentsline {subsection}{\numberline {6.6}Teorema del cammin bianco}{83}{}%
+\contentsline {subsection}{\numberline {6.7}Teorema pesante}{84}{}%

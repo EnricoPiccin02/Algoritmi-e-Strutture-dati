@@ -3272,15 +3272,174 @@ Per visualizzare la logica dell'algoritmo di visita dei vertici di un grafo in p
 \noindent
 \textbf{Osservazione}: L'algoritmo di Eulero prevede di verificare se esista un percorso euleriano per visitare tutti i nodi del grafo impiegando tutti gli archi: semplicemente si procede a decrementare tutti i gradi dei vertici ogni volta che si esce o si entra in uno di tali vertici, fino a che le valenze non sono tutte nulle
 
+\newpage
+\noindent
+\begin{center}
+  6 Aprile 2022
+\end{center}
+La visita in profondità visita l'albero cercando di allontanarsi il più possibile dalla radice e non compie alcun tentativo al fine di determinare la profondità dell'albero, a differenza del metodo di visita per ampiezza.\\
+L'algoritmo DFS opera senza specificare l'origine del grafo su cui si sta lavorando, come mostrato di seguito:
 
+\begin{algorithm}[H]
+  \caption{Depth-First-Search}
+  \begin{algorithmic}[1]
+    \State DEPTH-FIRST-SEARCH($G$)
+    \State \textbf{for} $u \in v$
+    \Indent
+      \State \textbf{do} \emph{color$[u]=$} WHITE
+      \Indent
+          \State $\pi[u]=$ NIL
+      \EndIndent
 
+    \State ... continua ...
 
+    \EndIndent
+    \State \emph{color$[s]=$} GRAY
+    \State $d[s]=0$
+    \State $\pi[s]=$ NIL
+    \State $Q=\varnothing$
 
+    \State ENQUEUE($Q$,$s$);
+    \State \textbf{whilte} $Q \neq 0$
+    \Indent
+      \State \textbf{do} $u=$ DEQUEUE($Q$)
+      \Indent
+        \State \textbf{for} $v \in$ Adj[$u$]
+        \Indent
+          \State \textbf{do} \textbf{if} \emph{color}$[v]=$ WHITE
+          \Indent
+              \State \textbf{then} \emph{color}$[v]=$ GRAY
+              \Indent
+                \Indent
+                  \State $d[v]=d[u]+1$
+                  \State $\pi[v]=u$
+                  \State ENQUEUE($Q$,$v$)
+                \EndIndent
+              \EndIndent
+          \EndIndent
+        \EndIndent
+        \State DEQUEUE($Q$)
+        \State \emph{color}$[u]=$ BLACK
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
 
+\vspace{1em}
+\noindent
+Proseguendo con la visita del vertice $u$ si ottiene
 
+\begin{algorithm}[H]
+  \caption{Depth-First-Search-Visit}
+  \begin{algorithmic}[1]
+    \State DEPTH-FIRST-SEARCH-VISIT($u$)
+    \State \emph{color$[u]=G$}
+    \State \emph{time}$=$\textbf{time}$+1$
+    \State d$[u]=time$
+    \State \textbf{for} $v \in \text{Adj}[u]$
+    \Indent
+      \State \textbf{do} \textbf{if} \emph{color$[u]=$} WHITE
+      \Indent
+          \State $\pi[v]=u$
+          \State DFS-Visit$(v)$
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
 
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che con una visita in profondità non solo può cambiare la foresta, ma possono cambiare anche gli alberi che popolano la foresta, a seconda di come vengono descritti i nodi del grafo, come mostrato nel seguente esempio:
 
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (u) {$u$};
+    \node[main node] (v) [right of=u] {$v$};
+    \node[main node] (w) [right of=v] {$w$};
+    \node[main node] (x) [below of=u] {$x$};
+    \node[main node] (y) [right of=x] {$y$};
+    \node[main node] (z) [right of=y] {$z$};
 
+    \path[every node/.style={font=\sffamily\small}]
+      (u) edge node [left]  {} (v)
+      (u) edge node [left]  {} (x)
+      (v) edge node [right] {} (w)
+      (w) edge node [right] {} (z)
+      (x) edge node [left]  {} (y)
+      (y) edge node [left]  {} (w);
+  \end{tikzpicture}
+  \caption{Esempio con visita in profondità}
+  \label{fig:esempio_visita_profondita}
+\end{figure}
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Nonostante con l'algoritmo di visita in ampiezza si conoscevano le distanze e le profondità, all'interno di tale algoritmo sono presenti comunque dei valori che devono essere opportunamente considerati al fine di ricostruire l'albero di visita.
+
+\vspace{1em}
+\subsection{Teorema delle parentesi}
+Il teorema delle parentesi prevede di considerare solamente le combinazioni sintatticche aventi significato delle parentesi tonde e graffe: $([])$, $[()]$, $[]()$ e $()[]$.\\
+Quando si visita un nodo $u$, si ottiene che
+\[(u) < d(v) < f(v) < f(u)\]
+e quando si visita $v$, invece, si ottiene che
+\[v < d(u) < f(u) < f(v)\]
+a cui si associano le parentesi seguenti (considerando $[]$ al nodo $v$ e $()$ al nodo $u$)
+\begin{enumerate}
+  \item $([])$, che significa che il vertice quadro è discendente dal vertice tondo;
+  \item $[()]$, che significa che il vertice tondo è discendente dal vertice quadro.
+\end{enumerate}
+Naturalmente, si sarebbero potute considerare anche altre due configurazioni: $[]()$ e $()[]$, da cui non si può evincere nessuna relazione di parentela.
+
+\vspace{1em}
+\subsection{Teorema del cammin bianco}
+Si supponga di considerare due vertici $u$ e $v$, tale per cui $d(u) < d(v)$ (ovvero all'istante $d(u)$, il vertice $v$ non è ancora stato scoperto): allora, se esiste un \textbf{cammmino bianco} tra i due vertici (ovvero esiste un percorso composto solamente da vertici bianchi), allora il teorema afferma che $v$ sarà necessariamente un vertice discendente da $u$.\\
+Pertanto, se $v$ è un discendete di $u$, allora necessariamente ad un certo istante di tempo esiste un cammino bianco tra $u$ e $v$; tuttavia non è ovvio il contrario, ed è ciò che afferma il teorema.
+
+\vspace{1em}
+\noindent
+\textbf{Dimostrazione}: Si supponga che esista un cammino bianco tra $u$ e $v$ e che $v$ non sia, per assurdo, un vertice discendente di $u$, mentre un vertice $w$ tale che $d(u) < d(w) < d(v)$ invece sia un suo discendente; allora, applicando il teorema delle parentesi si evince che
+\[d(u) \leq d(w) < f(w) \leq f(u)\]
+in cui è necessario porre il segno di minore uguale in quanto non è possibile escludere che il primo vertice discendente di $u$ e diverso da $v$ sia proprio il vertice $u$.\\
+Gungendo al vertice $w$, non è determinabile a priori l'istante di tempo in cui si esaminerà l'arco $w-v$; in tale istante di tempo, si possono palesare tre casi possibili
+\begin{enumerate}
+  \item il colore di $v$ è nero, per cui si ha che $f(v)<f(w)$, per cui $v$ è un discendente di $u$;
+  \item il colore di $v$ è grigio, per cui si ha che $d(v)<f(w)$, ma allora $v$ è ancora un discendente di $u$;
+  \item il colore di $v$ è bianco, ma allora da $w$ si passa a $v$ e quindi è implicito come $v$ sia un discendete di $u$, essendo un discendente di $w$ che è un discendente di $u$.
+\end{enumerate}
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si consideri un grafo aciclico, ossia privo di cicli (considerando come ciclo un percorso chiuso che considera due nodi).\\
+Allora un grafo di propedeucità è un grafo in cui si ha una gerarchia fra i vertici, ossia non è possibile passare da un vertice a qualsiasi altro, ma bisogna rispettare, appunto, una \textbf{propedeucità}.\\
+All'interno di tale grafo, naturalmente, non è possibile considerare dei cicli, perché altrimenti non si potrebbero rispettare le propedeucità. Al fine di visitare la totalità del grafo, è possibile impiegare una visita di profondità:
+
+\vspace{1em}
+\noindent
+Allora, analizzando tale lista e considerando gli istanti di scoperta dei vertici al contrario si ottiene una sequenza di visita che rispetta tutte le propedeucità previste dal primo grafo.
+
+\vspace{1em}
+\noindent
+\subsection{Teorema pesante}
+Si consideri una visita in profondità e l'analisi di un arco da $u$ in $v$: allora, per il teorema delle parentesi si può avere
+\[d(u) < f(u) < d(v) < f(v)\]
+la quale non è una configurazione possibile con un collegamento tra $u$ e $v$: prima di terminare l'analisi di $u$ (ossia $f(v)$) è necessario analizzare tutta la giacenza di $u$ e quindi anche lo stesso $v$.\\
+Considerando una seconda configurazione
+\[d(v) < f(v) < d(u) < f(u)\]
+la quale è una configurazione lecita e compatibile, in quanto prima si termina l'analisi di $v$ e poi si scopre ed analizza $u$: pertanto da tale sequenza di scoperta non si può determinare la discendenza di nessuno dei due nodi $u$ e $v$: quest'ultimo è un \textbf{arco di taglio}.\\
+Un'ulteriore configurazione è la seguente:
+\[d(u) < d(v) < f(v) < f(u)\]
+Allora la scoperta dell'arco $u-v$ può avvenire in due possibili situazioni: quando si scopre $u$, per tra $u$ e $v$ si ha un cammino bianco; oppure quando si analizza $v$ e poi $u$, nel qual caso si otterrebbe che $v$ ormai è già stato analizzato e quindi il cammino sia nero.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Chiaramente, se il grafo fosse orientato, di tutte le configurazioni compatibili considerate l'unica possibile è la penultima.
+
+\vspace{1em}
+\noindent
+Ovviamente, un'ultima combinazioni ammissibile dal teorema delle parentesi è la seguente:
+\[d(v) < d(u) < f(u) < f(v)\]
+allora tale configurazione è ammissibile sia che l'albero sia connesso oppure no, in quanto prima si viene a conoscere il vertice $v$ e solo dopo il vertice $u$.
 
 
 
