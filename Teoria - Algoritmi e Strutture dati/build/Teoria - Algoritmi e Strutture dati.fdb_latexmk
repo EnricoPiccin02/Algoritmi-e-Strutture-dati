@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1649242124 "Teoria - Algoritmi e Strutture dati.tex" "build/Teoria - Algoritmi e Strutture dati.pdf" "Teoria - Algoritmi e Strutture dati" 1649242127
+["pdflatex"] 1649323659 "Teoria - Algoritmi e Strutture dati.tex" "build/Teoria - Algoritmi e Strutture dati.pdf" "Teoria - Algoritmi e Strutture dati" 1649323661
   "/Users/enricopiccin/Library/texlive/2021basic/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1643364959 11524 2df7d3388477aff28c2fab5169faa2c5 ""
   "/usr/local/texlive/2021basic/texmf-dist/fonts/tfm/jknappen/ec/ectt1000.tfm" 1136768653 1536 06717a2b50de47d4087ac0e6cd759455 ""
   "/usr/local/texlive/2021basic/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -231,9 +231,9 @@
   "/usr/local/texlive/2021basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1616691443 79187 72c3adcacc8085f6390cf80c64ac00e5 ""
   "/usr/local/texlive/2021basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1643302228 2057433 28863b3cbca3a1e9d798e67601f03c47 ""
   "/usr/local/texlive/2021basic/texmf.cnf" 1616691442 628 e23d78b1be89c53495d66eec94d2300d ""
-  "Teoria - Algoritmi e Strutture dati.tex" 1649242124 263065 fa09b0b8b51c4a33a71046a1a2f15af3 ""
-  "build/Teoria - Algoritmi e Strutture dati.aux" 1649242127 14832 be34df3c20bd1654941a97e1c0eaa3a8 "pdflatex"
-  "build/Teoria - Algoritmi e Strutture dati.toc" 1649242127 2562 1cfebed908bc7c662962ee1312d69cc6 "pdflatex"
+  "Teoria - Algoritmi e Strutture dati.tex" 1649323656 272521 8154a49385866626185e5c40acc7e397 ""
+  "build/Teoria - Algoritmi e Strutture dati.aux" 1649323661 15767 4478e82e42bea353170a87f67a957517 "pdflatex"
+  "build/Teoria - Algoritmi e Strutture dati.toc" 1649323661 2780 b46e852be3c0953ba6ee68ecab6b7217 "pdflatex"
   (generated)
   "build/Teoria - Algoritmi e Strutture dati.aux"
   "build/Teoria - Algoritmi e Strutture dati.log"

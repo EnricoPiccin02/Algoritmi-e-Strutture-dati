@@ -3441,7 +3441,187 @@ Ovviamente, un'ultima combinazioni ammissibile dal teorema delle parentesi è la
 \[d(v) < d(u) < f(u) < f(v)\]
 allora tale configurazione è ammissibile sia che l'albero sia connesso oppure no, in quanto prima si viene a conoscere il vertice $v$ e solo dopo il vertice $u$.
 
+\newpage
+\noindent
+\begin{center}
+  7 Aprile 2022
+\end{center}
+Gli archi orientati, ossia i rami degli alberi di una foresta, si pongono alla base della visita in profondità.\\
 
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (u) {$u$};
+    \node[main node] (v) [left of=u] {$v$};
+    \node[main node] (w) [left of=v] {$w$};
+    \node[main node] (x) [left of=w] {$x$};
+    \node[main node] (y) [above of=x] {$y$};
+    \node[main node] (z) [right of=y] {$z$};
+    \node[main node] (s) [right of=z] {$s$};
+    \node[main node] (t) [right of=s] {$t$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (u) edge node [left]  {} (v)
+      (v) edge node [left]  {} (w)
+      (w) edge node [left]  {} (x)
+      (y) edge node [left]  {} (x)
+      (z) edge node [left]  {} (y)
+      (x) edge node [left]  {} (z)
+      (s) edge node [left]  {} (z)
+      (t) edge node [left]  {} (v)
+      (t) edge node [left]  {} (u)
+      (u) edge node [left]  {} (t)
+      (z) edge node [left]  {} (w)
+      (s) edge node [left]  {} (w)
+      (v) edge node [left]  {} (s);
+  \end{tikzpicture}
+  \caption{Esempio con visita in profondità}
+  \label{fig:esempio_visita_profondita_1}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Per l'analisi di tale grafo si parte dal vertice che per primo compare nella descrizione del grafo. Nel caso considerato, si considera come $1^\circ$ il vertice $s$, giacché la descrizione è $s \vert z$; passando a $z$ si scopre tale vertice per $2^\circ$; conoscendo la descrizione $x \vert y$ si procede a scoprire $y$ per $3^\circ$; seguendo la descrizione $y \vert x$ si scopre il nodo $x$ per $4^\circ$; dal momento che il collegamento tra $x$ e $z$ prevede la scoperta di un nodo già noto, all'istante $5^\circ$ si termina l'analisi della giacenza di $x$; tornando indietro al nodo $y$, si termina l'analisi della sua giacenza all'istante $6^\circ$, ingrossando il collegamento perché è un \emph{ramo d'albero}; allo stesso modo, si ritorna indietro al nodo $s$, ingrossando ancora una volta il ramo d'albero.\\
+... continua ...\\
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Analizzando su un diagramma temporale gli istanti di scoperta e di terminazione dell'analisi di ciascun verticce si ottiene:
+
+\begin{center}
+  \rowcolors{1}{white}{white}
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{cccccccccccccccccccccc}
+    $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$\\
+    $(s$ & $(z$ & $(y$ & $(x$ & $x)$ & $y)$ & $(w$ & $w)$ & $z)$ & $s)$\\
+  \end{tabular}
+\end{center}
+
+\vspace{1em}
+\noindent
+Dopodiché si deve anche desccrivere anche l'albero che successivamente viene descritto:
+
+\begin{center}
+  \rowcolors{1}{white}{white}
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{cccccccccccccccccccccc}
+    $11$ & $12$ & $13$ & $14$ & $15$ & $16$\\
+    $(t$ & $(v$ & $v)$ & $(u$ & $u)$ & $t)$\\
+  \end{tabular}
+\end{center}
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Da ciò si può descrivere un nuovo grafo;
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (u) [below right of=t]{$u$};
+    \node[main node] (v) [below left of=t] {$v$};
+    \node[main node] (w) [left of=v] {$w$};
+    \node[main node] (x) [left of=w] {$x$};
+    \node[main node] (y) [above of=x] {$y$};
+    \node[main node] (z) [right of=y] {$z$};
+    \node[main node] (s) [right of=z] {$s$};
+    \node[main node] (t) [right of=s] {$t$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (u) edge node [left]  {} (v)
+      (v) edge node [left]  {} (w)
+      (w) edge node [left]  {} (x)
+      (y) edge node [left]  {} (x)
+      (z) edge node [left]  {} (y)
+      (x) edge node [left]  {} (z)
+      (s) edge node [left]  {} (z)
+      (t) edge node [left]  {} (v)
+      (t) edge node [left]  {} (u)
+      (u) edge node [left]  {} (t)
+      (z) edge node [left]  {} (w)
+      (s) edge node [left]  {} (w)
+      (v) edge node [left]  {} (s);
+  \end{tikzpicture}
+  \caption{Esempio con visita in profondità}
+  \label{fig:esempio_visita_profondita_1}
+\end{figure}
+
+\vspace{1em}
+\noindent
+\subsection{Classificazione}
+Naturalmente, dato un collegamento $u-v$, esistono $4!=24$ permutazioni possibili della scoperta e dell'analisi di ciascun vertice, ma solamente $4$ configurazioni sono compatibili con il teorema delle parentesi:
+\[d[u] < f[u] < d[v] < f[v]\]
+\[d[v] < f[v] < d[u] < f[u]\]
+\[d[u] < d[v] < f[v] < f[u]\]
+\[d[v] < d[u] < f[u] < f[v]\]
+In cui la prima configurazione è incompatibile con la presenza del collegamento $u-v$, in quanto prima di terminare l'analisi di $u$, ossia $f[u]$, è necessario esaminare tutta la sua giacenza, giungendo inevitabilmente a scoprire $v$.\\
+Allo stesso modo, se l'albero è orientato si può escludere anche la seconda configurazione; tuttavia, se l'albero non è orientato, tale configurazione rappresenta un ramo di taglio, dal momento che riguarda due alberi distinti, i quali non si parlano.\\
+Nel terzo caso, si possono distinguere due casisticche possibili
+\begin{itemize}
+  \item Nel primo caso, partendo da $u$, si scopre $v$ tramite un cammino bianco;
+  \item Nel secondo caso, semplicemente terminando $v$ si procede a conoscere $u$ partendo per vie traverse
+\end{itemize}
+Ovviamente, se l'albero è orientato la seconda opzione è impossibile, dal momento che se c'è il collegamento $u-v$, vi è anche $v-u$.\\
+Nell'ultimo caso, invece, si ha che semplicemente $v$ è un discendente di $u$ per cui tornando indietro si completa l'analisi di $u$ e anche quella di $v$, guardando semplicemente indietro. Quest'ultima configurazione segnala necessariamente la presenza di un ciclo, in quanto partendo da $v$, scoprendo $u$, si osserva nuovamente la giacenza di $u$, prima di terminare l'analisi di $u$ e $v$;\\
+... continua ... 40:00 e oltre\\
+non solo, ma se c'è un ciclo allora deve esserci necessariamente un ramo \textbf{backward}. Infatti, considerando un ciclo all'interno di un grafo:
+
+\[immagine\]
+
+Si supponga per ipotesi che all'istante $d[u]$ il vertice $u$ sia il primo ad essere scoperto. Questo significa che esiste un cammino bianco che collega $u$ a $v$; ciò significa, per il teorema del cammin bianco, che anche se tale cammino viene impiegato o meno, implica che $v$ sia un discendente di $u$; pertanto, se all'istante $d[v]$ si scopre il nodo $v$, ad un certo istante si dovrà anche analizzare la giacenza di $v$ e con questa anche il collegamento $v-u$, che è proprio il ramo \emph{backwards} di cui si voleva dimostrare la presenza.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Pertanto, se il grafo è aciclico (DAG - Direct Acycled Graph), si ha sempre che $f[v] < f[u]$, in quanto prima si termina l'analisi della giacenza di $u$ e poi si analizza $u$.\\
+
+\vspace{1em}
+\subsection{Ordinamento topologico}
+All'interno di un grafo di propedeucità, è fondamentale considerare le priorità di visita dei diversi nodi, seguendo la logica seguente:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (A) {$A$};
+    \node[main node] (B) [below of=A] {$B$};
+    \node[main node] (C) [below of=B] {$C$};
+    \node[main node] (D) [right of=A] {$D$};
+    \node[main node] (E) [below of=D] {$E$};
+    \node[main node] (F) [below of=E] {$F$};
+    \node[main node] (G) [below of=F] {$G$};
+    \node[main node] (H) [below of=G] {$H$};
+    \node[main node] (I) [right of=D] {$I$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (A) edge node [left]  {} (B)
+      (B) edge node [left]  {} (C)
+      (D) edge node [left]  {} (E)
+      (A) edge node [left]  {} (E)
+      (B) edge node [left]  {} (E)
+      (F) edge node [left]  {} (C)
+      (F) edge node [left]  {} (G)
+      (C) edge node [left]  {} (H)
+      (G) edge node [left]  {} (H);
+  \end{tikzpicture}
+  \caption{Esempio con visita in profondità}
+  \label{fig:esempio_visita_profondita_2}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Allora, l'ordine di visita in profondità di tale grafo è dettato dall'ordine con cui viene descritto il grafo nella lista di adiacenza.\\
+Pertanto, considerando a ritroso l'ordine di analisi dei vertici si ottiene esattamente una perfetta sequenza di ordinamento topologico che rispetta tutte le propedeucità; pertanto, un effetto collaterale della visita in profondità è quella di ottenere l'ordinamento topologico del grafo: ciò funziona in quanto se si considera un un DAG con un ramo $u-v$, allora è sempre vero che $f(v)<f(u)$.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che come per la visita in ampiezza, anche la visita in profondità esegue le medesime operazioni, soltanto che il sequenziamento temporale è differente, per cui la complessità permane a $\Theta(\vert v \vert + \vert \xi \vert)$.
+
+\vspace{1em}
+\subsection{Algoritmo di Dijkstra}
+Per comprendere la potenza e la genialità dell'algoritmo di Dijkstra è fondamentale focalizzare l'attenzione sul concetto di \textbf{distanza}, la quale gode di $4$ \textbf{proprietà metriche} fondamentali
+\begin{enumerate}
+  \item $d(x,y)\geq 0$
+  \item $d(x,y)= 0$ \textbf{se e solo se} $x=y$
+  \item $d(x,y)=d(y,x)$
+  \item $d(x,z)<d(x,y)+d(y,z)$
+\end{enumerate}
 
 
 

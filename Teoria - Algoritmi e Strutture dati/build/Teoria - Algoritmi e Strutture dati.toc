@@ -36,3 +36,6 @@
 \contentsline {subsection}{\numberline {6.5}Teorema delle parentesi}{83}{}%
 \contentsline {subsection}{\numberline {6.6}Teorema del cammin bianco}{83}{}%
 \contentsline {subsection}{\numberline {6.7}Teorema pesante}{84}{}%
+\contentsline {subsection}{\numberline {6.8}Classificazione}{86}{}%
+\contentsline {subsection}{\numberline {6.9}Ordinamento topologico}{86}{}%
+\contentsline {subsection}{\numberline {6.10}Algoritmo di Dijkstra}{87}{}%

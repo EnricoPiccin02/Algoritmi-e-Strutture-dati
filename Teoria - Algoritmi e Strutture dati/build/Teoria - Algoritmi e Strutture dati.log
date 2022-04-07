@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.1.27)  6 APR 2022 12:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.1.27)  7 APR 2022 11:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -591,6 +591,9 @@ LaTeX Warning: Label `fig:esempio_sottoalbero_heapify_secondo_passo' multiply de
 
 LaTeX Warning: Label `fig:problema_eulero' multiply defined.
 
+
+LaTeX Warning: Label `fig:esempio_visita_profondita_1' multiply defined.
+
 )
 \openout1 = `"Teoria - Algoritmi e Strutture dati.aux"'.
 
@@ -743,25 +746,35 @@ Overfull \hbox (31.03401pt too wide) in paragraph at lines 3138--3141
 \OT1/cmr/bx/n/10 Osservazione\OT1/cmr/m/n/10 : Si con-si-de-ri una co-da, al-lo-ra i me-to-di di in-se-ri-men-to pren-do-no il no-me di ENQUEUE($\OML/cmm/m/it/10 x$\OT1/cmr/m/n/10 ,$\OML/cmm/m/it/10 Q$\OT1/cmr/m/n/10 ),
  []
 
-[78] [79] [80] [81] [82] [83] [84] (build/Teoria - Algoritmi e Strutture dati.aux)
+[78] [79] [80] [81] [82] [83] [84]
+Underfull \hbox (badness 10000) in paragraph at lines 3449--3450
+
+ []
+
+[85]
+Underfull \hbox (badness 10000) in paragraph at lines 3572--3574
+
+ []
+
+[86] [87] (build/Teoria - Algoritmi e Strutture dati.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 34566 strings out of 480445
- 843769 string characters out of 5892391
- 1411314 words of memory out of 5000000
- 51345 multiletter control sequences out of 15000+600000
+ 34658 strings out of 480445
+ 845009 string characters out of 5892391
+ 1422214 words of memory out of 5000000
+ 51437 multiletter control sequences out of 15000+600000
  421803 words of font info for 94 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 128i,17n,130p,1198b,917s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 128i,17n,130p,1198b,964s stack positions out of 5000i,500n,10000p,200000b,80000s
  </Users/enricopiccin/Library/texlive/2021basic/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmr10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on "build/Teoria - Algoritmi e Strutture dati.pdf" (84 pages, 515294 bytes).
+Output written on "build/Teoria - Algoritmi e Strutture dati.pdf" (87 pages, 528934 bytes).
 PDF statistics:
- 360 PDF objects out of 1000 (max. 8388607)
- 251 compressed objects within 3 object streams
+ 370 PDF objects out of 1000 (max. 8388607)
+ 258 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
