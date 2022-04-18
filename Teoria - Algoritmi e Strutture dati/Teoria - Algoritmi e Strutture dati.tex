@@ -2896,7 +2896,7 @@ Per l'ordinamento, quindi, oltre all'array iniziale $A$, si impiega un secondo a
   \boxed{1} & \hspace{1em} \boxed{0.78} \hspace{2em} \boxed{0} \hspace{1em} \boxed{B[0]} \longrightarrow \boxed{0.17}\\
   \boxed{2} & \hspace{1em} \boxed{0.17} \hspace{2em} \boxed{1} \hspace{1em} \boxed{B[1]} \longrightarrow \boxed{0.39} \longrightarrow \boxed{0.26}\\
   \boxed{3} & \hspace{1em} \boxed{0.39} \hspace{2em} \boxed{2} \hspace{1em} \boxed{\text{NIL}}\\
-  \boxed{4} & \hspace{1em} \boxed{0.26} \hspace{2em} \boxed{3} \hspace{1em} \boxed{\text{NIL}}\\
+  \boxed{4} & \hspace{1em} \boxed{0.26} \hspace{2em} \boxed{3} \hspace{1em} \boxed{B[3]} \longrightarrow \boxed{0.78}\\
   \boxed{5} & \hspace{1em} \boxed{0.94} \hspace{2em} \boxed{4} \hspace{1em} \boxed{B[4]} \longrightarrow \boxed{0.94}
 \end{flalign*}
 
@@ -2967,60 +2967,80 @@ La complessità di build-heap è $O(n \cdot \log(n))$, così maggiorata nell'ipo
 \begin{center}
   31 Marzo 2022
 \end{center}
-La maggiorazione della complessità di build-heap a $O(n \cdot \log(n))$ è esagerata, e sarebbe molto più utile dimostrare che la sua complessità è perfettamente lineare.\\
-Per farlo, bisogna dimostrare che nel caso di interesse, la derivata di una somma infinita di termini sia la somma delle derivate. In particolare si ha che:
-\[\sum_{i=0}^{n} q^i = \frac{1-q^{n+1}}{1-q}\]
-in cui, se $0<q<1$, quando $n \to +\infty$ tende ad un valore ben preciso, ossia a
+La maggiorazione della complessità di \textbf{build-heap} a $O(n \cdot \log(n))$ è esagerata, e sarebbe molto più utile dimostrare che la sua \textbf{complessità} è perfettamente \textbf{lineare}: naturalmente ciò non migliora la complessità di heap-sort che, nel suo complesso, presenta una complessità lineare; tuttavia, build-heap viene utilizzato anche in altri algoritmi, in cui la complessità lineare della procedura è rilevante nei termini della complessità globale.\\
+Per farlo, bisogna supporre che nel caso di interesse, la derivata di una somma infinita (al più numerabile) di termini sia la somma delle derivate (che non sempre è vero nel caso di un numero di addendi infinito non numerabile). In particolare si ha che:
+\[\sum_{i=0}^{n} q^i = \frac{1-q^{n+1}}{1-q} \hspace{1em} \text{con} \hspace{1em} q \neq 1\]
+Se $0<q<1$, quando $n \to +\infty$, tale successione tende ad un valore ben preciso, ossia a
 \[\lim_{n \to +\infty} \sum_{i=0}^{n} q^i = \lim_{n \to +\infty} \frac{1-q^{n+1}}{1-q} = \frac{1}{1-q}\]
 e se $q=\frac{1}{2}$ allora tale limite è $2$.\\
-Allora, derivando tale sommatoria rispetto a $q$ si ottiene
-\[\frac{1}{q} \sum_{i=1} i \cdot q^i = \frac{(1-q) \cdot (-(n+1) \cdot q^n) + (1-q^{n+1})}{(1-q)^2}\]
+Allora, derivando tale sommatoria rispetto a $q$ (essendo una somma finita, la derivata della somma è la somma delle derivate), si ottiene
+\[\frac{1}{q} \sum_{i=1}^n i \cdot q^i = \frac{(1-q) \cdot (-(n+1) \cdot q^n) + (1-q^{n+1})}{(1-q)^2}\]
 E tale derivata, quando $n \to +\infty$ si traduce semplicemente in
-\[\frac{q}{(1-q)^2}\]
-e se $q=\frac{1}{2}$ allora tale limite è $2$.\\
+\[\frac{1}{q} \sum_{i=1}^\infty i \cdot q^i = \lim_{n \to +\infty} \frac{(1-q) \cdot (-(n+1) \cdot q^n) + (1-q^{n+1})}{(1-q)^2} \longrightarrow \frac{1}{q} \sum_{i=1}^\infty i \cdot q^i = \frac{1}{(1-q)^2}\]
+e moltiplicando ambo i membri per $q$ si ottiene
+\[\sum_{i=1}^\infty i \cdot q^i = \frac{q}{(1-q)^2}\]
+per cui, ancora una volta, se $q=\frac{1}{2}$ allora tale limite è $2$.\\
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Nell'algoritmo build-heap si deve considerare un albero binario (non necessariamente completo) sul quale viene eseguito heapify per ogni nodo.\\
-Al fine di ottenere una limitazione superiore del numeor di iterazioni eseguire all'interno di build-heap, si suppone che l'albero binario sia completo, avente altezza totale $H$, da cui
+\textbf{Osservazione}: Nell'algoritmo build-heap si deve considerare un albero binario (non necessariamente completo) sul quale viene eseguito heapify per ogni nodo (per ogni sottoalbero, vi sono due iterazioni da compiere: una per verificare se si deve operare, eventualmente fermandosi a questa se non si deve agire, l'altra per iniziare ad operare).\\
+Al fine di ottenere una limitazione superiore del numero di iterazioni eseguite all'interno di build-heap, si suppone che l'albero binario sia completo (ovvera vi siano tutti i nodi in ogni livello), avente altezza totale $H$, e per ogni nodo è stato applicato heapify (anche alle foglie, per le quali non seriverebbe eseguire heapify), da cui
 \[\# \text{iterazioni} \leq \sum_{h=0}^H 2^{H-h} \cdot (h+1)\]
+in cui $2^{H-h}$ sono il numero di foglie presenti al livello $h$ dell'albero, mentre $h+1$ sono le iterazioni che heapify compie per ogni foglia del livello $h$ (dovendo controllare i sottoalberi sottostanti).\\
 Naturalmente tale sommatoria può essere riscritta come
-\[\sum_{h=0}^H 2^{H-h} \cdot (h+1) = \sum_{h=0}^H 2^{H-h} + \sum_{h=0}^H 2^{H-h} = 2^H \cdot \sum_{h=0}^H h \cdot \frac{1}{2^h} + 2^H \cdot \sum_{h=0}^H \frac{1}{2^h}\]
-e sicomme si sono ottenute due sommatorie finite, si può maggiorare ulteriormente, supponendo di aggiungere tutti gli infiniti termini per ottenere delle serie infinite, il cui limite in ambo i casi è $2$, per cui
-\[2^H \cdot \sum_{h=0}^H h \cdot \frac{1}{2^h} + 2^H \cdot \sum_{h=0}^H \frac{1}{2^h} \leq 4 \cdot 2^H\]
-È noto, inoltre, che l'altezza di un albero binario appartiene alla classe $\Theta(\log_2(n))$, da cui si evince che
-\[4 \cdot 2^H \cong 4 \cdot 2^{c \cdot \log_2(n)} \cong 4c \cdot n\]
-ecco che allora si evince come la \textbf{complessità di build-heap} è esattamente \textbf{lineare}.
+\[\sum_{h=0}^H 2^{H-h} \cdot (h+1) = \sum_{h=0}^H 2^{H-h} \cdot h + \sum_{h=0}^H 2^{H-h} = 2^H \cdot \sum_{h=0}^H h \cdot \frac{1}{2^h} + 2^H \cdot \sum_{h=0}^H \frac{1}{2^h}\]
+e sicomme si sono ottenute due sommatorie finite, si può maggiorare ulteriormente, supponendo di aggiungere tutti gli infiniti termini per ottenere delle serie infinite, ottenendo, per $q=\frac{1}{2}$:
+\[\sum_{h=1}^\infty h \cdot \frac{1}{2^h} = \frac{q}{(1-q)^1}=2\]
+essendo la derivata della serie esposta in precedenza. Inoltre si
+\[\sum_{h=0}^\infty \frac{1}{2^h} = \frac{1}{1-q}=2\]
+che è la serie geometrica di ragione $q=\frac{1}{2}$. Dal momento che il in ambo i casi è $2$, si ottiene la maggiorazione seguente
+\[2^H \cdot \underbrace{\sum_{h=0}^H h \cdot \frac{1}{2^h}}_{=2} + 2^H \cdot \underbrace{\sum_{h=0}^H \frac{1}{2^h}}_{=2} \leq 4 \cdot 2^H\]
+È noto, inoltre, che l'altezza di un albero binario appartiene alla classe $\Theta(\log_2(n))$, in cui $n$ è il numero dei nodi, da cui si evince che, essendo $H$ l'altezza dell'albero considerato
+\[4 \cdot 2^H \cong 4 \cdot 2^{c \cdot \log_2(n)} = \Theta(n)\]
+in cui $c$ è la costante superiore che deriva dalla definzione di classe $\Theta(\log_2(n))$. Ecco che allora si evince come la \textbf{complessità di build-heap} sia esattamente \textbf{lineare}.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Nel caso dell'algoritmo quick-sort, si considera un perno (o pivot) e due confini mobili identificati da due indici: l'indice $i$ divide i valori minori o uguali al perno da quelli maggiori, mentre l'indice $j$ divide i valori maggiori o uguali al perno da quelli che ancora non sono stati confrontati.\\
-Al termine della separazione, il perno viene posizionato nella sua posizione definitiva, ripetendo tale algoritmo per ciascuna delle due parti in cui l'array di ordinare. È chiaro che se la ripartizione avviene sempre in maniera squilibrata e non omogenea, allora la complessità di quick-sort diventa quadratica (naturalmente nel caso peggiore).\\
-La complessità di quick-sort, nel caso medio, è log-lineare e si è dimostrato che un algoritmo di ordinamento generale, basato sui confronti, presenta una complessità nel caso generale e nel caso peggiore almeno log-lineare.
+\textbf{Osservazione}: Nel caso dell'algoritmo quick-sort, come in merge-sort, si costruisce un albero che viene percorso dall'estrema destra fino in basso; tuttavia, la percorrenza dell'albero, a differenza di merge-sort, avviene in maniera irregolare; dal punto di vista operativo, invece, si considera un perno (o pivot) (scelto arbitrariamente) e due confini mobili identificati da due indici: l'indice $i$ divide i valori minori o uguali al perno da quelli maggiori, mentre l'indice $j$ divide i valori maggiori o uguali al perno da quelli che ancora non sono stati confrontati.\\
+Al termine del sorting, il perno viene posizionato nella sua posizione definitiva (ossia nella posizione successiva a $i$), ripetendo tale procedura, in maniera ricorsiva, per ciascuna delle due parti in cui l'array da ordinare viene diviso. È chiaro che se la ripartizione avviene sempre in maniera squilibrata e non omogenea (come quando l'array è già ordinato), allora la complessità di quick-sort diventa quadratica (naturalmente nel caso peggiore).\\
+La complessità di quick-sort, nel caso medio, invece, è log-lineare: per dimostrarlo, si sarebbe dovuto supporre che i numeri da ordinare fossero tutti diversi fra di loro e calcolare la somma delle complessità di ognuna delle $n!$ permutazioni di $n$ valori, moltiplicata per la probabilità che tale permutazione si presenti (ossia $\frac{1}{n!}$) e diviso per il numero delle permutazioni (pari a $n!$).\\
+Tuttavia, una strada alternativa, ma ugualmente valida, è stata quella adottata, per la quale si prevedeva, di volta in volta, di estrarre casualmente il perno, dimodochè nessuna permutazione fosse favorita rispetto alle altre, e tramite il calcolo della speranza matematica, si è ottenuto che la complessità media di quick-sort è proprio log-lineare (mentre quella empirica è ottima). Inoltre, tale algoritmo per confronti, essendo un algoritmo di ordinamento generale, presenta una complessità nel caso generale e nel caso peggiore almeno log-lineare.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Passando ad algoritmi di ordinamento basati su strutture dati in ingresso ben precise, si è osservato che \textbf{counting-sort} presenta una complessità lineare: naturalmente, tale algoritmo si applica quando $k << n$ (anche se si potrebbe scrivere che $k = O(n)$).\\
-La prima fase dell'algoritmo si deve procedere ad inizializzare un array $C$ di $k$ posizioni a $0$, per poi effettuare $n$ iterazioni all'interno dell'array $A$ per contare quanti valori sono più piccoli di ciascuna posizione di $C$: lo sforzo compiuto è, naturalmente, dato da $\Theta(n+k)$.\\
-Effettuando, poi, un nuovo ciclo di $n$ iterazioni, si procede ad effettuare l'ordinamento non in loco, ma su un nuovo array $B$, andando progressivamente a decrementare, nell'array $C$, il contatore del numero di valori ancora disponibili, minori o uguali ad ogni posizione dell'array $C$.
+\textbf{Osservazione}: Passando ad algoritmi di ordinamento basati su strutture dati in ingresso ben precise, si è osservato che \textbf{counting-sort} presenta una complessità lineare: naturalmente, tale algoritmo si applica quando $k << n$ (anche se si potrebbe scrivere che $k = O(n)$, pur essendo una notazione fuorviante), tale per cui vi saranno da ordinare molti numeri uguali, con molte ripetizioni.\\
+La prima fase dell'algoritmo prevede di inizializzare un array $C$ di $k$ posizioni a $0$, per poi effettuare $n$ iterazioni all'interno dell'array $A$ per contare quanti valori sono più piccoli di ciascuna posizione di $C$: lo sforzo compiuto è, naturalmente, dato da $\Theta(n+k)$.\\
+Effettuando, poi, un nuovo ciclo di $n$ iterazioni (anche se al contrario, da $n$ a $1$, è irrilevante), si procede ad eseguire l'ordinamento non in loco, ma su un nuovo array $B$, andando progressivamente a decrementare, nell'array $C$, il contatore del numero di valori ancora disponibili, minori o uguali ad ogni posizione dell'array $C$.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: L'algoritmo bucket-sort permette di ordinare valori reali compresi in un intervallo $[0,1]$ (o in qualsiasi intervallo, per come si è visto in precedenza); naturalmente, la precisione di rappresentazione per un calcolatore è finita.\\
-La complessità calcolata in precedenza prevede di estrarre casualmente dei valori arbitrari nell'intervallo prescelto e determinare la speranza matematica della complessità, giungengo ad un risultato molto favorevole: all'interno di ogni bucket ci si aspetta tipicamente di avere $1$ solo dei valori di partenza:
+\textbf{Osservazione}: L'algoritmo bucket-sort permette di ordinare valori reali compresi in un intervallo $[0,1]$ (o in qualsiasi intervallo, per quanto si è visto in precedenza); ovviamente, si suppone che i valori da ordinare siano distribuiti in maniera uniforme all'interno dell'intervallo $[0,1]$, ovvero i sottointervalli di lunghezza $\delta$ sono pressoché identici fra di loro.\\
+Ovviamente il fatto di considerare un intervallo continuo $[0,1]$ è una mera approssimazione, dal momento che la precisione di rappresentazione per un calcolatore è sempre finita.\\
+Il calcolo che è stato compiuto in precedenza, durante l'analisi dell'algoritmo, non serviva a determinare la complessità media di quick-sort; anzi, in prima analisi sono stati estratti, in maniera uniforme e casuale,  dei valori arbitrari nell'intervallo prescelto e poi è stata determinata la speranza matematica della complessità, permettendo di compensare l'ipotesi iniziale di uniforme distribuzione dei valori di partenza nell'intervallo prescelto. Tale calcolo ha permesso di pervenire ad un risultato molto favorevole: all'interno di ogni bucket ci si aspetta \textbf{tipicamente} di avere $1$ solo dei valori di partenza, come mostrato di seguito
 \begin{flalign*}
-  \boxed{1} & \hspace{1em} \boxed{0.52} \hspace{2em} \boxed{0} \hspace{1em} \boxed{B[0]} \longrightarrow \boxed{0.11}\\
-  \boxed{1} & \hspace{1em} \boxed{0.52} \hspace{2em} \boxed{0} \hspace{1em} \boxed{B[0]} \longrightarrow \boxed{0.11} \longrightarrow \boxed{0.34}
+   & \hspace{1.6em} A \hspace{6em} B\\
+  \boxed{1} & \hspace{1em} \boxed{0.78} \hspace{2em} \boxed{0} \hspace{1em} \boxed{B[0]} \longrightarrow \boxed{0.17}\\
+  \boxed{2} & \hspace{1em} \boxed{0.17} \hspace{2em} \boxed{1} \hspace{1em} \boxed{B[1]} \longrightarrow \boxed{0.39} \longrightarrow \boxed{0.26}\\
+  \boxed{3} & \hspace{1em} \boxed{0.39} \hspace{2em} \boxed{2} \hspace{1em} \boxed{\text{NIL}}\\
+  \boxed{4} & \hspace{1em} \boxed{0.26} \hspace{2em} \boxed{3} \hspace{1em} \boxed{B[3]} \longrightarrow \boxed{0.78}\\
+  \boxed{5} & \hspace{1em} \boxed{0.94} \hspace{2em} \boxed{4} \hspace{1em} \boxed{B[4]} \longrightarrow \boxed{0.94}
 \end{flalign*}
 \noindent
-All'interno dell'array $B$ saranno contenuti dei puntatori a delle liste sequenziali: ogni valore dell'array $A$, a seconda del proprio valore, deve essere inserito all'interno di uno specifico bucket, secondo la regola seguente:
+All'interno dell'array $B$ saranno contenuti dei puntatori a delle liste concatenate e sequenziali: ogni valore dell'array $A$, a seconda del proprio valore, deve essere inserito all'interno di uno specifico bucket, secondo la regola seguente:
 \[B \left[ \left \lfloor n \cdot A[j] \right \rfloor \right]\]
-Naturalmente, ciascun bucket dovrà essere ordinato per mezzo di un algoritmo di ordinamento che funziona particolarmente bene quando i valori da ordinare sono ridotti.\\
-Alla fine, concatenando fra di loro tutte le liste di bucket, si ottiene l'array di valori perfettamente ordinamento.
+Naturalmente, ciascun bucket dovrà essere ordinato per mezzo di un algoritmo di ordinamento che funziona particolarmente bene quando i valori da ordinare sono ridotti in numero, in forza dell'uniforme distribuzione presa in considerazione (come \emph{insertion-sort}).\\
+Alla fine, concatenando fra di loro tutte le liste di bucket, si ottiene l'array di valori perfettamente ordinamento; naturalmente, anziché concatenare le liste, siccome le liste considerate presentano dei contatori che permettono di valutare il numero di elementi in esse contenute, sarebbe possibile anche creare un array di lunghezza pari alla somma di tutti i contatori in cui inserire i valori di ogni lista, pagando sempre un prezzo $\Theta(n)$ (con $n$ lunghezza dell'array).
 
 \newpage
 \section{Algoritmi sui grafi}
-Eulero fu il primo ad introdurre il concetto di grafo per la risoluzione di un problema di collegamento di canali:
+L’origine storica della teoria dei grafi viene fatta risalire al 1736, anno in cui il matematico svizzero Eulero risolse il problema dei ponti di K\"{o}nigsberg.\\
+Le prime applicazioni della teoria risalgono a Kirchoff nel 1847, in relazione allo studio delle reti elettriche e a Kerli, dieci anni dopo, nello studio di problemi di chimica organica. A partire dagli anni $'40$, a seguito dell'avvento del computer, la teoria ha conosciuto uno sviluppo impetuoso, sollecitato da numerose e importanti applicazioni che riguardan la ricerca operativa, computer science, reti di calcolatori e di comunicazione, statistica, cluster analysis e biologia.
+
+\vspace{1em}
+\noindent
+\subsection{Problema di Eulero}
+Per quanto si è detto, Eulero fu il primo ad introdurre il concetto di grafo per la risoluzione del problema dei ponti di K\"{o}nigsberg: tale città era attraversata dal fiume Pregel, che la divideva in quattro parti: due aree principali (A e B) e due isole (C e D). Le quattro zone della città erano collegate tra loro da sette ponti, come mostrato in Figura \ref{fig:problema_eulero_ponti}.
+Ovviamente, si usa l'imperfetto, in quanto all'epoca di Eulero la città di K\"{o}nigsberg apparteneva alla Prussia orientale, mentre attualmente appartiene alla Russia ed è nota con il nome di Kaliningrad e, a seguito dei bombardamenti della Seconda Guerra Mondiale, alcuni dei suoi antichi ponti non esistono più oggi.
 
 \begin{figure}[H]
   \centering
@@ -3031,94 +3051,172 @@ Eulero fu il primo ad introdurre il concetto di grafo per la risoluzione di un p
     \node[main node] (d) [right of=a] {$D$};
 
     \path[every node/.style={font=\sffamily\small}]
-      (a) edge node [left] {$c$} (c)
-      (a) edge node [right] {$d$} (c)
-          edge [bend left, out=60, in=120, out looseness=1, in looseness=1] node[left] {} (c)
-          % edge [loop above] node {0.1} (1)
-      (b) edge node [right] {} (c)
-          edge node {} (d)
-          % edge [loop left] node {0.4} (2)
-          % edge [bend right] node[left] {0.1} (3)
-      (c) edge node [right] {} (d)
-          % edge [bend right] node[right] {0.2} (4)
-      (d) edge node [left] {} (a);
-          % edge [loop right] node {0.6} (4)
-          % edge [bend right] node[right] {0.2} (1);
+      (a) edge [bend left, out=60, in=120, out looseness=1, in looseness=1] node[left] {$c$} (c)
+      (a) edge [bend left, out=-60, in=240, out looseness=1, in looseness=1] node[left] {$d$} (c)
+      (b) edge [bend left, out=60, in=120, out looseness=1, in looseness=1] node[left] {$a$} (a)
+      (b) edge [bend left, out=-60, in=240, out looseness=1, in looseness=1] node[left] {$b$} (a)
+      (a) edge node[above] {$e$} (d)
+      (c) edge [bend left, out=50, in=140, out looseness=1, in looseness=1] node[left] {$g$} (d)
+      (b) edge [bend left, out=-50, in=-140, out looseness=1, in looseness=1] node[left] {$f$} (d);
   \end{tikzpicture}
-  \caption{Probllema di Eulero}
-  \label{fig:problema_eulero}
+  \caption{Problema di Eulero e dei ponti di K\"{o}nigsberg}
+  \label{fig:problema_eulero_ponti}
 \end{figure}
 
-\vspace{1em}
 \noindent
-In questo caso, ossia in un multigrafo, il collegamento tra $A$ e $C$ e tra $A$ e $B$ presenta una molteplicità doppia: in un grafo semplice non è possibile avere una molteplictià $\geq 2$.\\
-Inoltre in un multigrafo è possibile avere dei \textbf{loop}, ossia degli archi chiusi su uno stesso nodo, mentre in un grafo semplice no.\\
-La definizione di \textbf{grado} di un vertice è presto detta: il grado di un vertice è il numero di archi che insistono sul vertice considerato; per esempio $\text{deg}(C)=3$.\\
-Un grafo, inoltre, si dice \textbf{connesso} se esiste un percorso che permette di collegare fra di loro ogni coppia di vertici. Un grafo, inoltre, si dice \textbf{euleriano} se esise un percorso chiuso che permette di collegare tutti i vertici impiegando tutti gli archi una e una sola volta: un grafo è euleriano se è connesso e se il \textbf{grado di tutti i vertici è pari}.
+Il compito che Eulero si era prefisso era quello di organizzare un \textbf{percorso chiuso} che impieghi tutti i ponti una e una sola volta; dopo i suoi studi, Eulero pervenne ad una soluzione molto chiara: \textbf{non esiste} alcun percorso chiuso di tale tipo.\\
+Osservando il grafo (che non è un grafo semplice, ma un multigrafo) rappresentato in Figura \ref{fig:problema_eulero_ponti}, il collegamento tra i nodi $A$ e $C$ e tra i nodi $A$ e $B$ presenta una molteplicità doppia: in un grafo semplice non è possibile avere una molteplictià $\geq 2$.\\
+Inoltre in un multigrafo è possibile avere dei \textbf{loop} (o \emph{cappi}), ossia degli archi chiusi su uno stesso nodo, mentre in un grafo semplice no.\\
+La definizione di \textbf{grado} (o \textbf{valenza}, dall'inglese \emph{degree}) di un vertice è presto detta:
+
+% Tabella per le definizione di concetti, etc...
+\vspace{1em}
+\rowcolors{1}{black!5}{black!5}
+\setlength{\tabcolsep}{14pt}
+\renewcommand{\arraystretch}{2}
+\noindent
+\begin{tabularx}{\textwidth}{@{}|P|@{}}
+    \hline
+    {\textbf{GRADO DI UN VERTICE}}\\
+    \parbox{\linewidth}{Il \textbf{grado} di un vertice è il numero di archi che incidono sul vertice considerato; per esempio, in Figura \ref{fig:problema_eulero_ponti}, si ha che $\text{deg}(C)=3$.\vspace{3mm}}\\
+    \hline
+\end{tabularx}
+\vspace{1em}
+
+\newpage
+\noindent
+Mentre la definizione di \textbf{grafo connesso} è:
+
+% Tabella per le definizione di concetti, etc...
+\vspace{1em}
+\rowcolors{1}{black!5}{black!5}
+\setlength{\tabcolsep}{14pt}
+\renewcommand{\arraystretch}{2}
+\noindent
+\begin{tabularx}{\textwidth}{@{}|P|@{}}
+    \hline
+    {\textbf{GRAFO CONNESSO}}\\
+    \parbox{\linewidth}{Un grafo, inoltre, si dice \textbf{connesso} se esiste un percorso di \textbf{archi consecutivi} che permette di collegare fra di loro ogni coppia di vertici.\vspace{3mm}}\\
+    \hline
+\end{tabularx}
+\vspace{1em}
+
+\noindent
+E di seguito si espone la definizione di \textbf{grafo euleriano}:
+
+% Tabella per le definizione di concetti, etc...
+\vspace{1em}
+\rowcolors{1}{black!5}{black!5}
+\setlength{\tabcolsep}{14pt}
+\renewcommand{\arraystretch}{2}
+\noindent
+\begin{tabularx}{\textwidth}{@{}|P|@{}}
+    \hline
+    {\textbf{GRAFO EULERIANO}}\\
+    \parbox{\linewidth}{Un grafo si dice \textbf{euleriano} se esise un \textbf{percorso chiuso} (ovvero un percorso che parte e termina nel medesimo vertice) che impiega tutti gli archi una e una sola volta.\\
+    In particolare, Eulero dimostrò che un grafo è euleriano (ossia esiste un percorso euleriano) \textbf{se e solo se} è connesso e se il \textbf{grado di tutti i vertici è pari}.\vspace{3mm}}\\
+    \hline
+\end{tabularx}
+\vspace{1em}
+
+\noindent
+\textbf{Osservazione}: Nell'$800$ \textbf{Fleury} propose un algoritmo che prevede, in prima battuta, una fase decisionale che permette di determinare se il grafo è euleriano o meno (grazie alla dimostrazione di Eulero, è facile verificare se il grafo è connesso e calcolare il grado di ogni vertice al fine di determinare se questo è pari).\\
+Dopodichè l'algoritmo permette di determinare almeno un percorso euleriano, dal momento che ve ne potrebbero essere molteplici. La velocità d'esecuzione dell'algoritmo è significativa, in quanto sta nell'ordine del numero dei vertici e degli archi, ossia ha una complessità lineare.
 
 \vspace{1em}
 \noindent
 \subsection{Algoritmo di Hamilton}
-Il problema di Hamilton è: partendo da un vertice, si costruisca un percorso chiuso che unisca tutti i vertici una e una sola volta: se un percorso di tale tipo esiste, allora il grafo si dice \textbf{hamiltoniano}\\
-È chiaro che tale problema riguarda un grafo semplice, in quanto avere molteplicità maggiore di $1$ non è utile alla risoluzione del problema, in quando sempre due nodi vengono collegati.\\
-Naturalmente, verificare la correttezza di una soluzione al problema è molto semplice, mentre la risoluzione del problema è molto più complessa: si dice che è $np$ \textbf{completo}, ovvero al risoluzione non può che avvenire tramite algoritmi di complessità esponenziale; esattamente come per vertex-cover, ci si deve accontentare di algoritmi approssimati.
+Il problema di Hamilton, invece, è il seguente: partendo da un vertice, si costruisca un percorso chiuso che unisca tutti i vertici una e una sola volta; se un percorso di tale tipo esiste, allora il grafo si dice \textbf{hamiltoniano}.\\
+È chiaro che tale problema riguarda un grafo semplice, e non un multigrafo, in quanto avere molteplicità maggiore di $1$ non è utile alla risoluzione del problema, dal momento che scegliere un arco piuttosto che un altro per collegare due nodi equivale sempre al collegamento di due nodi.\\
+Inoltre, verificare la correttezza di una soluzione al problema è molto semplice, mentre la determinazione di una soluzione del problema è molto più complessa: si dice, infatti, che l'algoritmo è $np$ \textbf{completo}, ovvero la risoluzione del problema non può che avvenire tramite algoritmi di complessità esponenziale (praticamente inutilizzabile); esattamente come per vertex-cover (o il problema del commesso viaggiatore), il quale è $np$ completo, ci si deve accontentare di algoritmi approssimati.
 
 \vspace{1em}
 \noindent
-\subsection{Teorema delle strette di mano}
-Si osservi che un loop, ossia un arco chiuso in uno stesso nodo, contribuisce alla molteplicità del nodo con un contributo di $2$. Si consideri, allora, il grafo seguente:
+\subsection{Teorema delle strette di mano - Handshake theorem}
+Si consideri un multigrafo, tale da includere:
+\begin{itemize}
+  \item molteplicità $\geq 2$ per i collegamenti tra i vertici (in quanto è possibile stringere le mani pià volte);
+  \item loop (o cappi) per i vertici (in quanto una persona può stringersi le mani da solo).
+\end{itemize}
+In quest'ultimo caso, è fondamentale osservare come un loop, ossia un arco chiuso in uno stesso nodo, contribuisce di $2$ al grado del vertice (in quanto è come se vi fossino due archi che incidono sul medesimo vertice).
+
+\newpage
+\noindent
+Si consideri, allora, il grafo seguente:
 
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
-    \node[main node] (a) {$A$};
-    \node[main node] (b) [below of=a] {$B$};
-    \node[main node] (c) [above of=a] {$C$};
-    \node[main node] (d) [right of=a] {$D$};
+    \node[main node] (a) {$B$};
+    \node[main node] (b) [below left of=a] {$A$};
+    \node[main node] (c) [below right of=a] {$C$};
+    \node[main node] (d) [below of=a] {$D$};
 
     \path[every node/.style={font=\sffamily\small}]
-      (a) edge node [left] {$c$} (c)
-      (a) edge node [right] {$d$} (c)
-          edge [bend left, out=60, in=120, out looseness=1, in looseness=1] node[left] {} (c)
-          % edge [loop above] node {0.1} (1)
-      (b) edge node [right] {} (c)
-          edge node {} (d)
-          % edge [loop left] node {0.4} (2)
-          % edge [bend right] node[left] {0.1} (3)
-      (c) edge node [right] {} (d)
-          % edge [bend right] node[right] {0.2} (4)
-      (d) edge node [left] {} (a);
-          % edge [loop right] node {0.6} (4)
-          % edge [bend right] node[right] {0.2} (1);
+      (a) edge node [left] {$\alpha$} (b)
+      (a) edge node [left] {$\beta$}  (c)
+      (a) edge [bend left, out=-60, in=240, out looseness=1, in looseness=1] node[left] {$\gamma$} (c);
   \end{tikzpicture}
-  \caption{Probllema di Eulero}
-  \label{fig:problema_eulero}
+  \caption{Problema delle strette di mano}
+  \label{fig:problema_strette_mano}
 \end{figure}
 
 \noindent
-E si scrivano i vertici in colonna tante volte quant'è la loro molteplicità:
+Al fine di analizzare tale grafo, si scrivano i vertici in colonna tante volte quant'è il loro grado:
 \begin{flalign*}
-  \boxed{A} \hspace{1em} \boxed{\alpha}\\
-  \boxed{B} \hspace{1em} \boxed{\alpha}\\
-  \boxed{B} \hspace{1em} \boxed{\beta}\\
-  \boxed{B} \hspace{1em} \boxed{\gamma}\\
-  \boxed{C} \hspace{1em} \boxed{\beta}\\
-  \boxed{C} \hspace{1em} \boxed{\gamma}\\
+  \boxed{A} \hspace{1em} - \hspace{1em} \boxed{\alpha}\\
+  \boxed{B} \hspace{1em} - \hspace{1em} \boxed{\alpha}\\
+  \boxed{B} \hspace{1em} - \hspace{1em} \boxed{\beta}\\
+  \boxed{B} \hspace{1em} - \hspace{1em} \boxed{\gamma}\\
+  \boxed{C} \hspace{1em} - \hspace{1em} \boxed{\beta}\\
+  \boxed{C} \hspace{1em} - \hspace{1em} \boxed{\gamma}\\
 \end{flalign*}
-e tale teorema afferma che la somma degli archi è sempre pari:
+Analizzando la colona di sinistra, è facile capire che essa rappresenta la somma del grado di tutti i vertici, ossia
+\[\sum_{i=1}^n \text{deg}(v_i)\]
+Invece, se si considera la colonna di destra, è immediato capire come in essa ogni arco compaia due volte, in quanto presenta due estremi, ossia
+\[2 \cdot \vert \xi \vert\]
+Pertanto, il teorema delle afferma che \textbf{la somma del grado dei vertici è sempre pari al doppio del numero di archi}:
 \[\boxed{\sum_{i=1}^n \text{deg}(v_i) = 2 \cdot \vert \xi \vert}\]
+che permette anche di capire come la somma dei gradi sia sempre un numero pari.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Si osservi che in un ipercubo $n$-dimensionale i vertici sono in tutto $2^n$, mentre il massimo della distanza fra due vertici è pari a $n$ (in quanto è sufficiente alterare ad uno ad uno gli $n$ bit di rappresentazione di ogni vertice).\\
-Se tale problema riguardasse il collegamento comunicativo tra $2^n$ vertici, con tale soluzione si avrebbe che alcune linee sarebbero eccessivamente occupate, sfavorendone delle altre.\\
-Per la risoluzione del problema, si potrebbe estrarre del tutto a caso un nodo ... continua ...
+\textbf{Osservazione}: Si osservi che in un ipercubo $n$-dimensionale, i vertici presentano coordinate binarie di $n$ bit (per $n=3$ si ha $000$, $001$ e così via fino a $111$): pertanto, è facile capire come i vertici sono in tutto $2^n$ (nel caso di $n=3$, i vertici sono $2^3=8$).
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \draw[thick](2,2,0)--(0,2,0)--(0,2,2)--(2,2,2)--(2,2,0)--(2,0,0)--(2,0,2)--(0,0,2)--(0,2,2);
+    \draw[thick](2,2,2)--(2,0,2);
+    \draw[gray,dashed](2,0,0)--(0,0,0)--(0,2,0);
+    \draw[gray,dashed](0,0,0)--(0,0,2);
+
+    \draw[gray!20](-0.5,-0.05,-0.2) node{010};
+    \draw(-1.25,1.25,0)             node{001};
+    \draw(-1.25,-0.75,0)            node{000};
+    \draw(-1.35,1.2,-2.1)           node{011};
+    \draw(2.4,-0.05,-0.2)           node{110};
+    \draw(1.8,-0.75,-0.2)           node{100};
+    \draw(1.7,1.2,-2)               node{111};
+    \draw(1.7,1.25,0)               node{101};
+  \end{tikzpicture}
+  \caption{Ipercubo tridimensionale}
+  \label{fig:ipercubo_tridimensionale}
+\end{figure}
+
+\noindent
+Per quanto concerne gli spigoli, è fondamentale osservare come ogni spigolo collega due vertici le cui coordinate differiscono solamente per un bit (per esempio, i vertici $001$ e $011$ sono collegati fra di loro da uno spigolo): ciò permette di capire come, dato un vertice, è possibile creare al massimo $n$ collegamenti da esso (ovvero vi sono $n$ vertici ad esso adiacenti), cambiando di volta in volta una coordinata, per cui il numero totale degli spigoli è
+\[\frac{2^n \cdot n}{2} = 2^{n-1} \cdot n\]
+Da tale ragionamento si evince come il massimo della distanza fra due vertici è pari a $n$ (in quanto è sufficiente alterare ad uno ad uno gli $n$ bit di rappresentazione di ogni vertice). Se la rappresentazione di un ipercubo $n$-dimensionale riguardasse il collegamento tra $2^n$ vertici al fine di garantirne la comunicazione, con tale soluzione si avrebbe che alcune linee di comunicazione sarebbero eccessivamente occupate, favorendone delle altre.\\
+Per la risoluzione del problema dell'eccessivo traffico su alcune linee, si potrebbe estrarre del tutto a caso un nuovo nodo il quale farà da tramite nella comunicazione tra i due nodi collegati da una linea eccessivamente trafficata: per esempio, dati $A$ e $B$ due nodi che comunicano frequentemente, è possibile estrarre un terzo nodo $C$ che permetta ad $A$ e a $B$ di comunicare, ma indirettamente, tramite il collegamento $A-C-B$.\\
+Tale approccio, chiaramente, potrebbe raddoppiare la distanza del collegamento di comunicazione, ma tramite un semplice calcolo di probabilità si riuscirebbe agevolmente a capire come con tale approccio il traffico si distribuirebbe in maniera uniforme su tutta la rete.
 
 \vspace{1em}
 \noindent
 \textbf{Osservazione}: Il numero degli archi in un grafo semplice è sempre
 \[0 \leq \vert \xi \vert \leq \frac{k \cdot \left(k-1\right)}{2}\]
-Nell'ipotesi in cui il gravo fosse connesso, si dimostrerà che tale grafo conterrà sempre un albero al suo interno, e quindi si ottiene che
+con $k$ il numero dei vertici.
+Nell'ipotesi in cui il grafo dovesse essere connesso, è facile capire che se esso è completo, allora è anche connesso, per cui la limitazione di destra permane inalterata. Inoltre, si dimostrerà che un grafo connesso conterrà sempre un albero al suo interno ed è noto che un albero presenta un numero di rami pari al numero di vertici meno $1$ (basta, infatti, eliminare ad uno ad uno i rami e le conseguenti foglie attaccate per accorgersene, in cui l'unica foglia che rimarrà in vita sarà la radice). Pertanto si ottiene che, in un \textbf{grafo connesso} il numero degli archi è pari a
 \[\Theta(\vert v \vert) = \vert v \vert - 1 \leq \vert \xi \vert \leq \frac{\vert v \vert \cdot \left(\vert v \vert - 1\right)}{2} = \Theta(\vert v \vert^2)\]
 
 \newpage
@@ -3622,8 +3720,162 @@ Per comprendere la potenza e la genialità dell'algoritmo di Dijkstra è fondame
   \item $d(x,y)=d(y,x)$
   \item $d(x,z)<d(x,y)+d(y,z)$
 \end{enumerate}
+Naturalmente è ovvio che è soddisfatta la seguente proprietà
+\[0 \leq d(x,x) \leq \text{min} \left[d(x,y),d(y,x)\right]\]
+così come, dovendo passare per $z$ e non essendoci simmetria nella definizione della distanza
+\[d(x,z)+d(z,y) \geq d(x,y)\]
 
+\vspace{1em}
+\noindent
+La distanza che viene impiegata all'interno dell'algoritmo di Dijkstra riguarda la configurazione particolare di un grafo in cui ogni \textbf{arco è pesato}, ossia presenta un costo $w \geq 0$: ciò significa che impiegare quel percorso comporta pagare un costo pari a $w$.\\
+Alla luce di tale specifica, si possono descrivere le proprietà di tale \emph{distanza}:
+\[0 \leq d(x,x) \leq d(x,y)\]
+\[0 \leq d(x,x) \leq d(y,x)\]
+essendo le distanze (ossia i pesi) sempre positive. Inoltre, è anche vero che
+\[d(x,y)=0 \text{ anche se } x \neq y\]
+che contrasta con le proprietà metriche. La conferma evidente che tale distanza non sia metrica, è il fatto che non vi è simmetria:
+\[d(x,y) \neq d(y,x)\]
+in quanto per raggiungere $y$ a partire da $x$ o viceversa vi possono essere percorsi diversi aventi pesi diversi: in ogni caso, la distanza tra $x$ e $y$ è la minima tra le distanze possibile.\\
+Infine, la \textbf{disuguaglianza triangolare ordinata} vale necessariamente, in quando si ha la somma di distanze necessariamente positive per raggiungere il vertice finale passando per vertici intermedi.\\
 
+\begin{lemma}
+  Se il cammino tra $x$ e $y$ è ottimo, allora anche i sottopercorsi intermedi sono necessariamente ottimi.
+\end{lemma}
+
+\newpage
+\noindent
+\begin{center}
+  13 Aprile 2022
+\end{center}
+I meccanismi di visita di un grafo noti sono due: visita in ampiezza e in profondità, ciascuno dei quali presentano un costo esecutivo paragonabile al mero inserimento dell'input, ovvero $\Theta(\vert \xi \vert + \vert v \vert)$.\\
+La visita in ampiezza presenta il pregio di calcolare le distanze dei nodi da un vertice \textbf{sorgente}: partendo da tale nodo, infatti, sarà sufficiente impiegare un solo albero per la descrizione del grafo, analizzando dapprima la giacenza della sorgente, e poi la giacenza di ogni nodo successivamente scoperto (impiegando la logica secondo la quale i vertici appena scoperti divengono grigi, mentre i vertici di cui è stata già analizzata la giacenza divengono neri).\\
+In questo modo, naturalmente, è possibile capire la distanza di ogni nodo dalla radice, sempre nell'ipotesi che il peso di un arco sia sempre pari a $1$ (a differenza dell'algoritmo di Dijkstra).\\
+La visita in profondità, invece, prevede di considerare degli istanti temporali progressivi di visita e analisi: quando i vertici non sono corredati da un valore numerico sono bianchi, quando vi è un solo valore sono grigi, mentre se presentano due istanti di tempo allora avranno colore nero: ecco che in questo modo, quando da un vertice non si può più allontanarsi, tale vertice diviene nero e si deve tornare indietro per verificare una nuova possibilità di allontanamento.\\
+È chiaro che si sarebbe potuto anche considerare un contatore pari al numero dei vertici del grafo e ogni volta che un nodo diviene nero si inserisce all'interno di un array nella posizione del contatore proprio tale verice, in modo tale da ottenere un corretto ordine di visita del grafo (\textbf{topological sorting}). Naturalmente, se tale grafo è un DAG - Directed Acycled Graph, ossia un grafo in assenza di cicli, tale grafo diviene un \textbf{grafo di propedeucità}.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Nell'algoritmo di Dijkstra si parla sempre di distanze, ma in questo caso il costo, ossia il \textbf{weight}, di un arco non è unitario, ma è \textbf{sempre positivo}, sia in un verso che nell'altro (a differenza dell'algoritmo di Bellmann-Ford, computazionalmente più pesante, in cui i pesi possono essere anche negativi); viene da se che se tutti i pesi sono identici, non ha senso impiegare l'algoritmo di Dijkstra, in quanto basta normalizzare tutti i pesi e ricondurli all'unità e impiegare la visita in ampiezza.\\
+L'lgoritmo di Dijkstra inizia con una procedura che prende il nome di \textbf{Initialize-Single-Source}, esposta di seguito:
+
+\begin{algorithm}[H]
+  \caption{Initialize-Single-Source}
+  \begin{algorithmic}[1]
+    \State INITIALIZE-SINGLE-SOURGE($\mathcal{G}$,$s$)
+    \State \textbf{for} $v \in v[\mathcal{G}]$
+    \Indent
+      \State \textbf{do} $d[v]=+\infty$
+      \Indent
+          \State $\pi[v]=$ NIL
+      \EndIndent
+    \EndIndent
+    \State $d[s]=0$
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+Dopodichè si impiega anche la procedura \textbf{Relax}:
+
+\begin{algorithm}[H]
+  \caption{Relax}
+  \begin{algorithmic}[1]
+    \State RELAX($u$,$v$,$w$)
+    \State \textbf{if} $d[v]>d[u]+w(u,v)$ \textbf{then}
+    \Indent
+      \State $d[v]=d[u]+w(u,v)$
+      \State $\pi[v]=u$
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+in cui $w(u,v)$ permette di determinare il costo del collegamento tra i vertici $u$ e $v$.\\
+All'interno dell'algoritmo di Dijkstra si fa uso di un'operazione che prende il nome di EXTRACT-MIN($\mathcal{Q}$), che è un DEQUEUE prioritario che si potrebbe realizzare con un BUILD-HEAP che faccia rispettare un vincolo \textbf{min-heap} e non \textbf{max-heap}, semplicemente andando ad invertire le disuguaglianze presenti in BUILD-HEAP, che presenta il grande pregio di avere una complessità lineare.\\
+Di seguito si epone il listato dell'algoritmo di Dijkstra, in cui $w$ è la funzione che consente di determinare il costo del collegamento tra due vertici, mentre $s$ è la sorgente di partenza:
+
+\begin{algorithm}[H]
+  \caption{Dijkstra}
+  \begin{algorithmic}[1]
+    \State DIJKSTRA($\mathcal{G}$,$w$,$s$)
+    \State INITIALIZE-SINGLE-SOURGE($\mathcal{G}$,$s$)
+    \State $S=\varnothing$
+    \State $\mathcal{Q}=V[\mathcal{G}]$
+    \State \textbf{while} $\mathcal{Q} \neq \varnothing$
+    \Indent
+      \State \textbf{do} EXTRACT-MIN($\mathcal{Q}$)
+      \Indent
+        \State $S=S\cup\{u\}$
+        \State \textbf{for} $v \in \text{Adj}[u]$
+        \Indent
+          \State \textbf{do} RELAX($u$,$v$,$w$)
+        \EndIndent
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+Naturalmente, la coda $\mathcal{Q}$ viene realizzata tramite un array, in quanto la dimensione massima è nota a priori, pari a al numero di vertici del grafo; analogamente, $S$ è sempre un array di dimensione pari al numeri di vertici del grafo.
+
+\vspace{1em}
+\noindent
+\textbf{Esempio}: Si consideri la descrizione iniziale del grafo seguente:
+\begin{flalign*}
+\end{flalign*}
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (s) {$s$};
+    \node[main node] (t) [above right of=s] {$t$};
+    \node[main node] (x) [right of=t] {$x$};
+    \node[main node] (y) [below right of=s] {$y$};
+    \node[main node] (z) [right of=y] {$z$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (s) edge node [left] {} (t)
+      (s) edge node [left] {} (y)
+      (t) edge node [left] {} (x)
+      (y) edge node [left] {} (x)
+      (y) edge node [left] {} (z)
+      (z) edge [bend left, out=330, in=330] node[left] {} (s)
+      (t) edge [bend left, out=100, in=85, out looseness=2, in looseness=2] node[left] {} (y)
+      (y) edge [bend left, out=100, in=85, out looseness=2, in looseness=2] node[left] {} (t)
+      (x) edge [bend left, out=100, in=85, out looseness=2, in looseness=2] node[left] {} (z)
+      (z) edge [bend left, out=100, in=85, out looseness=2, in looseness=2] node[left] {} (x);
+  \end{tikzpicture}
+  \caption{Esempio algoritmo Dijkstra}
+  \label{fig:esempio_algoritmo_dijkstra}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Tale algoritmo è corretto, tuttavia la dimostrazione della sua correttezza non è immediata ed evidente, così come la dimostrazione della sua complessità esecutiva.\\
+Si espongono di seguito alcuni lemmi fondamentali per la dimostrazione della correttezza dell'algoritmo:
+
+\begin{lemma} \textbf{Lemma della limitazione inferiore}\\
+  Il cammino ottimo di collegamento tra la sorgente $s$ e il vertice $u$ è sempre minore o uguale della distanza $d[u]$, ovvero
+  \[d[u] \leq \delta(s,u)\]
+\end{lemma}
+
+\vspace{1em}
+\noindent
+\begin{lemma} \textbf{Lemma della convergenza}\\
+  Dato un cammino da $s$ a $v$, in cui l'ultimo arco è $u-v$, che per ipotesi è un \textbf{cammino ottimo}, supponendo che $d[u]=\delta(u,v)$ a seguio del RELAX dell'arco $u-v$, allora anche $v$ ha raggiunto il suo valore ottimale.
+\end{lemma}
+
+\vspace{1em}
+\noindent
+\textbf{Dimostrazione}: A seguito del rilassamento di $u-v$, è sempre vero che
+\[d[v] \leq d[u] + w(u,v)\]
+ma è anche vero che
+\[d[v] = \delta[u] + w(u,v)\]
+ma per ipotesi il percorso $s-v$ è un percorso ottimo, per cui $d[v] = \delta[u] + w(u,v) = \delta[v]$. Il lemma della limitazione, però, afferma che $d[u] \geq \delta(v)$, per cui l'unica possibilità è che $d[v]=\delta[v]$.
+
+\vspace{1em}
+\noindent
+\textbf{Dimostrazione Dijkstra}: In prima analisi, si consideri che l'algoritmo porta ad inserire nel contenitore $S$ alcuni vertici che non dovrebbero starci; per esempio, se la sorgente $s \in S$ e un vertice $u \notin S$, potrebbe succedere che vi sia un collegamento $s-u$ che comprende vertici sia in $S$ che non.\\
+Allora, se $s-u$ è il percorso ottimo per collegare $s$ a $u$, $u$ è il primo vertice che viene inserito in $S$ erroneamente.
 
 
 \end{document}

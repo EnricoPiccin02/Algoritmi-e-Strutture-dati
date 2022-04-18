@@ -1,41 +1,42 @@
 \babel@toc {italian}{}
 \babel@toc {italian}{}
 \babel@toc {italian}{}
-\contentsline {section}{\numberline {1}Introduzione}{2}{}%
-\contentsline {subsection}{\numberline {1.1}Architettura dei calcolatori}{6}{}%
-\contentsline {subsection}{\numberline {1.2}Diagramma di flusso}{6}{}%
-\contentsline {section}{\numberline {2}Ordinamento (sorting)}{7}{}%
-\contentsline {subsection}{\numberline {2.1}Bubble-Sort}{7}{}%
-\contentsline {subsection}{\numberline {2.2}Insertion-sort}{8}{}%
-\contentsline {subsection}{\numberline {2.3}Pseudocodice}{8}{}%
-\contentsline {subsubsection}{\numberline {2.3.1}Assegnazione}{8}{}%
-\contentsline {subsubsection}{\numberline {2.3.2}Condizione}{9}{}%
-\contentsline {subsubsection}{\numberline {2.3.3}Ciclo for}{9}{}%
-\contentsline {subsubsection}{\numberline {2.3.4}Ciclo while}{9}{}%
-\contentsline {section}{\numberline {3}Grafi}{11}{}%
-\contentsline {section}{\numberline {4}Algoritmi aritmetici}{16}{}%
-\contentsline {subsection}{\numberline {4.1}Algoritmo di Euclide}{17}{}%
-\contentsline {subsection}{\numberline {4.2}Notazione $\boldsymbol {O}$ grande}{20}{}%
-\contentsline {subsection}{\numberline {4.3}Funzioni di complessità}{22}{}%
-\contentsline {subsection}{\numberline {4.4}Classi di complessità}{24}{}%
-\contentsline {subsection}{\numberline {4.5}Merge-Sort}{25}{}%
-\contentsline {subsection}{\numberline {4.6}Master Theorem}{29}{}%
-\contentsline {subsection}{\numberline {4.7}Heap-sort}{31}{}%
-\contentsline {subsection}{\numberline {4.8}Quick-sort}{47}{}%
-\contentsline {subsection}{\numberline {4.9}Randomize Quick-Sort}{50}{}%
-\contentsline {subsection}{\numberline {4.10}Teorema del trasferimento}{53}{}%
-\contentsline {section}{\numberline {5}Ordinamento di strutture dati specifiche}{65}{}%
-\contentsline {subsection}{\numberline {5.1}Counting-Sort}{65}{}%
-\contentsline {subsection}{\numberline {5.2}Bucket-Sort}{67}{}%
-\contentsline {subsection}{\numberline {5.3}Riassunto degli algoritmi di ordinamento}{72}{}%
-\contentsline {section}{\numberline {6}Algoritmi sui grafi}{76}{}%
-\contentsline {subsection}{\numberline {6.1}Algoritmo di Hamilton}{76}{}%
-\contentsline {subsection}{\numberline {6.2}Teorema delle strette di mano}{76}{}%
-\contentsline {subsection}{\numberline {6.3}Breadth-First-Search (BFS)}{79}{}%
-\contentsline {subsection}{\numberline {6.4}Depth-First-Search (DFS)}{80}{}%
-\contentsline {subsection}{\numberline {6.5}Teorema delle parentesi}{83}{}%
-\contentsline {subsection}{\numberline {6.6}Teorema del cammin bianco}{83}{}%
-\contentsline {subsection}{\numberline {6.7}Teorema pesante}{84}{}%
-\contentsline {subsection}{\numberline {6.8}Classificazione}{86}{}%
-\contentsline {subsection}{\numberline {6.9}Ordinamento topologico}{86}{}%
-\contentsline {subsection}{\numberline {6.10}Algoritmo di Dijkstra}{87}{}%
+\contentsline {section}{\numberline {1}Introduzione}{3}{}%
+\contentsline {subsection}{\numberline {1.1}Architettura dei calcolatori}{7}{}%
+\contentsline {subsection}{\numberline {1.2}Diagramma di flusso}{7}{}%
+\contentsline {section}{\numberline {2}Ordinamento (sorting)}{8}{}%
+\contentsline {subsection}{\numberline {2.1}Bubble-Sort}{8}{}%
+\contentsline {subsection}{\numberline {2.2}Insertion-sort}{9}{}%
+\contentsline {subsection}{\numberline {2.3}Pseudocodice}{9}{}%
+\contentsline {subsubsection}{\numberline {2.3.1}Assegnazione}{9}{}%
+\contentsline {subsubsection}{\numberline {2.3.2}Condizione}{10}{}%
+\contentsline {subsubsection}{\numberline {2.3.3}Ciclo for}{10}{}%
+\contentsline {subsubsection}{\numberline {2.3.4}Ciclo while}{10}{}%
+\contentsline {section}{\numberline {3}Grafi}{12}{}%
+\contentsline {section}{\numberline {4}Algoritmi aritmetici}{17}{}%
+\contentsline {subsection}{\numberline {4.1}Algoritmo di Euclide}{18}{}%
+\contentsline {subsection}{\numberline {4.2}Notazione $\boldsymbol {O}$ grande}{21}{}%
+\contentsline {subsection}{\numberline {4.3}Funzioni di complessità}{23}{}%
+\contentsline {subsection}{\numberline {4.4}Classi di complessità}{25}{}%
+\contentsline {subsection}{\numberline {4.5}Merge-Sort}{26}{}%
+\contentsline {subsection}{\numberline {4.6}Master Theorem}{30}{}%
+\contentsline {subsection}{\numberline {4.7}Heap-sort}{32}{}%
+\contentsline {subsection}{\numberline {4.8}Quick-sort}{48}{}%
+\contentsline {subsection}{\numberline {4.9}Randomize Quick-Sort}{51}{}%
+\contentsline {subsection}{\numberline {4.10}Teorema del trasferimento}{54}{}%
+\contentsline {section}{\numberline {5}Ordinamento di strutture dati specifiche}{66}{}%
+\contentsline {subsection}{\numberline {5.1}Counting-Sort}{66}{}%
+\contentsline {subsection}{\numberline {5.2}Bucket-Sort}{68}{}%
+\contentsline {subsection}{\numberline {5.3}Riassunto degli algoritmi di ordinamento}{73}{}%
+\contentsline {section}{\numberline {6}Algoritmi sui grafi}{78}{}%
+\contentsline {subsection}{\numberline {6.1}Problema di Eulero}{78}{}%
+\contentsline {subsection}{\numberline {6.2}Algoritmo di Hamilton}{79}{}%
+\contentsline {subsection}{\numberline {6.3}Teorema delle strette di mano - Handshake theorem}{79}{}%
+\contentsline {subsection}{\numberline {6.4}Breadth-First-Search (BFS)}{83}{}%
+\contentsline {subsection}{\numberline {6.5}Depth-First-Search (DFS)}{84}{}%
+\contentsline {subsection}{\numberline {6.6}Teorema delle parentesi}{87}{}%
+\contentsline {subsection}{\numberline {6.7}Teorema del cammin bianco}{87}{}%
+\contentsline {subsection}{\numberline {6.8}Teorema pesante}{88}{}%
+\contentsline {subsection}{\numberline {6.9}Classificazione}{90}{}%
+\contentsline {subsection}{\numberline {6.10}Ordinamento topologico}{90}{}%
+\contentsline {subsection}{\numberline {6.11}Algoritmo di Dijkstra}{91}{}%
