@@ -2657,7 +2657,7 @@ Questo, naturalmente, quando vi è un algoritmo capace di costruire un albero bi
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Si osservi che nel caso dell'algoritmo quick-sort, presa una qualsiasi permutazione di $n$ numeri in ingresso, essa presenterà la stessa probabilità di presentarsi rispetto alle altre nell'ordinameno, la quale è pari a
+\textbf{Osservazione}: Si osservi che nel caso dell'algoritmo quick-sort, presa una qualsiasi permutazione di $n$ numeri in ingresso, essa presenterà la stessa probabilità di presentarsi rispetto alle altre nell'ordinamento, la quale è pari a
 \[\frac{1}{n!}\]
 Naturalmente, l'esecuzione dell'algoritmo quick-sort presenta un elemento di casualità, in quando dipende dall'estrazione di una possibile permutazione delle $n!$ $n$-uple in ingresso. Tuttavia, dal punto di vista di quick-sort, estrarre casualmente una permutazione di $n$ numeri o estrarre di volta in volta in maniera casuale un perno, rappresentano la stessa cosa (cosa che si può facilmente dimostrare) in quanto non si sta privilegiando una configurazione rispetto ad un'altra: la complessità media di quick-sort e di randomized-quick-sort permane sempre log-lineare.\\
 È noto che la complessità nel caso medio di un algoritmo di ordinamento basato sui confronti è almeno $\log_2(n!)$ (con $n$ numero di oggetti da ordinare); per capire l'entità del fattoriale di un numero $n$ è opportuno richiamare la \textbf{formula di Stirling}:
@@ -3224,62 +3224,148 @@ Nell'ipotesi in cui il grafo dovesse essere connesso, è facile capire che se es
 \begin{center}
   1 Aprile 2022
 \end{center}
-Si dimostri che due funzioni definitivamente infinite appartengano alla stessa classe di complessità $\Theta$, allora anche i loro logaritmi appartengono alla medesima classe $\Theta$.\\
-In altre parole, è noto che
-\[f(x) = \Theta(g(x)) \hspace{1em} \text{ ovvero } \hspace{1em} c_1 \cdot g(x) \leq f(x) \leq c_2 \cdot g(x)\]
+Si dimostri che se due funzioni definitivamente infinite appartengono alla stessa classe di complessità $\Theta$, allora anche i loro logaritmi appartengono alla medesima classe $\Theta$.\\
+In altre parole, è noto che se $f(x) = \Theta(g(x))$, allora $\exists c_1,c_2,\widetilde{x} \in \mathbb{R}^+$ tali che
+\[\hspace{1em} c_1 \cdot g(x) \leq f(x) \leq c_2 \cdot g(x) \hspace{1em} \forall x \geq \widetilde{x}\]
 Allora applicando i logaritmi a tale diseguaglianza si ottiene che
 \[\log(c_1) + \log(g(x)) \leq \log(f(x)) \leq \log(c_2) + \log(g(x))\]
 Per cui è sufficiente considerare
 \[\frac{\log(g(x))}{2} \leq \log(f(x)) \leq 2 \cdot \log(g(x))\]
+essendo $g(x)$ infinita e conseguentemente anche $\log(g(x))$ è definitivamente infinito. Pertanto, $\log(g(x)) \geq \log(c_1)$ definitivamente, per qualche $x \geq \widetilde{\widetilde{x}}$.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Si consideri una coda, allora i metodi di inserimento prendono il nome di ENQUEUE($x$,$Q$), mentre $x=$DEQUEUE($Q$) restituisce il nodo cancellato.\\
-Nell'utilizzo della coda, si farà sempre in modo che la sua lunghezza sia sempre inferiore a $n$. Inoltre, è possibile anche impiegare un array per realizzare una \textbf{coda circolare}, in cui l'ultimo elemento punta al primo, come mostrato di seguito:
-\[\boxed{\text{NIL}}\boxed{\text{NIL}}\boxed{...}\boxed{15}\boxed{6}\boxed{9}\boxed{8}\boxed{4}\boxed{\text{NIL}}\]
-in cui è immediato capire come la testa sia in corrispondenza del valore $15$, mentre la coda è in corrispondenza dell'ultimo \text{NIL}. Al fine di accedere ai diversi elementi dell'array è necessario eseguire una \textbf{somma circolare} $\oplus$, ovveero la somma di due posizioni modulo la lunghezza dell'array, ovvero
+\textbf{Osservazione}: Si consideri una coda, allora il metodo di inserimento di un nodo $x$ all'interno della coda $Q$ (inizialmente eventualmente vuota, ossia $Q=\varnothing$) prende il nome di ENQUEUE($x$,$Q$), mentre $x=$DEQUEUE($Q$) restituisce il nodo cancellato.\\
+Nell'utilizzo della coda, in tale corso, si farà sempre in modo che la sua lunghezza sia sempre inferiore (o eventualmente uguale) a $n$. Inoltre, è possibile anche impiegare un array per realizzare una \textbf{coda circolare}, in cui l'ultimo elemento punta al primo, come mostrato di seguito, nel caso di una coda di lunghezza massima $12$:
+\[Q=\overset{1}{\boxed{\text{NIL}}}\boxed{\text{NIL}}\boxed{\textcolor{white}{I}...\textcolor{white}{I}}\underset{7}{\boxed{\textcolor{white}{I}15\textcolor{white}{I}}}\boxed{\textcolor{white}{I}6\textcolor{white}{I}}\boxed{\textcolor{white}{I}9\textcolor{white}{I}}\boxed{\textcolor{white}{I}8\textcolor{white}{I}}\underset{11}{\boxed{\textcolor{white}{I}4\textcolor{white}{I}}}\overset{12}{\boxed{\text{NIL}}}\]
+in cui è immediato capire come la testa della coda (dall'inglese \emph{head}) sia in corrispondenza del valore $15$ (in posizione $7$), mentre la coda della stessa (dall'inglese \emph{tail}) è in corrispondenza dell'ultimo NIL (in posizione $12$).\\
+Quando la coda è vuota (ossia $Q=\varnothing$) la testa e la coda coincidono, ovvero $h=t=1$. Al fine di accedere ai diversi elementi dell'array è necessario eseguire una \textbf{somma circolare} $\oplus$ (ovvero la somma di due posizioni modulo la lunghezza dell'array, in questo caso $\% 12$):
 \[10 \oplus 4 = 14 \% 12 = 2\]
-Per esempio, nel caso seguente
-\[\boxed{\text{NIL}}\boxed{\text{NIL}}\boxed{...}\boxed{15}\boxed{6}\boxed{9}\boxed{8}\boxed{4}\boxed{\text{NIL}}\]
-l'operazione ENQUEUE($x$,$Q$), si inserirà il nodo $x$ nell'ultima posizione, ovvero $Q[\text{tail} \circ 1]=x$.\\
-Se, invece, si deve cancellare un nodo dalla coda, si usa l'operazione DEQUEUE.\\
-Per conoscere la lunghezza $l$ della coda, nel caso in cui $h \leq t$, sarà semplicemente data da $l=t-h$, in caso cntrario si ha $l=n-t+h$.
+con la sola eccezione che prevede di sostituire con $12$ l'eventuale resto $0$ di tale operazione. Per esempio, nel caso seguente
+\[Q=\overset{1}{\boxed{\text{NIL}}}\boxed{\text{NIL}}\boxed{\textcolor{white}{I}...\textcolor{white}{I}}\underset{7}{\boxed{\textcolor{white}{I}15\textcolor{white}{I}}}\boxed{\textcolor{white}{I}6\textcolor{white}{I}}\boxed{\textcolor{white}{I}9\textcolor{white}{I}}\boxed{\textcolor{white}{I}8\textcolor{white}{I}}\underset{11}{\boxed{\textcolor{white}{I}4\textcolor{white}{I}}}\overset{12}{\boxed{\text{NIL}}}\]
+l'operazione ENQUEUE($x$,$Q$) prevede di inserire il nodo $x$ nell'ultima posizione (ovvero $12$), provvedendo ad incrementare la posizione della coda:
+
+\begin{algorithm}[H]
+  \caption{ENQUEUE($x$,$Q$)}
+  \begin{algorithmic}[1]
+    \State $Q[\text{tail}]=x$
+    \State $\text{tail}=\text{tail} \oplus 1$
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+Naturalmente, nel caso preso in esame, $\text{tail} \circ 1 = (12+1) \% 12=1$.\\
+Se, invece, si deve cancellare un nodo in testa alla coda, si usa l'operazione DEQUEUE, la quale prevede di restituire il nodo in testa e incrementare la posizione della testa:
+
+\begin{algorithm}[H]
+  \caption{DEQUEUE($Q$)}
+  \begin{algorithmic}[1]
+    \State $x=Q[\text{head}]$
+    \State $\text{head}=\text{head} \oplus 1$
+    \State \textbf{return} $x$
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent
+Per conoscere la lunghezza $l$ della coda, invece, nel caso in cui $h \leq t$, sarà semplicemente data da $l=t-h$, in caso contrario si ha $l=n-h+t$.\\
+Naturalmente, nell'utilizzo di tale sistema, si dovrebbero controllare i due casi di \emph{underflow} (che si ha quando si deve eseguire DEQUEUE($Q$) con $Q=\varnothing$ e, quindi, $l=0$) e \emph{overflow} (che si ha quando si deve eseguire ENQUEUE($x$,$Q$) quando $l=n$).\\
+Tuttavia, nell'utilizzo di tale sistema, all'interno del corso, non si verificherà nessuno dei due eventi.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Nel caso degli algoritmi di ordinamento, la complessità di elaborazione dell'input è dettata solamente da $n$, ignorando completamente altri fattori di complessità.\\
-Pertanto, nel caso dei grafi, sarebbe più conveniente provvedere a definire la complessità di inserimento dell'input in funzione del numero dei vertici $\vert v \vert$ e del numero degli archi $\vert \xi \vert$.\\
-È noto che i grafi semplici non presentano loop, né tantomeno una moltpelicità $\geq 2$.\\
-Il modo più immediato al fine di descrivere l'input dei vertici e degli archi è quello di impiegare una \textbf{lista di adiacenza}:
-\[\boxed{a}\boxed{;}\boxed{d}\boxed{;}\boxed{b};\boxed{d}\boxed{;}\boxed{c}\boxed{;}\boxed{;}\boxed{d}\boxed{;}\boxed{a}\boxed{b}\boxed{;}\]
-La complessità di tale descrizione dell'input è data da
+\textbf{Osservazione}: Parlando di grafi e dovendo inserire all'interno di una coda i vertici degli stessi, è facile capire come tale coda non conterrà mai, al suo interno, un numero maggiore di $n$ nodi.\\
+Inoltre, mentre nel caso degli algoritmi di ordinamento, la complessità di descrizione dell'input è dettata solamente da $n$ (con $n$ pari al numero dei valori da ordinare), ignorando completamente altri fattori di complessità (come, per esempio, la definizione del numero di cifre decimali di ogni numero da ordinare): la formulazione più corretta, in tal senso, è \textbf{complessità in funzione di $\boldsymbol{n}$} (e non \emph{complessità assoluta}, o \emph{bit-complexity}).\\
+Pertanto, nel caso dei grafi, sarebbe più conveniente provvedere a definire la complessità di inserimento dell'input \textbf{in funzione del numero dei vertici $\boldsymbol{\vert v \vert}$ e del numero degli archi $\boldsymbol{\vert \xi \vert}$}. A tal proposito, è bene ricordare come i grafi semplici
+\begin{itemize}
+  \item non presentano loop (che contribuiscono di $2$ al grado del vertice coinvolto);
+  \item gli archi non hanno una moltpelicità $\geq 2$, ma sempre unitaria o nulla;
+  \item gli archi non presentano ordinamenti (ossia se esiste un arco $A-B$, allora esiste anche l'arco $B-A$).
+\end{itemize}
+Il modo più immediato al fine di descrivere l'input dei vertici e degli archi di uun grafo semplice è quello di impiegare una \textbf{lista di adiacenza}. Per esempio, nel caso del grafo di seguito esposto
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (a) {$A$};
+    \node[main node] (b) [right of=a] {$B$};
+    \node[main node] (c) [right of=b] {$C$};
+    \node[main node] (d) [above of=b] {$D$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (a) edge node [left] {} (d)
+      (b) edge node [left] {} (d);
+  \end{tikzpicture}
+  \caption{Descrizione di un grafo tramite una lista di adiacenza}
+  \label{fig:descrizione_grafo_lista_adiacenza}
+\end{figure}
+
+\noindent
+La lista di adiacenza associata al grafo sarebbe la seguente
+\[\boxed{\textcolor{white}{I}a\textcolor{white}{;}}\boxed{\textcolor{white}{I};\textcolor{white}{;}}\boxed{\textcolor{white}{I}d\textcolor{white}{;}}\boxed{\textcolor{white}{I};\textcolor{white}{;}}\boxed{\textcolor{white}{I}b\textcolor{white}{;}}\boxed{\textcolor{white}{I};\textcolor{white}{;}}\boxed{\textcolor{white}{I}d\textcolor{white}{;}}\boxed{\textcolor{white}{I};\textcolor{white}{;}}\boxed{\textcolor{white}{I}c\textcolor{white}{;}}\boxed{\textcolor{white}{I};\textcolor{white}{;}}\boxed{\textcolor{white}{I};\textcolor{white}{;}}\boxed{\textcolor{white}{I}d\textcolor{white}{;}}\boxed{\textcolor{white}{I};\textcolor{white}{;}}\boxed{\textcolor{white}{I}a\textcolor{white}{;}}\boxed{\textcolor{white}{I}b\textcolor{white}{;}}\boxed{\textcolor{white}{I};\textcolor{white}{;}}\]
+In cui, semplicemente, dato ogni nodo, si indicano tutti i nodi ad esso adiacenti (ossia collegati tramite un arco); la logica di descrizione è la seguente: si specifica il nodo interessat, si pone un separatore (\quotes{;}), si specificano tutti i nodi ad esso adiacenti e poi si pone un nuovo separatore (\quotes{;}) e dopodichè si procede con il nodo successivo.\\
+È immediato capire come la complessità di tale descrizione dell'input (ossia il numero di caselle impiegate) è data da
 \[\boxed{3 \cdot \vert v \vert + 2 \cdot \vert \xi \vert}\]
-in quanto ogni vertice è presente $3$ volte nella descrizione (incluso i punti e virgola), mentre gli archi vengono contati due volte (in quanto compaiono nella descrizione di ciascuno dei vertici che collega l'arco considerato).\\
-Ciò porta a concludere che la complessità di descrizione dell'input in funzione del numero di vertici e archi è $\Theta(\vert v \vert + \vert \xi \vert)$.\\
-Nel caso di presenza di cappi sui nodi, giacché questi incidono su un solo vertice, essi vengono contati una sola volta, per cui si avrebbe che la complessità è
+in quanto ogni vertice è presente $3$ volte nella descrizione (una prima volta per specificare quale vertice si sta considerando, un punto e virgola ad indicare che tale vertice è stato visitato e un'ultima volta per indicare che la lista delle adiacenze di tale vertice è terminata), mentre gli archi vengono contati due volte (in quanto uno stesso arco viene considerato nella descrizione di ciascuno dei due vertici che collega); ciò porta a concludere che la complessità di descrizione dell'input, in funzione del numero di vertici e archi, è $\Theta \left(\vert v \vert + \vert \xi \vert \right)$.\\
+Nel caso di presenza di cappi sui nodi, giacché questi incidono su un solo vertice, essi vengono contati una sola volta nella descrizione delle adiacenze, per cui si avrebbe che la complessità è
 \[3 \cdot \vert v \vert + 2 \cdot \vert \xi \vert - \#\text{loop}\]
-Ma si avrebbe sempre che $2 \cdot \vert \xi \vert - \#\text{loop} \geq \vert \xi \vert$, ma dal punto di vista della notazione $\Theta$ sarebbe esattamente equivalente.\\
-Nel caso della moltiplicità $\geq 2$, allora il numero dei vertici dovrebbe essere moltiplicato per il numero della molteplicità dei vertici, ma ancora una volta è equivalente per la notazione $\Theta$.\\
-In conclusione, la complessità della descrizione dell'input per un generico grafo è $\Theta(\vert v \vert + \vert \xi \vert)$.\\
-Un'altro modo per descrivere l'input è la \textbf{matrice di adiacenza}, nella quale è possibile non solo descrivere gli archi, ma anche i cappi e la molteplicità; in questo caso, tuttavia, la complessità è data da $\vert v \vert^2 + 2 \cdot \vert v \vert$, ovvero è $\Theta(\vert v \vert^2)$.\\
-Ciò porterebbe ad eliminare la seconda soluzione in favore della prima, in quanto in un albero il numero degli archi è lineare con il numero dei vertici, mentre in un grafo denso la complessità è in ogni casi quadratica: pertanto, nel caso di un grafo denso impiegare l'una o l'altra descrizione è equivalente, mentre nel caso di un grafo sparso è più conveniente, in termini di complessità, impiegare la lista di adiacenza.
+Ma si avrebbe sempre che $2 \cdot \vert \xi \vert - \#\text{loop} \geq \vert \xi \vert$, in quanto il numero dei cappi è al massimo pari al numero degli archi, per cui dal punto di vista della notazione $\Theta$ sarebbe esattamente equivalente.\\
+Nel caso gli archi presentassero moltiplicità $\geq 2$, allora nella descrizione dell'input, oltre a definire il vertice interessato e la sua adiacenza, ad ogni collegamento dovrà essere associata una nuova informazione che contiene la molteplicità del collegamento, ossia il numero di archi che connettono due stessi nodi; pertanto, il numero degli archi dovrebbe essere raddoppiato, ma ancora una volta tale modifica è assolutamente ininfluente dal punto di vista della notazione $\Theta$. In conclusione, anche combinando tutte e due le casistiche precedentemente esposte, si avrebbe sempre che la complessità della descrizione dell'input per un generico grafo, sia semplice che multigrafo, è
+\[\boxed{\Theta(\vert v \vert + \vert \xi \vert}\]
+
+\noindent
+\textbf{Osservazione}: Si osservi che nella definizione della complessità di descrizione dell'input per un generico grafo, $\vert \xi \vert$ indica il numero di archi, ignorando la molteplicità, ossia il numero del tipo di collegamenti tra nodi distinti, ovviamente.
+
+\vspace{1em}
+\noindent
+Un altro modo per descrivere l'input è la \textbf{matrice di adiacenza}, nella quale si pone $1$ solamente quando si ha un arco che collega i nodi considerati, $0$ altrimenti. Nel caso del grafo di Figura \ref{fig:descrizione_grafo_lista_adiacenza} si ha
+
+\begin{table}[H]
+  \centering
+  \rowcolors{1}{white}{white}
+  \setlength{\tabcolsep}{5pt}
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{c|c|c|c|c|}
+    & $a$ & $b$ & $c$ & $d$\\
+    \hline
+    $a$ & $0$ & $0$ & $0$ & $1$\\
+    \hline
+    $b$ & $0$ & $0$ & $0$ & $1$\\
+    \hline
+    $c$ & $0$ & $0$ & $0$ & $0$\\
+    \hline
+    $d$ & $1$ & $1$ & $0$ & $0$\\
+    \hline
+  \end{tabular}
+  \caption{Matrice di adiacenza}
+  \label{tab:matrice_adiacenza}
+\end{table}
+
+\noindent
+Ovviamente, nel caso di un grafo semplice, senza cappi e con molteplicità al più unitaria, tale rappresentazione è sovrabbondante: la diagonale principale è ovviamente data da tutti $0$ ed è ovviamente simmetrica.\\
+Tuttavia, se vi sono cappi, allora la diagonale principale non sarà tutta nulla e se vi è molteplicità, allora la posto di scrivere $0$ e $1$, si specifica il numero di archi che collegano due nodi. Naturalmente, poi, se gli archi presentano un'ordinamento, ossia sono orientati, allora semplicemente il collegamento $A-B$ verrà denotato con $1$, mentre il collegamento $B-A$ verrà indicato con $0$, supponendo $A$ e $B$ due vertici collegati da un arco che da $A$ va in $B$.\\
+Pertanto, la matrice di adiacenza è una struttura estremamente flessibile, grazie alla quale è possibile non solo descrivere gli archi, ma anche i cappi, la molteplicità e l'ordinamento; in questo caso, tuttavia, la complessità è data da $\vert v \vert^2 + 2 \cdot \vert v \vert$ (in quanto oltre alle celle si considerano anche le intestazioni di riga e di colonna), ovvero è
+\[\boxed{\Theta(\vert v \vert^2)}\]
+Tale evidenza porterebbe ad eliminare la seconda soluzione in favore della prima, in quanto, per esempio, in un albero il numero degli archi è lineare con il numero dei vertici (ovvero è $\vert v \vert - 1$), per cui $\Theta(\vert v \vert + \vert \xi \vert = \Theta(\vert v \vert)$; se, invece, si considera un grafo denso, tale per cui il numero degli archi è
+\[\frac{\vert v \vert \cdot \left(\vert v \vert - 1\right)}{2} = \Theta(\vert v \vert^2)\]
+ossia è quadratico nel numero dei vertici, la complessità di descrizione dell'input è in ogni caso quadratica: pertanto, nel caso di un \textbf{grafo denso} impiegare l'una o l'altra descrizione è equivalente, mentre nel caso di un \textbf{grafo sparso}, come un albero, è più conveniente, in termini di complessità, impiegare la lista di adiacenza (anche se molto spesso si impiega la matrice di adiacenza in ogni caso, essendo esso più completa ed efficiente della lista di adiacenza).
 
 \vspace{1em}
 \subsection{Breadth-First-Search (BFS)}
-Si consideri un grafo semplice nel quale viene messo in evidenza un vertice, denominato \textbf{source} (che si può interpretare come un grafo connesso, ma solo dal punto di vista concettuale).\\
-La visita di un grafo in ampiezza viene di seguito esposta tramite l'algoritmo \textbf{breadth-first-search}, il quale prevede di partire dal vertice sorgente e considerare tutte le adiacenze dei vertici successivi fino a concludere tutti i vertici del grafo.\\
+Si consideri un grafo semplice $\mathcal{G}$ nel quale viene messo in evidenza un vertice, denominato \textbf{source} ($s$); per comodità di comprensione, si può interpretare $\mathcal{G}$ come un grafo connesso, tale per cui da ogni vertice esiste un percorso che porta a qualunque altro vertice.\\
+La visita di un grafo in ampiezza viene di seguito esposta tramite l'algoritmo \textbf{breadth-first-search}, il quale prevede di partire dal vertice sorgente $s$ e considerare tutte le adiacenze dei vertici successivi fino a concludere la visita di tutti i vertici del grafo, scoprendo di volta in volta vertici a distanze incrementali e costruendo, di fatto, un albero di radice $s$ che viene inserito all'interno del grafo che, se il grafo è connesso, diviene un \textbf{albero ricoprente} (dall'inglese \emph{spanning tree}); per tale ragione la visita in ampiezza può essere impiegata per controllare se un grafo è connesso.\\
 Al fine di semplificare la visualizzazione delle operazioni, si considera la seguente notazione:
 \begin{itemize}
   \item White: vertice mai visitato;
-  \item Gray: vertice visitato ma non ancora abbandonato;
-  \item Black: vertice visitato e abbandonato
+  \item Gray: vertice visitato ma non ancora abbandonato (ovvero bisogna ancora processare il vertice);
+  \item Black: vertice visitato e abbandonato.
 \end{itemize}
+Di seguito si espone la fase preparatoria dell'algoritmo Breadth-First-Search:
 
 \begin{algorithm}[H]
   \caption{Breadth-First-Search}
   \begin{algorithmic}[1]
-    \State BREADTH-FIRST-SEARCH($G$,$s$)
-    \State \textbf{for} $u \in v[G]-\{s\}$
+    \State BREADTH-FIRST-SEARCH($\mathcal{G}$,$s$)
+    \State \textbf{for} $u \in v[\mathcal{G}]-\{s\}$
     \Indent
       \State \textbf{do} \emph{color$[u]=$} WHITE
       \Indent
@@ -3294,30 +3380,17 @@ Al fine di semplificare la visualizzazione delle operazioni, si considera la seg
   \end{algorithmic}
 \end{algorithm}
 
-\vspace{1em}
 \noindent
-In cui semplicemente si impostano tutti i vertici al colore WHITE, tranne la sorgente, sulla quale si inizia ad operare; inoltre, presentano tutti distanza infinita e progenitore NIL, eccezion fatta per la sorgente che ha distanza nulla.\\
+In cui semplicemente si impostano tutti i vertici al colore WHITE (tramite l'istruzione \emph{color$[u]=$} WHITE), tranne la sorgente, sulla quale si inizia ad operare; inoltre, si fa in modo che la distanza di ogni vertice dalla sorgente sia inizialmente infinita ($d[u]=\infty$) e il progenitore di ogni vertice sia NIL ($\pi[u]=$ NIL), eccezion fatta per la sorgente che ha distanza nulla. Inoltre viene anche creata una coda $Q$ nella quale verranno inseriti i vertici, ma che inizialmente è vuota, ossia $Q=\varnothing$ (che se si volesse realizzare tramite un array, si dovrebbe disporre di un array di dimensione $\vert v \vert + 1$, con $\vert v \vert$ numero dei vertici).\\
 Taluna è la fase preparatoria, mentre di seguito si espone la continuazione del listato:
 
 \begin{algorithm}[H]
   \caption{Breadth-First-Search}
   \begin{algorithmic}[1]
-    \State BREADTH-FIRST-SEARCH($G$,$s$)
-    \State \textbf{for} $u \in v[G]-\{s\}$
-    \Indent
-      \State \textbf{do} \emph{color$[u]=$} WHITE
-      \Indent
-          \State $d[u]=\infty$
-          \State $\pi[u]=$ NIL
-      \EndIndent
-    \EndIndent
-    \State \emph{color$[s]=$} GRAY
-    \State $d[s]=0$
-    \State $\pi[s]=$ NIL
-    \State $Q=\varnothing$
+    \State [...]
 
-    \State ENQUEUE($Q$,$s$);
-    \State \textbf{whilte} $Q \neq 0$
+    \State ENQUEUE($Q$,$s$)
+    \State \textbf{while} $Q \neq \varnothing$
     \Indent
       \State \textbf{do} $u=$ DEQUEUE($Q$)
       \Indent
@@ -3335,32 +3408,190 @@ Taluna è la fase preparatoria, mentre di seguito si espone la continuazione del
               \EndIndent
           \EndIndent
         \EndIndent
-        \State DEQUEUE($Q$)
         \State \emph{color}$[u]=$ BLACK
       \EndIndent
     \EndIndent
   \end{algorithmic}
 \end{algorithm}
 
-\vspace{1em}
+\newpage
 \noindent
 \textbf{Esempio}: Si consideri il grafo seguente:
 
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node,fill=black!25] (s) [] {$s$};
+    \node[main node] (a) [above left of=s] {$a$};
+    \node[main node] (b) [above = 4em of s] {$b$};
+    \node[main node] (c) [above right of=s] {$c$};
+    \node[main node] (d) [above = 4em of a] {$d$};
+    \node[main node] (e) [above right of=a] {$e$};
+    \node[main node] (f) [above right of=b] {$f$};
+    \node[main node] (g) [above left of=e] {$g$};
+    \node[main node] (h) [above right of=e] {$h$};
+    \node[] (s1) [right = 0.5em of s] {$[0,\text{NIL}]$};
 
+    \path[every node/.style={font=\sffamily\small}]
+      (s) edge node [left] {} (a)
+      (s) edge node [left] {} (b)
+      (s) edge node [left] {} (c)
+      (a) edge node [left] {} (d)
+      (a) edge node [left] {} (e)
+      (b) edge node [left] {} (e)
+      (b) edge node [left] {} (f)
+      (c) edge node [left] {} (f)
+      (e) edge node [left] {} (g)
+      (e) edge node [left] {} (h);
+  \end{tikzpicture}
+  \caption{Esempio visita in ampiezza}
+  \label{fig:esempio_visita_ampiezza}
+\end{figure}
 
 \noindent
-Nella fase preliminare tutti i vertici presentano colore WHITE, hanno distanza infinita (eccezion fatta per la radice, che ha distanza nulla) e progenitore NIL.\\
-Ecco che alla fine dell'esecuzione dell'algoritmo è stato ottenuto esattamente un albero, in cui si specifica la distanza dalla sorgente e il progenitore per ciascun vertice. Inoltre, se tutti i vertici sono stati visitati, è stato anche dimostrato che tale grafo è connesso; non solo, ma l'albero che ne deriva è anche il cosiddetto \textbf{spanning tree}, ovvero un albero di visita del grafo che impiega il minor numero di vertici.
+Nella fase preliminare, come anticipato, tutti i vertici presentano colore WHITE, hanno distanza infinita (eccezion fatta per la radice, che ha distanza nulla e colore GRAY) e progenitore NIL; inoltre, viene creata una coda $Q=\varnothing$ nella quale viene inserito il nodo $s$.\\
+Iniziando ad operare all'interno del ciclo while (fintantochè la coda non si svuota), si estrae il nodo $s$ e si analizza tutta l'adiacenza di $s$, lavorando prima su $a$, poi su $b$ e infine su $c$:
+\begin{enumerate}
+  \item Siccome il vertice $a$ è ancora WHITE, esso viene colorato di GRAY, la sua distanza dalla radice viene impostata a $d[a]=0+1=1$ e il suo progenitore diviene $\pi[a]=s$, procedendo a mettere in coda $a$ per una sua successiva analisi;
+  \item Siccome il vertice $b$ è ancora WHITE, esso viene colorato di GRAY, la sua distanza dalla radice viene impostata a $d[b]=0+1=1$ e il suo progenitore diviene $\pi[b]=s$, procedendo a mettere in coda anche $b$ per una sua successiva analisi;
+  \item Siccome il vertice $c$ è ancora WHITE, esso viene colorato di GRAY, la sua distanza dalla radice viene impostata a $d[c]=0+1=1$ e il suo progenitore diviene $\pi[c]=s$, procedendo a mettere in coda anche $c$ per una sua successiva analisi;
+\end{enumerate}
+Avendo visitato tutta l'adiacenza di $s$, esso viene colorato di BLACK, ottenendo:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node,fill=black!75] (s) [] {$s$};
+    \node[main node,fill=black!25] (a) [above left of=s] {$a$};
+    \node[main node,fill=black!25] (b) [above = 4em of s] {$b$};
+    \node[main node,fill=black!25] (c) [above right of=s] {$c$};
+    \node[main node] (d) [above = 4em of a] {$d$};
+    \node[main node] (e) [above right of=a] {$e$};
+    \node[main node] (f) [above right of=b] {$f$};
+    \node[main node] (g) [above left of=e] {$g$};
+    \node[main node] (h) [above right of=e] {$h$};
+    \node[] (s1) [right = 0.5em of s] {$[0,\text{NIL}]$};
+    \node[] (a1) [right = 0.5em of a] {$[1,s]$};
+    \node[] (b1) [right = 0.5em of b] {$[1,s]$};
+    \node[] (c1) [right = 0.5em of c] {$[1,s]$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (s) edge node [left] {} (a)
+      (s) edge node [left] {} (b)
+      (s) edge node [left] {} (c)
+      (a) edge node [left] {} (d)
+      (a) edge node [left] {} (e)
+      (b) edge node [left] {} (e)
+      (b) edge node [left] {} (f)
+      (c) edge node [left] {} (f)
+      (e) edge node [left] {} (g)
+      (e) edge node [left] {} (h);
+  \end{tikzpicture}
+  \caption{Esempio visita in ampiezza dopo un primo ciclo while}
+  \label{fig:esempio_visita_ampiezza_1}
+\end{figure}
+
+\noindent
+Procedendo, siccome la coda $Q=\{a,b,c\}$ non è vuota, si estrae il nodo $a$ e si analizza tutta la sua adiacenza, procedendo prima con $d$, poi con $e$ e infine con $s$:
+\begin{enumerate}
+  \item Siccome il vertice $d$ è ancora WHITE, esso viene colorato di GRAY, la sua distanza dalla radice viene impostata a $d[d]=1+1=2$ e il suo progenitore diviene $\pi[d]=a$, procedendo a mettere in coda $d$ per una sua successiva analisi;
+  \item Siccome il vertice $e$ è ancora WHITE, esso viene colorato di GRAY, la sua distanza dalla radice viene impostata a $d[e]=1+1=2$ e il suo progenitore diviene $\pi[e]=a$, procedendo a mettere in coda anche $e$ per una sua successiva analisi;
+  \item Siccome il vertice $s$ è BLACK, esso viene tralasciato;
+\end{enumerate}
+Avendo visitato tutta l'adiacenza di $a$, esso viene colorato di BLACK, ottenendo:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node,fill=black!75] (s) [] {$s$};
+    \node[main node,fill=black!75] (a) [above left of=s] {$a$};
+    \node[main node,fill=black!25] (b) [above = 4em of s] {$b$};
+    \node[main node,fill=black!25] (c) [above right of=s] {$c$};
+    \node[main node,fill=black!25] (d) [above = 4em of a] {$d$};
+    \node[main node,fill=black!25] (e) [above right of=a] {$e$};
+    \node[main node] (f) [above right of=b] {$f$};
+    \node[main node] (g) [above left of=e] {$g$};
+    \node[main node] (h) [above right of=e] {$h$};
+    \node[] (s1) [right = 0.5em of s] {$[0,\text{NIL}]$};
+    \node[] (a1) [right = 0.5em of a] {$[1,s]$};
+    \node[] (b1) [right = 0.5em of b] {$[1,s]$};
+    \node[] (c1) [right = 0.5em of c] {$[1,s]$};
+    \node[] (d1) [right = 0.5em of d] {$[2,a]$};
+    \node[] (e1) [right = 0.5em of e] {$[2,a]$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (s) edge node [left] {} (a)
+      (s) edge node [left] {} (b)
+      (s) edge node [left] {} (c)
+      (a) edge node [left] {} (d)
+      (a) edge node [left] {} (e)
+      (b) edge node [left] {} (e)
+      (b) edge node [left] {} (f)
+      (c) edge node [left] {} (f)
+      (e) edge node [left] {} (g)
+      (e) edge node [left] {} (h);
+  \end{tikzpicture}
+  \caption{Esempio visita in ampiezza dopo un secondo ciclo while}
+  \label{fig:esempio_visita_ampiezza_2}
+\end{figure}
+
+\noindent
+Procedendo in questo modo, alla fine si ottiene il grafo seguente:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]%[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node,fill=black!75] (s) [] {$s$};
+    \node[main node,fill=black!75] (a) [above left of=s] {$a$};
+    \node[main node,fill=black!75] (b) [above = 4em of s] {$b$};
+    \node[main node,fill=black!75] (c) [above right of=s] {$c$};
+    \node[main node,fill=black!75] (d) [above = 4em of a] {$d$};
+    \node[main node,fill=black!75] (e) [above right of=a] {$e$};
+    \node[main node,fill=black!75] (f) [above right of=b] {$f$};
+    \node[main node,fill=black!75] (g) [above left of=e] {$g$};
+    \node[main node,fill=black!75] (h) [above right of=e] {$h$};
+    \node[] (s1) [right = 0.5em of s] {$[0,\text{NIL}]$};
+    \node[] (a1) [right = 0.5em of a] {$[1,s]$};
+    \node[] (b1) [right = 0.5em of b] {$[1,s]$};
+    \node[] (c1) [right = 0.5em of c] {$[1,s]$};
+    \node[] (d1) [right = 0.5em of d] {$[2,a]$};
+    \node[] (e1) [right = 0.5em of e] {$[2,a]$};
+    \node[] (f1) [right = 0.5em of f] {$[2,b]$};
+    \node[] (g1) [right = 0.5em of g] {$[3,e]$};
+    \node[] (h1) [right = 0.5em of h] {$[3,e]$};
+
+    \draw[color=red, ultra thick] (s) -- (a);
+    \draw[color=red, ultra thick] (s) -- (b);
+    \draw[color=red, ultra thick] (s) -- (c);
+    \draw[color=red, ultra thick] (a) -- (d);
+    \draw[color=red, ultra thick] (a) -- (e);
+    \draw[color=red, ultra thick] (b) -- (f);
+    \draw[color=red, ultra thick] (e) -- (g);
+    \draw[color=red, ultra thick] (e) -- (h);
+    \path[every node/.style={font=\sffamily\small}]
+      (b) edge node [left] {} (e)
+      (c) edge node [left] {} (f);
+  \end{tikzpicture}
+  \caption{Esempio visita in ampiezza conclusa}
+  \label{fig:esempio_visita_ampiezza_3}
+\end{figure}
+
+\noindent
+Ecco che alla fine dell'esecuzione dell'algoritmo (a seguito del fatto che $Q=\varnothing$) è stato ottenuto esattamente un albero, in cui si specifica la distanza dalla sorgente e il progenitore per ciascun vertice, in cui sono evidenti i rami d'albero, evidenziati in Figura \ref{fig:esempio_visita_ampiezza_3}.\\
+Inoltre, se tutti i vertici sono stati visitati (ovvero nessun vertice presenta ancora l'istanza $\infty$), è stato anche dimostrato che tale grafo è connesso; non solo, ma l'albero che ne deriva è anche il cosiddetto \textbf{spanning tree}, ovvero un albero di visita del grafo che impiega il minor numero di archi (che, nel caso di un albero, è $\vert v \vert - 1$). In altre parole, affinché un grafo sia connesso, si necessità di almeno $\vert v \vert - 1$ archi, al fine di costruire l'albero.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Al fine di valutare la complessità di tale algoritmo è necessario impiegare il \textbf{metodo dell'agglomerazione}: per esempio, se si considerano due cicli for annidati, il primo di lunghezza $n$ e il secondo di lunghezza $m$, allora il numero totale di iterazioni è $n \times m$; ma se le iterazioni del secondo ciclo for sono variabili, e sono $m_i$ (ossia dipendono da $i$), allora, ovviamente, le iterazioni eseguite sono $m_1+m_2+...+m_n$.\\
-Naturalmente, giacché in tale algoritmo
-\[\boxed{\sum_{\text{all } u} \vert \text{Adj}(u) \vert}\]
-Ma naturalmente, sommare le giacenze significa sommare il grado di ciascun vertice; ma è noto che la somma del grado di ciascun vertice significa ottenere $2 \cdot \vert \xi \vert$.\\
-Nell'ipotesi in cui il grafo sia connesso, è noto che $\vert \xi \vert \geq \vert v \vert - 1$ si deduce che $\vert \xi \vert = \Omega(\vert v \vert)$, per cui si ha che
+\textbf{Osservazione}: Al fine di valutare la complessità di tale algoritmo è necessario impiegare il \textbf{metodo dell'agglomerazione}, il quale permette di determinare il numero di iterazioni di cicli annidati: per esempio, se si considerano due cicli for annidati, il primo di lunghezza $n$ e il secondo di lunghezza $m$, allora il numero totale di iterazioni è $n \times m$; ma se le iterazioni del secondo ciclo for sono variabili, e sono $m_i$ (ossia dipendono da $i$), allora, ovviamente, le iterazioni eseguite sono $m_1+m_2+...+m_n$.\\
+Naturalmente, giacché in tale algoritmo il ciclo while esterno esegue un'iterazione per ognuno degli $n$ vertici, mentre il ciclo for interno esegue un numero di iterazioni pari al numero di vertici nell'adiacenza di ogni vertice, è facile capire come il numero di iterazioni totali dell'algoritmo è
+\[\boxed{\# \text{iterazioni} = \sum_{i=1}^n \vert \text{Adj}(u_i) \vert}\]
+Ma naturalmente, sommare le adiacenze di un vertice significa sommare il grado di ciascun vertice, da cui
+\[\boxed{\# \text{iterazioni} = \sum_{i=1}^n \vert \text{deg}(u_i) \vert}\]
+Ma è anche noto che la somma dei gradi di ciascun vertice è pari a $2 \cdot \vert \xi \vert$, in quanto per ogni nodo, uno stesso arco viene contato due volte, per cui
+\[\boxed{\# \text{iterazioni} = 2 \cdot \vert \xi \vert}\]
+Nell'ipotesi in cui il grafo $\mathcal{G}$ sia connesso, è noto che $\vert \xi \vert \geq \vert v \vert - 1$, per cui $\vert \xi \vert = \Omega(\vert v \vert)$. Per cui si ha che
 \[\vert v \vert + \vert \xi \vert - 1 \leq 2 \cdot \vert \xi \vert \leq 2 \cdot \left(\vert v \vert + \vert \xi \vert \right)\]
-che permette di concludere come la complessità dell'algoritmo diviene lineare, ovvero $\Theta(\vert v \vert + \vert \xi \vert)$; ciò, naturlmente, nell'ipotesi in cui il grafo $G$ sia connesso: se esso non è connesso, invece, il numero delle operazioni da eseguire potrebbe diminuire anhe drasticamente, il che porta a concludere come la complessità di un ipotetico grafo $G$ sia $O(\vert v \vert + \vert \xi \vert)$.
+che permette di concludere come la complessità dell'algoritmo sia lineare, ovvero $\Theta(\vert v \vert + \vert \xi \vert)$; ciò, naturalmente, nell'ipotesi in cui il grafo $\mathcal{G}$ sia connesso: se esso non fosse connesso, invece, il numero delle operazioni da eseguire potrebbe diminuire anche drasticamente (in quanto l'algoritmo BFS opera fintantochè c'è un percorso di nodi consecutivi da analizzare), il che porta a concludere come la complessità della visita in ampiezza di un ipotetico grafo $\mathcal{G}$ sia $O(\vert v \vert + \vert \xi \vert)$.
 
 \vspace{1em}
 \subsection{Depth-First-Search (DFS)}
@@ -3368,7 +3599,9 @@ Per visualizzare la logica dell'algoritmo di visita dei vertici di un grafo in p
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: L'algoritmo di Eulero prevede di verificare se esista un percorso euleriano per visitare tutti i nodi del grafo impiegando tutti gli archi: semplicemente si procede a decrementare tutti i gradi dei vertici ogni volta che si esce o si entra in uno di tali vertici, fino a che le valenze non sono tutte nulle
+\textbf{Osservazione}: L'algoritmo di Fleury per la risoluzione del problema di Eulero prevede di verificare se esista un percorso euleriano per visitare tutti i nodi del grafo impiegando tutti gli archi una e una sola volta.\\
+Naturalmente, nell'ipotesi in cui il \textbf{grafo sia connesso}, si procede a decrementare tutti i gradi dei vertici ogni volta che si esce o si entra in uno di tali vertici, fintantochè le valenze residue degli stessi non sono tutte nulle. Si capisce, dunque, per costruzione, come tale problema abbia soluzione solo quando \textbf{i gradi dei vertici sono tutti pari} (in quanto entrando e uscendo ogni volta da ogni nodo, il grado diminuisce di $2$, per cui esso deve essere necessariamente pari).\\
+In altre parole, alla base dell'algoritmo di Fleury si pone la tecnica che preve di costruire dei mini-cicli euleriani, connettendoli fra di loro fino a che non si esaurisce l'intero grafo (se vi sono valenze ancora non nulle, essendo il grafo connesso, significa che vi sono archi ancora inesplorati).
 
 \newpage
 \noindent

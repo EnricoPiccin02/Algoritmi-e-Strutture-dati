@@ -32,11 +32,11 @@
 \contentsline {subsection}{\numberline {6.1}Problema di Eulero}{78}{}%
 \contentsline {subsection}{\numberline {6.2}Algoritmo di Hamilton}{79}{}%
 \contentsline {subsection}{\numberline {6.3}Teorema delle strette di mano - Handshake theorem}{79}{}%
-\contentsline {subsection}{\numberline {6.4}Breadth-First-Search (BFS)}{83}{}%
-\contentsline {subsection}{\numberline {6.5}Depth-First-Search (DFS)}{84}{}%
-\contentsline {subsection}{\numberline {6.6}Teorema delle parentesi}{87}{}%
-\contentsline {subsection}{\numberline {6.7}Teorema del cammin bianco}{87}{}%
-\contentsline {subsection}{\numberline {6.8}Teorema pesante}{88}{}%
-\contentsline {subsection}{\numberline {6.9}Classificazione}{90}{}%
-\contentsline {subsection}{\numberline {6.10}Ordinamento topologico}{90}{}%
-\contentsline {subsection}{\numberline {6.11}Algoritmo di Dijkstra}{91}{}%
+\contentsline {subsection}{\numberline {6.4}Breadth-First-Search (BFS)}{85}{}%
+\contentsline {subsection}{\numberline {6.5}Depth-First-Search (DFS)}{88}{}%
+\contentsline {subsection}{\numberline {6.6}Teorema delle parentesi}{90}{}%
+\contentsline {subsection}{\numberline {6.7}Teorema del cammin bianco}{90}{}%
+\contentsline {subsection}{\numberline {6.8}Teorema pesante}{91}{}%
+\contentsline {subsection}{\numberline {6.9}Classificazione}{93}{}%
+\contentsline {subsection}{\numberline {6.10}Ordinamento topologico}{93}{}%
+\contentsline {subsection}{\numberline {6.11}Algoritmo di Dijkstra}{94}{}%
