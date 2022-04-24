@@ -24,6 +24,7 @@
 \usepackage{subfig}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
+\usepackage{hhline}
 \graphicspath{ {./img/} }
 \newtheorem{theorem}{Teorema}[section]
 \newtheorem{corollary}{Corollario}[theorem]
@@ -4170,7 +4171,7 @@ Un altro nome con cui sono noti i grafi orientati aciclici (o DAG) è \textbf{gr
       (cp) edge node[] {} (st);
   \end{tikzpicture}
   \caption{Esempio di grafo di propedeuticità}
-  \label{fig:esempio_grafo_propedeucita}
+  \label{fig:esempio_grafo_propedeuticita}
 \end{figure}
 
 \noindent
@@ -4200,14 +4201,14 @@ All'interno di tale grafo, naturalmente, non è possibile considerare dei cicli,
       (cp) edge node[] {} (st);
   \end{tikzpicture}
   \caption{Esempio di visita in profondità di un grafo di propedeuticità}
-  \label{fig:esempio_visita_profondita_grafo_propedeucita}
+  \label{fig:esempio_visita_profondita_grafo_propedeuticita}
 \end{figure}
 
 \vspace{1em}
 \noindent
 Avendo completato la visita in profondità, si considerino, ora, gli istanti di abbandono ($f$) dei vertici al contrario, ponendoli in sequenza dal maggiore al minore; si ottiene:
 \[G1 - A1 - CP - ST - A2 - G2\]
-Ecco che in questo modo si rispettano tutte le propedeuticità previste dal DAG esposto in Figura \ref{fig:esempio_grafo_propedeucita}:
+Ecco che in questo modo si rispettano tutte le propedeuticità previste dal DAG esposto in Figura \ref{fig:esempio_grafo_propedeuticita}:
 \begin{itemize}
   \item $G1$ precede $G2$
   \item $A1$ precede $G2$
@@ -4285,15 +4286,15 @@ L'ultima configurazione è ammissibile anche se il grafo è non orientato, in qu
 \begin{center}
   7 Aprile 2022
 \end{center}
-Gli archi orientati, ossia i rami degli alberi di una foresta, si pongono alla base della visita in profondità.\\
+Gli archi orientati, ossia i rami degli alberi di una foresta, si pongono alla base della visita in profondità, venendo classificati differentemente a seconda della loro natura.\\
 
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
     \node[main node] (u) {$u$};
-    \node[main node] (v) [left of=u] {$v$};
-    \node[main node] (w) [left of=v] {$w$};
-    \node[main node] (x) [left of=w] {$x$};
+    \node[main node] (v) [left of=u]  {$v$};
+    \node[main node] (w) [left of=v]  {$w$};
+    \node[main node] (x) [left of=w]  {$x$};
     \node[main node] (y) [above of=x] {$y$};
     \node[main node] (z) [right of=y] {$z$};
     \node[main node] (s) [right of=z] {$s$};
@@ -4308,111 +4309,312 @@ Gli archi orientati, ossia i rami degli alberi di una foresta, si pongono alla b
       (x) edge node [left]  {} (z)
       (s) edge node [left]  {} (z)
       (t) edge node [left]  {} (v)
-      (t) edge node [left]  {} (u)
-      (u) edge node [left]  {} (t)
+
+      (t) edge [bend left, out=320, in=-140] node[left] {} (u)
+      (u) edge [bend left, out=-30, in=220]   node[left] {} (t)
+
       (z) edge node [left]  {} (w)
       (s) edge node [left]  {} (w)
       (v) edge node [left]  {} (s);
   \end{tikzpicture}
-  \caption{Esempio con visita in profondità}
-  \label{fig:esempio_visita_profondita_1}
+  \caption{Esempio di visita in profondità}
+  \label{fig:esempio_visita_profondita_3}
+\end{figure}
+
+\noindent
+Per la visita di tale grafo tramite l'algoritmo DFS, si parte dal vertice che per primo compare nella descrizione del grafo all'interno della lista di adiacenza (o matrice di adiacenza). Nel caso considerato, si considera come $1^\circ$ il vertice $s$, per cui l'istante di scoperta viene posto a $d(s)=1$ e il vertice diviene GRAY.\\
+Si procede, poi, all'analisi dell'adiacenza di $s$, partendo nuovamente dal primo vertice che compare nella descrizione dell'adiacenza di $s$: supponendo che la descrizione sia $s | z, w$, si passa a $z$, il quale viene scoperto all'istante $d(z)=2$ e diviene GRAY.\\
+Si procede, ora, all'analisi dell'adiacenza di $z$, partendo sempre dal primo vertice che compare nella descrizione dell'adiacenza di $z$: supponendo che la descrizione sia $z | y, w$, si passa a $y$, il quale viene scoperto all'istante $d(y)=3$ e diviene GRAY.\\
+Analizzando l'adiacenza $y$, l'unico vertice che compare è $x$ ed essendo ancora WHITE, si passa ad $x$, il quale viene scoperto all'istante $d(x)=4$, diventando GRAY. Arrivati a questo punto, sono stati evidenziati alcuni rami d'albero:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (u) {$u$};
+    \node[main node] (v) [left of=u]  {$v$};
+    \node[main node] (w) [left of=v]  {$w$};
+    \node[main node,fill=black!25] (x) [left of=w]  {$x$};
+    \node[main node,fill=black!25] (y) [above of=x] {$y$};
+    \node[main node,fill=black!25] (z) [right of=y] {$z$};
+    \node[main node,fill=black!25] (s) [right of=z] {$s$};
+    \node[main node] (t) [right of=s] {$t$};
+    \node[] (s1) [above = 0.5em of s] {$[1,...]$};
+    \node[] (z1) [above = 0.5em of z] {$[2,...]$};
+    \node[] (sy) [above = 0.5em of y] {$[3,...]$};
+    \node[] (x1) [below = 0.5em of x] {$[4,...]$};
+
+    \draw[color=red, ultra thick] (s) -- (z);
+    \draw[color=red, ultra thick] (z) -- (y);
+    \draw[color=red, ultra thick] (y) -- (x);
+    \path[every node/.style={font=\sffamily\small}]
+      (u) edge node [left]  {} (v)
+      (v) edge node [left]  {} (w)
+      (w) edge node [left]  {} (x)
+      (x) edge node [left]  {} (z)
+      (t) edge node [left]  {} (v)
+
+      (t) edge [bend left, out=320, in=-140] node[left] {} (u)
+      (u) edge [bend left, out=-30, in=220]   node[left] {} (t)
+
+      (z) edge node [left]  {} (w)
+      (s) edge node [left]  {} (w)
+      (v) edge node [left]  {} (s);
+  \end{tikzpicture}
+  \caption{Esempio di visita in profondità dopo una prima visita}
+  \label{fig:esempio_visita_profondita_4}
+\end{figure}
+
+\noindent
+L'adiacenza di $x$ è costituita solamente da $z$, il quale, però, essendo già stato visitato, è un antenato di $x$ e quindi è GRAY (per cui il collegamento $x \longrightarrow z$ è un arco all'indietro - \emph{backwards}). Dal momento che $x$ non ha più vertici ad esso adiacenti da visitare, la sua analisi è terminata, per cui $f(x)=5$ e $x$ diviene BLACK. Tornando indietro al vertice $y$ (essendoci un ramo d'albero che collega $x$ a $y$, ovvero $\pi[x]=y$), non rimane più nessuna adiacenza da esplorare, per cui anche $f(y)=6$ e $y$ diviene BLACK.\\
+Tornando indietro a $z$, visto che $\pi[y]=z$, proseguendo l'analisi della sua adiacenza, si scopre il vertice $w$ all'istante $d(w)=7$, il quale è WHITE, per cui diviene GRAY. Anlizzando l'adiacenza di $w$, si ha solamente $x$, il quale, essendo già stato abbandonato, è BLACK (per cui il collegamento $w \longrightarrow x$ è un arco di taglio - \emph{cut}, in quanto $w$ e $x$ sono in due sottoalberi diversi che non comunicano). Avendo terminato l'analisi di $w$, si ha che $f(w)=8$ e $w$ diviene BLACK. Siccome $\pi[w]=z$, tornando a $z$ non vi sono più vertici adiacenti da anaizzare, per cui $f(z)=9$ e $z$ diviene BLACK. Siccome $\pi[z]=s$, si torna indietro tramite il ramo d'albero a $s$ e si analizza l'arco $s \longrightarrow w$: essendo $w$ già stato abbandonato, è BLACK; tuttavia, si presti particolare attenzione, in questo caso, che l'arco $s \longrightarrow w$ non è di taglio, essendo $w$ un successore di $s$ (da $s$, infatti, \textbf{esiste un percorso costituito solamente da rami d'albero}, per raggiungere $w$); pertanto, tale arco è in avanti - \emph{forward}, in quanto punta ad un successore di $s$ che è già stato analizzato.\\
+Il primo albero di visita che si ottiene è, quindi
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (u) {$u$};
+    \node[main node] (v) [left of=u]  {$v$};
+    \node[main node,fill=black!75] (w) [left of=v]  {$w$};
+    \node[main node,fill=black!75] (x) [left of=w]  {$x$};
+    \node[main node,fill=black!75] (y) [above of=x] {$y$};
+    \node[main node,fill=black!75] (z) [right of=y] {$z$};
+    \node[main node,fill=black!75] (s) [right of=z] {$s$};
+    \node[main node] (t) [right of=s] {$t$};
+    \node[] (s1) [above = 0.5em of s] {$[1,10]$};
+    \node[] (z1) [above = 0.5em of z] {$[2,9]$};
+    \node[] (sy) [above = 0.5em of y] {$[3,6]$};
+    \node[] (x1) [below = 0.5em of x] {$[4,5]$};
+    \node[] (w1) [below = 0.5em of w] {$[7,8]$};
+
+    \draw[color=red, ultra thick] (s) -- (z);
+    \draw[color=red, ultra thick] (z) -- (y);
+    \draw[color=red, ultra thick] (y) -- (x);
+    \draw[color=red, ultra thick] (z) -- (w);
+    \path[every node/.style={font=\sffamily\small}]
+      (u) edge node [left]  {} (v)
+      (v) edge node [left]  {} (w)
+      (w) edge node [above]  {\emph{cut}} (x)
+      (x) edge node [above,rotate=45]  {\emph{backwards}} (z)
+      (t) edge node [left]  {} (v)
+
+      (t) edge [bend left, out=320, in=-140] node[left] {} (u)
+      (u) edge [bend left, out=-30, in=220]   node[left] {} (t)
+
+      (s) edge node [above,rotate=45]  {\emph{forward}} (w)
+      (v) edge node [left]  {} (s);
+  \end{tikzpicture}
+  \caption{Esempio di visita in profondità dopo la costruzione di un primo albero di visita}
+  \label{fig:esempio_visita_profondita_5}
 \end{figure}
 
 \vspace{1em}
 \noindent
-Per l'analisi di tale grafo si parte dal vertice che per primo compare nella descrizione del grafo. Nel caso considerato, si considera come $1^\circ$ il vertice $s$, giacché la descrizione è $s \vert z$; passando a $z$ si scopre tale vertice per $2^\circ$; conoscendo la descrizione $x \vert y$ si procede a scoprire $y$ per $3^\circ$; seguendo la descrizione $y \vert x$ si scopre il nodo $x$ per $4^\circ$; dal momento che il collegamento tra $x$ e $z$ prevede la scoperta di un nodo già noto, all'istante $5^\circ$ si termina l'analisi della adiacenza di $x$; tornando indietro al nodo $y$, si termina l'analisi della sua adiacenza all'istante $6^\circ$, ingrossando il collegamento perché è un \emph{ramo d'albero}; allo stesso modo, si ritorna indietro al nodo $s$, ingrossando ancora una volta il ramo d'albero.\\
-... continua ...\\
-\vspace{1em}
+Essendoci ancora vertici bianchi, la visita del grafo non è terminata. Tuttavia, non potendo raggiungere altri vertici dai nodi già analizzati, si considera il primo vertice ancora libero che compare nella lista di descrizione del grafo, ossia $t$, per esempio: il vertice $t$ viene scoperto all'istante $d(t)=11$ e diviene GRAY; analizzando la sua adiacenza, il primo vertice che compare è $v$, il quale viene scoperto a $d(v)=12$, diventando GRAY; esaminando l'adiacenza di $v$, si vedono due nodi, $s$ e $w$, già abbandonati, quindi BLACK; per ovvie ragioni, non potendo raggiungere né $s$ né $w$ tramite $v$, non esssendo, quindi, suoi successori, tali archi sono di taglio - \emph{cut}. Avendo terminato l'analisi di $v$ all'istante $f(v)=13$, siccome $\pi[v]=t$, si ritorna indietro a $t$ e si analizza l'unico vertice ancora libero nella sua adiacenza, ossia $u$, che viene scoperto all'istante $d(u)=14$ e diviene GRAY. Analizzando l'adiacenza di  $u$, si vede $t$ GRAY, per cui l'arco $u \longrightarrow t$ è all'indietro - \emph{backwards}, mentre $v$ è BLACK, ma non sussiste alcuna parentela tra i due, per cui l'arco $u \longrightarrow v$ è di taglio - \emph{cut}. Non avendo più vertici da analizzare, $f(u)=15$ e $u$ diviene BLACK. Tornando indietro a $t$, essendo $\pi[u]=t$ e non avendo più vertici liberi nella sua adiacenza, si ha che $f(t)=16$ e diviene BLACK.\\
+Ecco che il secondo albero di visita del grafo che si ottiene è:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node,fill=black!75] (u) {$u$};
+    \node[main node,fill=black!75] (v) [left of=u]  {$v$};
+    \node[main node,fill=black!75] (w) [left of=v]  {$w$};
+    \node[main node,fill=black!75] (x) [left of=w]  {$x$};
+    \node[main node,fill=black!75] (y) [above of=x] {$y$};
+    \node[main node,fill=black!75] (z) [right of=y] {$z$};
+    \node[main node,fill=black!75] (s) [right of=z] {$s$};
+    \node[main node,fill=black!75] (t) [right of=s] {$t$};
+    \node[] (s1) [above = 0.5em of s] {$[1,10]$};
+    \node[] (z1) [above = 0.5em of z] {$[2,9]$};
+    \node[] (sy) [above = 0.5em of y] {$[3,6]$};
+    \node[] (x1) [below = 0.5em of x] {$[4,5]$};
+    \node[] (w1) [below = 0.5em of w] {$[7,8]$};
+    \node[] (t1) [above = 0.5em of t] {$[11,16]$};
+    \node[] (v1) [below = 0.5em of v] {$[12,13]$};
+    \node[] (u1) [below = 0.5em of u] {$[14,15]$};
+
+    \draw[color=red, ultra thick] (s) -- (z);
+    \draw[color=red, ultra thick] (z) -- (y);
+    \draw[color=red, ultra thick] (y) -- (x);
+    \draw[color=red, ultra thick] (z) -- (w);
+    \draw[color=blue, ultra thick] (t) -- (v);
+    \draw[color=blue, ultra thick, bend left, out=320, in=-140] (t) -- (u);
+
+    \path[every node/.style={font=\sffamily\small}]
+      (u) edge node [above] {\emph{cut}} (v)
+      (v) edge node [above] {\emph{cut}} (w)
+      (w) edge node [above] {\emph{cut}} (x)
+      (x) edge node [above,rotate=45]  {\emph{backwards}} (z)
+
+      (u) edge [bend left, out=-30, in=220]  node[right] {\emph{backwards}} (t)
+
+      (s) edge node [above,rotate=45] {\emph{forward}} (w)
+      (v) edge node [above,rotate=90] {\emph{cut}} (s);
+  \end{tikzpicture}
+  \caption{Esempio di visita in profondità dopo la costruzione di un secondo albero di visita}
+  \label{fig:esempio_visita_profondita_6}
+\end{figure}
+
+\newpage
 \noindent
-\textbf{Osservazione}: Analizzando su un diagramma temporale gli istanti di scoperta e di terminazione dell'analisi di ciascun verticce si ottiene:
+\textbf{Osservazione}: Analizzando tramite un diagramma temporale gli istanti di scoperta e di terminazione dell'analisi di ciascun vertice si ottiene, per il primo albero di visita costruito (quello evidenziato in \textcolor{red}{rosso}):
 
 \begin{center}
   \rowcolors{1}{white}{white}
   \setlength{\tabcolsep}{5pt}
-  \begin{tabular}{cccccccccccccccccccccc}
+  \renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{cccccccccc}
+    \hline
+    \multicolumn{10}{|c|}{\cellcolor{green!25}$s$}\\
+    \hline
+    & \multicolumn{8}{|c|}{\cellcolor{violet!25}$z$} & \\
+    \hhline{~--------~}
+    & & \multicolumn{4}{|c|}{\cellcolor{orange!25}$y$} & \multicolumn{2}{c|}{\cellcolor{orange!25}$w$} & \\
+    \hhline{~~------~~}
+    & & & \multicolumn{2}{|c|}{\cellcolor{purple!25}$x$} & & & & &\\
+    \hhline{~~~--~~~~~}
     $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$\\
     $(s$ & $(z$ & $(y$ & $(x$ & $x)$ & $y)$ & $(w$ & $w)$ & $z)$ & $s)$\\
   \end{tabular}
 \end{center}
 
-\vspace{1em}
 \noindent
-Dopodiché si deve anche desccrivere anche l'albero che successivamente viene descritto:
+Mentre per il secondo albero di visita (quello evidenziato in \textcolor{blue}{blu}), si ha:
 
 \begin{center}
   \rowcolors{1}{white}{white}
   \setlength{\tabcolsep}{5pt}
-  \begin{tabular}{cccccccccccccccccccccc}
+  \renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{cccccc}
+    \hline
+    \multicolumn{6}{|c|}{\cellcolor{green!25}$t$}\\
+    \hline
+    & \multicolumn{2}{|c|}{\cellcolor{violet!25}$v$} & \multicolumn{2}{c|}{\cellcolor{violet!25}$u$} & \\
+    \hhline{~----~}
     $11$ & $12$ & $13$ & $14$ & $15$ & $16$\\
     $(t$ & $(v$ & $v)$ & $(u$ & $u)$ & $t)$\\
   \end{tabular}
 \end{center}
 
+\noindent
+In cui, naturalmente, i blocci sottostanti discendono da quello soprastante, tramite un ramo d'albero.
+
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Da ciò si può descrivere un nuovo grafo;
+\textbf{Osservazione}: Tramite l'analisi dei diagrammi di cui sopra, è possibile, inoltre, descrivere un nuovo grafo, mostrato di seguito, il quale evidenzia i rami d'albero e le relazioni di parentela tra i diversi nodi
 
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
-    \node[main node] (u) [below right of=t]{$u$};
-    \node[main node] (v) [below left of=t] {$v$};
-    \node[main node] (w) [left of=v] {$w$};
-    \node[main node] (x) [left of=w] {$x$};
-    \node[main node] (y) [above of=x] {$y$};
-    \node[main node] (z) [right of=y] {$z$};
-    \node[main node] (s) [right of=z] {$s$};
-    \node[main node] (t) [right of=s] {$t$};
+    \node[main node] (s) {$s$};
+    \node[main node] (z) [below of=s] {$z$};
+    \node[main node] (v) [right of=z]  {$v$};
+    \node[main node] (t) [above right of=v] {$t$};
+    \node[main node] (u) [below right of=t] {$u$};
+    \node[main node] (w) [below right of=z]  {$w$};
+    \node[main node] (y) [below left of=z] {$y$};
+    \node[main node] (x) [below of=y]  {$x$};
+
+    \draw[color=red, ultra thick] (s) -- (z);
+    \draw[color=red, ultra thick] (z) -- (y);
+    \draw[color=red, ultra thick] (y) -- (x);
+    \draw[color=red, ultra thick] (z) -- (w);
+    \draw[color=blue, ultra thick] (t) -- (v);
+    \draw[color=blue, ultra thick, bend left, out=320, in=-140] (t) -- (u);
 
     \path[every node/.style={font=\sffamily\small}]
-      (u) edge node [left]  {} (v)
-      (v) edge node [left]  {} (w)
-      (w) edge node [left]  {} (x)
-      (y) edge node [left]  {} (x)
-      (z) edge node [left]  {} (y)
-      (x) edge node [left]  {} (z)
-      (s) edge node [left]  {} (z)
-      (t) edge node [left]  {} (v)
-      (t) edge node [left]  {} (u)
-      (u) edge node [left]  {} (t)
-      (z) edge node [left]  {} (w)
-      (s) edge node [left]  {} (w)
-      (v) edge node [left]  {} (s);
+      (u) edge node [above] {\emph{cut}} (v)
+      (v) edge node [above,rotate=68] {\emph{cut}} (w)
+      (w) edge node [above,rotate=40] {\emph{cut}} (x)
+      (x) edge node [above,rotate=68]  {\emph{backwards}} (z)
+
+      (u) edge [bend left, out=-30, in=220]  node[right] {\emph{backwards}} (t)
+
+      (s) edge node [above,rotate=-68] {\emph{forward}} (w)
+      (v) edge node [above,rotate=-45] {\emph{cut}} (s);
   \end{tikzpicture}
-  \caption{Esempio con visita in profondità}
-  \label{fig:esempio_visita_profondita_1}
+  \caption{Grafo con evidenziazione della classificazione degli archi}
+  \label{fig:esempio_visita_profondita_7}
 \end{figure}
 
 \vspace{1em}
 \noindent
-\subsection{Classificazione}
-Naturalmente, dato un collegamento $u-v$, esistono $4!=24$ permutazioni possibili della scoperta e dell'analisi di ciascun vertice, ma solamente $4$ configurazioni sono compatibili con il teorema delle parentesi:
-\[d[u] < f[u] < d[v] < f[v]\]
-\[d[v] < f[v] < d[u] < f[u]\]
-\[d[u] < d[v] < f[v] < f[u]\]
-\[d[v] < d[u] < f[u] < f[v]\]
-In cui la prima configurazione è incompatibile con la presenza del collegamento $u-v$, in quanto prima di terminare l'analisi di $u$, ossia $f[u]$, è necessario esaminare tutta la sua adiacenza, giungendo inevitabilmente a scoprire $v$.\\
-Allo stesso modo, se l'albero è orientato si può escludere anche la seconda configurazione; tuttavia, se l'albero non è orientato, tale configurazione rappresenta un ramo di taglio, dal momento che riguarda due alberi distinti, i quali non si parlano.\\
-Nel terzo caso, si possono distinguere due casisticche possibili
-\begin{itemize}
-  \item Nel primo caso, partendo da $u$, si scopre $v$ tramite un cammino bianco;
-  \item Nel secondo caso, semplicemente terminando $v$ si procede a conoscere $u$ partendo per vie traverse
-\end{itemize}
-Ovviamente, se l'albero è orientato la seconda opzione è impossibile, dal momento che se c'è il collegamento $u-v$, vi è anche $v-u$.\\
-Nell'ultimo caso, invece, si ha che semplicemente $v$ è un discendente di $u$ per cui tornando indietro si completa l'analisi di $u$ e anche quella di $v$, guardando semplicemente indietro. Quest'ultima configurazione segnala necessariamente la presenza di un ciclo, in quanto partendo da $v$, scoprendo $u$, si osserva nuovamente l'adiacenza di $u$, prima di terminare l'analisi di $u$ e $v$;\\
-... continua ... 40:00 e oltre\\
-non solo, ma se c'è un ciclo allora deve esserci necessariamente un ramo \textbf{backward}. Infatti, considerando un ciclo all'interno di un grafo:
+\textbf{Osservazione}: Come già anticipato in precedenza, dato un arco orientato $u \longrightarrow v$, esistono $4!=24$ permutazioni possibili della scoperta e dell'analisi di ciascuno dei due vertici (che è molto facile da visualizzare se si interpreta $d[u]=($, $d[v]=[$, $f[u]=)$ e $f[v]=]$, ossia quattro oggetti distinti), ma solamente $4$ configurazioni sono compatibili con il teorema delle parentesi (ossia solo $4$ sono sintatticamente corrette):
+\begin{align}
+  d[u] < f[u] < d[v] < f[v]\\
+  d[v] < f[v] < d[u] < f[u]\\
+  d[u] < d[v] < f[v] < f[u]\\
+  d[v] < d[u] < f[u] < f[v]
+\end{align}
+In cui si possono formulare delle considerazioni molto precise:
+\begin{enumerate}
+  \item La prima configurazione è, ovviamente, incompatibile con la presenza dell'arco orientato $u \longrightarrow v$, in quanto, dopo la scoperta di $u$ all'istante $d[u]$, prima di terminare la sua analisi (all'istante $f[u]$), bisogna necessariamente visitare tutta l'adiacenza di $u$, ed in particolare $v$, ossia deve essere $d[v] < f[u]$.
 
-\[immagine\]
+  \vspace{1em}
+  \noindent
+  \textbf{Osservazione}: Naturalmente, se l'arco $u-v$ è non orientato, per naturale simmetria, se la prima configurazione è incompatibile, lo è anche la seconda.
 
-Si supponga per ipotesi che all'istante $d[u]$ il vertice $u$ sia il primo ad essere scoperto. Questo significa che esiste un cammino bianco che collega $u$ a $v$; ciò significa, per il teorema del cammin bianco, che anche se tale cammino viene impiegato o meno, implica che $v$ sia un discendente di $u$; pertanto, se all'istante $d[v]$ si scopre il nodo $v$, ad un certo istante si dovrà anche analizzare l'adiacenza di $v$ e con questa anche il collegamento $v-u$, che è proprio il ramo \emph{backwards} di cui si voleva dimostrare la presenza.
+  \item La seconda configurazione si ha solo quando l'arco $u \longrightarrow v$ è non orientato; in questo caso, prima di scoprire il vertice $u$, tramite cammini alternativi precedenti, è stato scoperto $v$ e terminata la sua analisi, per cui, quando si scopre $u$ all'istante $d[u]$ e si analizza la sua adiacenza, si vede $v$ di colore BLACK, per cui $u$ e $v$ appartengono a due sottoalberi distinti non comunicanti: l'arco $u \longrightarrow v$ è di taglio - \emph{cut}.
+
+  \item Il terzo caso è il più complesso, in quanto presenta, al suo interno, due sottocasi fortemente correlati, che si differenziano in base all'istante temporale nel quale si analizza l'arco $u \longrightarrow v$; tali casi si espongono di seguito:
+  \begin{enumerate}
+    \item nel primo sottocaso, si prevede la scoperta di $u$ per prima e subito dopo avviene la scoperta di $v$ (pertanto l'arco $u \longrightarrow v$ viene analizzato subito), il quale è WHITE (ossia il cammino tra $u$ e $v$ è bianco) e quindi l'arco $u \longrightarrow v$ diviene un \emph{ramo d'albero};
+
+    \item nel secondo sottocaso, invece, si prevede sempre la scoperta di $u$ per prima, ma $v$ non viene scoperto tramite il collegamento diretto con $u$, ma attraverso cammini alternativi che originano dall'analisi delle adiacenze di altri vertici necessariamente discendenti di $u$ (ossia un cammino di rami d'albero); in questo modo, si ha che $v$ viene scoperto e abbandonato prima di analizzare l'arco $u \longrightarrow v$, per cui tale arco è un arco in avanto - \emph{forward}, in quanto guarda ad un discendente di $u$, ossia il vertice $v$, che può essere raggiunto da $u$ attraverso un cammino di rami d'albero (essendo, appunto, un suo discendente).
+  \end{enumerate}
+
+  \vspace{1em}
+  \noindent
+  \textbf{Osservazione}: Ovviamente, se il grafo è non-orientato, la seconda opzione è impossibile (ossia non ci possono essere archi in avanti - \emph{forward}), dal momento che se c'è il collegamento $u-v$, vi è anche $v-u$, per cui non è possibile terminare l'analisi di $v$ senza prima aver analizzato l'arco $v-u$; pertanto, quando da $v$ si guarda $u$, questo appare GRAY, in quanto la sua analisi non è ancora terminata, per cui l'arco $u-v$ è all'indietro - \emph{backwards} (ovviamente se, invece, si guarda per primo $v$ da $u$, siccome $v$ è WHITE, l'arco $u-v$ è un ramo d'albero).
+
+  \item Nell'ultimo caso, dal momento che viene scoperto prima $v$, tramite cammini alternativi precedenti alla scoperta di $u$, e dopodiché all'istante $d[u]$ si scopre $u$ e si analizza la sua adiacenza, visto che il vertice $v$ ormai è stato scoeprto e, quindi, è GRAY, l'arco $u \longrightarrow v$ guarda all'indietro, ossia guarda ad un'antenato già noto, il vertice $v$: tale arco prende il nome di arco all'indietro - \emph{backwards}.
+
+  \vspace{1em}
+  \noindent
+  \textbf{Osservazione}: Si osservi che la presenza di un arco all'indietro - \emph{backwards} segnala necessariamente la presenza di un ciclo (ossia un percorso chiuso di vertici consecutivi che, partendo da un vertice, permette di ritornare al vertice di partenza), in quanto partendo da $v$ e scoprendo poi $u$, si analizza la sua adiacenza e si trova nuovamente il vertice $v$ (ossia si è creato un ciclo), prima di terminare l'analisi di $u$ e $v$.\\
+  Pertanto, se si considera un grafo orientato aciclico (DAG), allora non si può avere la presenza di rami all'indietro - \emph{backwards} e quindi si possono verificare solamente i casi $2$ e $3$, per i quali si ha sempre
+  \[f[v] < f[u]\]
+\end{enumerate}
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Pertanto, se il grafo è aciclico (DAG - Direct Acycled Graph), si ha sempre che $f[v] < f[u]$, in quanto prima si termina l'analisi dell'adiacenza di $u$ e poi si analizza $u$.\\
+\textbf{Osservazione $\boldsymbol{1}$}: Per quanto si è detto, \textbf{in un grafo non-orientato, vi possono essere solamente rami d'albero o archi all'indietro - \emph{backwards}}, i quali segnalano la presenza di cicli: ciò significa che la struttura di una foresta di un grafo non-orientato può essere di due tipi
+\begin{enumerate}
+  \item vi sono solo alberi puri (senza cicli), nel caso in cui il grafo sia aciclico (che sono alberi inevitabilmente determinati dall'algoritmo, in quanto non essendo un grafo orientato, da qualunque vertice si parta, si riesce sempre a ricostruire la componente connessa);
+  \item vi sono alberi puri misti ad alberi con cicli, nel caso in cui il grafo non-orientato sia ciclico (per cui gli alberi con cicli, oltre a presentare la ramificazione minima necessaria a costruire la componente connessa, presentano anche dei collegamenti ridondanti, dettati dai cicli): aggiungendo anche un solo arco ad un albero puro (che garantisce la componente minima connessa), si costruiscono dei cicli.
+\end{enumerate}
 
 \vspace{1em}
+\noindent
+\textbf{Osservazione $\boldsymbol{2}$}: Nei grafi orientati aciclici (DAG), è noto che è sempre verificata la condizione
+\[f[v]<f[u]\]
+che è sempre soddisfatta per archi di taglio, rami d'albero e archi in avanti, mentre non è veriticata in presenza di cicli, ovvero quando si hanno archi all'indietro - \emph{backwards}; infatti la condizione è necessaria e sufficiente: se i un grafo vi è un arco all'indietro - \emph{backwards}, allora vi è un ciclo e se c'è un ciclo, allora vi è un arco all'indietro - \emph{backwards}.\\
+Per quanto visto negli esempi precedenti, è ovvio che se vi è un arco all'indietro - \emph{backwards}, allora vi è un ciclo, ma si provi anche l'opposto, considerando l'ipotesi che all'interno di un grafo vi sia il ciclo seguente:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (v1) {$v_1$};
+    \node[main node] (v2) [above right of=v1] {$v_2$};
+    \node[main node] (v3) [right of=v2]  {$v_3$};
+    \node[main node] (v4) [below left of=v3] {$v4$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (v1) edge [bend left, out=60, in=120]  node[right] {} (v2)
+      (v2) edge [bend left, out=60, in=120]  node[right] {} (v3)
+      (v3) edge [bend left, out=60, in=120]  node[right] {} (v4)
+      (v4) edge [bend left, out=60, in=120]  node[right] {} (v1);
+  \end{tikzpicture}
+  \caption{Esempio di ciclo all'interno di un grafo}
+  \label{fig:esempio_ciclo_in_grafo}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Allora, è possibile supporre, senza perdita di generalità, che uno qualsiasi dei vertici coinvolti nel ciclo verrò scoperto per priomo, ovvero, all'istante $d[v_1]$ viene scoperto il vertice $v_1$; all'istante $d[v_1]$ esiste, però, un cammino bianco tra $v_1$ e $v_4$, per cui, per il teorema del cammin bianco, che tale cammino venga o meno impiegato per il collegamento con $v_4$, tale vertice è destinato a divenire un discendente di $v_1$; allora, all'istante $d[v_4]$ viene scoperto $v_4$ e subito si inizia ad analizzare la sua adiacenza, scoprendo anche l'arco $v_4 \longrightarrow v_1$, il quale punta necessariamente ad un vertice GRAY, ossia un progenitore di $v_4$: si è, di fatto, ottenuto un arco all'indietro - \emph{backwards}, di cui si voleva dimostrare la presenza.
+
+\newpage
 \subsection{Ordinamento topologico}
+Per quanto già esposto, all'interno di un grafo orientato aciclico (DAG - Directed Acycled Graph), dato un arco $u \longrightarrow v$, si ha sempre che $f[v] < f[u]$, in quanto prima si termina l'analisi dell'adiacenza di $u$ e poi si analizza $u$.\\
 All'interno di un grafo di propedeuticità, è fondamentale considerare le priorità di visita dei diversi nodi, seguendo la logica seguente:
 
 \begin{figure}[H]
@@ -4439,49 +4641,102 @@ All'interno di un grafo di propedeuticità, è fondamentale considerare le prior
       (C) edge node [left]  {} (H)
       (G) edge node [left]  {} (H);
   \end{tikzpicture}
-  \caption{Esempio con visita in profondità}
-  \label{fig:esempio_visita_profondita_2}
+  \caption{Esempio di grafo di propedeuticità}
+  \label{fig:esempio_grafo_propedeuticita_1}
 \end{figure}
 
 \vspace{1em}
 \noindent
-Allora, l'ordine di visita in profondità di tale grafo è dettato dall'ordine con cui viene descritto il grafo nella lista di adiacenza.\\
-Pertanto, considerando a ritroso l'ordine di analisi dei vertici si ottiene esattamente una perfetta sequenza di ordinamento topologico che rispetta tutte le propedeuticità; pertanto, un effetto collaterale della visita in profondità è quella di ottenere l'ordinamento topologico del grafo: ciò funziona in quanto se si considera un un DAG con un ramo $u-v$, allora è sempre vero che $f(v)<f(u)$.
+Il problema di visitare tale grafo considerando tutte le propedeuticità è noto con il nome di \textbf{ordinamento topologico} (dall'inglese \emph{topological sorting}), il quale può essere risolto tramite la visità in profondità effettuata dall'algoritmo DFS.\\
+Naturalmente, l'ordine di visita in profondità di tale grafo (ossia da quale vertice inziare la visita) si basa sull'ordine con cui viene descritto il grafo nella lista di adiacenza: supponendo che il primo vertice descritto sia il vertice $F$ (e i successivi alberi di visita originino da $I$, $A$ e $D$), si ha:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node,fill=black!75] (A) {$A$};
+    \node[main node,fill=black!75] (B) [below of=A] {$B$};
+    \node[main node,fill=black!75] (C) [below of=B] {$C$};
+    \node[main node,fill=black!75] (D) [right of=A] {$D$};
+    \node[main node,fill=black!75] (E) [below of=D] {$E$};
+    \node[main node,fill=black!75] (F) [below of=E] {$F$};
+    \node[main node,fill=black!75] (G) [below of=F] {$G$};
+    \node[main node,fill=black!75] (H) [below of=G] {$H$};
+    \node[main node,fill=black!75] (I) [right of=D] {$I$};
+    \node[] (F1) [right=0.5em of F] {$[1,8]$};
+    \node[] (G1) [right=0.5em of G] {$[2,5]$};
+    \node[] (H1) [right=0.5em of H] {$[3,4]$};
+    \node[] (C1) [left=0.5em of C]  {$[6,7]$};
+    \node[] (I1) [below=0.5em of I] {$[9,10]$};
+    \node[] (A1) [left=0.5em of A]  {$[11,16]$};
+    \node[] (B1) [left=0.5em of B]  {$[12,15]$};
+    \node[] (E1) [right=0.5em of E]  {$[13,14]$};
+    \node[] (D1) [right=0.5em of D]  {$[17,18]$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (A) edge node [left]  {} (B)
+      (B) edge node [left]  {} (C)
+      (D) edge node [left]  {} (E)
+      (A) edge node [left]  {} (E)
+      (B) edge node [left]  {} (E)
+      (F) edge node [left]  {} (C)
+      (F) edge node [left]  {} (G)
+      (C) edge node [left]  {} (H)
+      (G) edge node [left]  {} (H);
+  \end{tikzpicture}
+  \caption{Esempio di grafo di propedeuticità dopo una visita in profondità}
+  \label{fig:esempio_grafo_propedeuticita_2}
+\end{figure}
+
+\noindent
+A questo punto, avendo a disposizione gli istanti di visita ($d$) e di abbandono ($f$) di ogni vertice, è possibile costruire un array la cui dimensione è pari al numero dei vertici, e appena un vertice viene abbandonato (ossia all'istante $f$), si inserisce tale vertice nell'ultima posizione libera dell'array (in altre parole, considerando un indice che inizialmente vale $j=n$, si inserisce il vertice abbandonato in posizione $A[j]$ e dopodiché si decrementa $j$ di una unità), come mostrato di seguito:
+\[\mathcal{A} = \boxed{D}\boxed{A}\boxed{B}\boxed{E}\boxed{I}\boxed{F}\boxed{C}\boxed{G}\boxed{H}\]
+Pertanto, considerando a ritroso l'ordine di analisi dei vertici si ottiene esattamente una perfetta sequenza di ordinamento topologico che rispetta tutte le propedeuticità; pertanto, un effetto collaterale della visita in profondità è quella di ottenere l'ordinamento topologico del grafo: ciò funziona in un DAG, dato generico arco $u \longrightarrow v$ (da interpretare come $u$ deve essere visto prima di $v$), allora è sempre vero che $f(v)<f(u)$, per cui basta considerare gli istanti di abbandono ($f$) al contrario e si ha un perfetto ordinamento topologico.
 
 \vspace{1em}
 \noindent
-\textbf{Osservazione}: Si osservi che come per la visita in ampiezza, anche la visita in profondità esegue le medesime operazioni, soltanto che il sequenziamento temporale è differente, per cui la complessità permane a $\Theta(\vert v \vert + \vert \xi \vert)$.
+\textbf{Osservazione}: Si osservi che la visita in profondità, pur essendo basata su una logica ricorsiva, in realtà esegue le medesime operazioni della visita in ampiezza, cambiando soltanto il sequenziamento temporale con cui si esamina l'adiacenza dei singoli vertici: per cui la complessità di DFS permane $\Theta(\vert v \vert + \vert \xi \vert)$ (ogni vertice e ogni arco viene esaminato una e una sola volta), che è comparabile alla descrizione dell'input.
 
-\vspace{1em}
+\newpage
 \subsection{Algoritmo di Dijkstra}
-Per comprendere la potenza e la genialità dell'algoritmo di Dijkstra è fondamentale focalizzare l'attenzione sul concetto di \textbf{distanza}, la quale gode di $4$ \textbf{proprietà metriche} fondamentali
+Uno degli algoritmi più geniali sui grafi è l'algoritmo di Dijkstra: se di tutti gli algoritmi fin qui esposti è stata omessa la dimostrazione della correttezza degli stessi, in quanto immediatamente verificabile, dell'algoritmo di Dijkstra, invece, sarà fondamentale provarne l'effettivo funzionamento, tutt'altro che banale ed evidente.\\
+Per comprendere la potenza e la genialità dell'algoritmo di Dijkstra è fondamentale focalizzare l'attenzione sul concetto di \textbf{distanza}, la quale gode di $4$ \textbf{proprietà metriche} fondamentali, esposte di seguito
 \begin{enumerate}
-  \item $d(x,y)\geq 0$
+  \item Le \textbf{distanze sono sempre non negative}: $d(x,y)\geq 0, \forall x,y$; da notare che $d(x,y)=+\infty$ significa che non esiste un cammino che permette di raggiungere $y$ partendo da $x$;
   \item $d(x,y)= 0$ \textbf{se e solo se} $x=y$
-  \item $d(x,y)=d(y,x)$
-  \item $d(x,z)<d(x,y)+d(y,z)$
+  \item La \textbf{simmetria}: $d(x,y)=d(y,x)$
+  \item La \textbf{disuguaglianza triangolare}: $d(x,z) \leq d(x,y)+d(y,z)$
 \end{enumerate}
-Naturalmente è ovvio che è soddisfatta la seguente proprietà
-\[0 \leq d(x,x) \leq \text{min} \left[d(x,y),d(y,x)\right]\]
-così come, dovendo passare per $z$ e non essendoci simmetria nella definizione della distanza
-\[d(x,z)+d(z,y) \geq d(x,y)\]
+Una distanza che gode di tali proprieà metriche prende il nome di \textbf{distanza metrica} (o, più semplicemente, \textbf{metrica}).\\
+Tuttavia, le distanze che si considerano possono non essere metriche; allora, le proprietà minime che si devono considerare per il concetto di distanza escludono la simmetria e sono:
+\begin{enumerate}
+  \item la disuguaglianza fondamentale ed intrinseca nel concetto stesso di distanza
+  \[0 \leq d(x,x) \leq \text{min} \left[d(x,y),d(y,x)\right]\]
+  ovvero $x$ è punto più vicino a $x$ stesso, per cui la distanza da $x$ a $x$ è più piccola di qualsiasi altra distanza da $x$ a $y$, oppure da $y$ a $x$, le quali non sono più vincolate ad essere uguali (non essendoci simmetria). Da notare che un'autodistanza può anche essere strettamente positiva, un indicatore di quanto può essere mal definito un oggetto, come nei contesti \emph{fazzy}.
+  \item la disuguaglianza triangolare ordinata (ordinata perché non vi è più simmetria):
+  \[d(x,z)+d(z,y) \geq d(x,y)\]
+  rispettando, quindi, il vincolo di passare per $z$ partendo da $x$ e arrivando a $y$ (definendo le distanze con il giusto ordine, non essendoci simmetria), si paga un costo maggiore o uguale che andando da $x$ a $y$ senza alcun vincolo (sempre supponendo che le \textbf{distanze siano additive})
+\end{enumerate}
 
 \vspace{1em}
 \noindent
-La distanza che viene impiegata all'interno dell'algoritmo di Dijkstra riguarda la configurazione particolare di un grafo in cui ogni \textbf{arco è pesato}, ossia presenta un costo $w \geq 0$: ciò significa che impiegare quel percorso comporta pagare un costo pari a $w$.\\
-Alla luce di tale specifica, si possono descrivere le proprietà di tale \emph{distanza}:
-\[0 \leq d(x,x) \leq d(x,y)\]
-\[0 \leq d(x,x) \leq d(y,x)\]
-essendo le distanze (ossia i pesi) sempre positive. Inoltre, è anche vero che
+\textbf{Osservazione}: La distanza che viene impiegata all'interno dell'algoritmo di Dijkstra riguarda la configurazione particolare di un grafo orientato (perché un grafo non orientato è solo un caso particolare di un grafo orientato) in cui ogni \textbf{arco è pesato}, ossia presenta un costo $w \geq 0$: ciò significa che impiegare quel percorso comporta pagare un costo pari a $w$ (anche se vi sono situazioni più generali nelle quali si può considerare anche un arco con peso negativo, ossia impiegare quell'arco permette di guadagnare in termini di costo).\\
+Alla luce di tale specifica, si suppone che il costo totale del percorso che permette di raggiungere $v$, partendo da $u$, sia \textbf{additivo}, ossia dato dalla somma di tutti i costi degli archi intermedi che costruiscono il cammino $u-v$. Tale distanza, per quanto naturale, \textbf{non è metrica} (in quanto potrebbe non essere necessariamente simmetria, per esempio), ma presenta le seguenti proprietà:
+\[0 = d(x,x) \leq d(x,y)\]
+\[0 = d(x,x) \leq d(y,x)\]
+essendo le distanze (ossia i pesi) sempre positive e l'\textbf{autodistanza}, per definizione, \textbf{sempre nulla}. Inoltre, è anche vero che
 \[d(x,y)=0 \text{ anche se } x \neq y\]
-che contrasta con le proprietà metriche. La conferma evidente che tale distanza non sia metrica, è il fatto che non vi è simmetria:
+che contrasta con le proprietà metriche, ma che è plausibile nell'ipotesi in cui si considerino \textbf{pesi nulli} (si potrebbe, eventualmente, escludere la possibilità di impiegare pesi nulli, e solo in questo caso $d(x,y)= 0$ \text{se e solo se} $x=y$). La conferma evidente che tale distanza non sia metrica, è il fatto che non vi è simmetria:
 \[d(x,y) \neq d(y,x)\]
-in quanto per raggiungere $y$ a partire da $x$ o viceversa vi possono essere percorsi diversi aventi pesi diversi: in ogni caso, la distanza tra $x$ e $y$ è la minima tra le distanze possibile.\\
-Infine, la \textbf{disuguaglianza triangolare ordinata} vale necessariamente, in quando si ha la somma di distanze necessariamente positive per raggiungere il vertice finale passando per vertici intermedi.\\
+in quanto per raggiungere $y$ a partire da $x$ o viceversa vi possono essere percorsi diversi aventi pesi diversi; tuttavia, in un grafo non orientato vi è simmetria, perché un percorso che si compie in un verso e presenta un certo costo può essere effettuato anche al contrario pagando lo stesso costo.\\
+In ogni caso, \textbf{per distanza da $\boldsymbol{x}$ a $\boldsymbol{y}$ è sempre da considerare la minima tra le distanze possibili}.\\
+Infine, la \textbf{disuguaglianza triangolare ordinata} vale necessariamente in questo caso, in quanto per definizione la distanza da $x$ a $y$ è la minima fra le distanze possibili, tra le quali sono presenti anche distanze di percorsi intermedi che permettono di raggiungere $y$ e che sono necessariamente maggiori o uguali della minima tra tutte.
 
 \begin{lemma}
-  Se il cammino tra $x$ e $y$ è ottimo, allora anche i sottopercorsi intermedi sono necessariamente ottimi.
+  Se il cammino tra $x$ e $y$ è ottimo, allora anche i sottocammini intermedi sono necessariamente ottimi.
 \end{lemma}
+
+\noindent
+La dimostrazione del Lemma è presto fatta: se i sottocammini intermedi non fossero essi stessi ottimi, allora ciò significherebbe che esiste un percorso ancora più breve di quello considerato per ipotesi che permette di raggiungere $y$ partendo da $x$; ma ciò è impossibile in quanto contrasta proprio con l'ipotesi che il cammino considerato da $x$ a $y$ sia il minimo possibile.
 
 \newpage
 \noindent
@@ -4617,6 +4872,189 @@ ma per ipotesi il percorso $s-v$ è un percorso ottimo, per cui $d[v] = \delta[u
 \noindent
 \textbf{Dimostrazione Dijkstra}: In prima analisi, si consideri che l'algoritmo porta ad inserire nel contenitore $S$ alcuni vertici che non dovrebbero starci; per esempio, se la sorgente $s \in S$ e un vertice $u \notin S$, potrebbe succedere che vi sia un collegamento $s-u$ che comprende vertici sia in $S$ che non.\\
 Allora, se $s-u$ è il percorso ottimo per collegare $s$ a $u$, $u$ è il primo vertice che viene inserito in $S$ erroneamente.
+
+\newpage
+\noindent
+\begin{center}
+  21 Aprile 2022
+\end{center}
+Si consideirino due ulteriori realizzazioni dell'algoritmo di Dijkstra, mostrate di seguito:
+
+\begin{algorithm}[H]
+  \caption{Dijkstra}
+  \begin{algorithmic}[1]
+    \State DIJKSTRA($\mathcal{G}$,$w$,$s$)
+    \State INITIALIZE-SINGLE-SOURGE($\mathcal{G}$,$s$)
+    \State $S=\varnothing$
+    \State $\mathcal{Q}=\mathcal{V}[\mathcal{G}]$
+    \State \textbf{while} $\mathcal{Q} \neq \varnothing$
+    \Indent
+      \State \textbf{do} $u=$EXTRACT-MIN($\mathcal{Q}$)
+      \Indent
+        \State $S=S\cup\{u\}$
+        \State \textbf{for} $v \in \text{Adj}[u]$
+        \Indent
+          \State \textbf{do} RELAX($u$,$v$,$w$)
+        \EndIndent
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+Si ricordi che per rilassamento è da intendersi la sostituzione della distanza $d[v]$ con la somma tra la distanza $d[u]$ e il peso del collegamento $u-v$, calcolato come $w(u,v)$, quando tale somma risulta più conveniente rispetto a $d[v]$.\\
+Si consideri, allora, il seguente grafo non-orientato:
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[shorten >=1pt,auto,node distance=3cm,thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+    \node[main node] (s) {$s$};
+    \node[main node] (v1) [right of=s] {$v_1$};
+    \node[main node] (v2) [below of=s] {$v_2$};
+    \node[main node] (v3) [below of=v1] {$v_3$};
+    \node[main node] (v4) [below of=v2] {$v_4$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (s) edge node  [above] {$8$} (v1)
+      (s) edge node  [right] {$3$} (v2)
+      (v1) edge node [left]  {$1$} (v3)
+      (v2) edge node [above] {$2$} (v3)
+      (v2) edge node [left]  {$12$} (v4)
+      (v3) edge node [below] {$9$} (v4)
+      (v4) edge [bend left, out=-60, in=-120,looseness=1.5] node[left] {$4$} (v1);
+  \end{tikzpicture}
+  \caption{Esempio algoritmo Dijkstra con grafo non orientato}
+  \label{fig:esempio_algoritmo_dijkstra_grafo_non_orientato}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Allora, in prima battuta, il primo nodo che ha il valore minimo è il vertice $s$; dopodiché, da $s$ si passa $v_2$, il quale presenta il cammino più conveniente da percorrere per raggiungere uno dei vertici dell'adiacenza di $s$. Analizzando, ora, l'adiacenza di $v_2$, il vertice che può essere raggiunto con costo minore è $v_3$ e da $v_3$ si passa a $v_1$, il cui collegamento presenta costo minore; il percorso si conclude raggiungendo $v_4$, il cui collegamento presenta costo $w=4$.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Un'ulteriore realizzazione dell'algoritmo di Dijkstra è quella seguente:
+
+\begin{algorithm}[H]
+  \caption{Dijkstra-1}
+  \begin{algorithmic}[1]
+    \State $I=\{s\}$
+    \State $D=\{s\}$
+    ... continua ...
+    \State \textbf{while} $I \neq \mathcal{V}[\mathcal{G}]$
+    \Indent
+      \State \textbf{do} EXTRACT $w \in \mathcal{V}-I$ subs.that. $d[w]$ is min
+      \Indent
+        \State $I \in I \cup \{w\}$
+        \State \textbf{for} $v \in \mathcal{V}-I$
+        \Indent
+          \State \textbf{do} RELAX
+        \EndIndent
+      \EndIndent
+    \EndIndent
+  \end{algorithmic}
+\end{algorithm}
+
+\vspace{1em}
+\noindent
+Pertanto, considerando il grafo esposto in Figura \ref{fig:esempio_algoritmo_dijkstra_grafo_non_orientato}, si costruisce la tabella seguente
+
+\begin{table}[H]
+  \rowcolors{1}{white}{white}
+  \setlength{\tabcolsep}{5pt}
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+  \begin{tabular}{c|c|c|c|c|c|c|c}
+    Iterazione & $I$ & $w$ & $D[w]$ & $D[v_1]$ & $D[v_2]$ & $D[v_3]$ & $D[v_4]$\\
+    \hline
+    $0$ & $s$ & $-$ & $-$ & $8$ & $3$ & $\infty$ & $\infty$\\
+    \hline
+    $1$ & $s,v_2$ & $v_2$ & $3$ & $8$ & $ $ & $5$ & $15$\\
+    \hline
+    $2$ & $s,v_2,v_3$ & $v_3$ & $5$ & $8$ & $ $ & $ $ & $10$\\
+    \hline
+    $3$ & $s,v_2,v_3,v_1$ & $v_1$ & $6$ & $ $ & $ $ & $ $ & $ $\\
+  \end{tabular}
+  \caption{Tabella riassuntiva delle complessità di Dijkstra e Bellmann-Ford}
+  \label{tab:riassunto_complessita_dijsktra_bellmann_ford}
+\end{table}
+
+\noindent
+Per cui, come si può facilmente osservare, non vengono considerati i progenitori e si eseguono solamente i confronti strettamente necessari.
+
+\vspace{1em}
+\noindent
+\textbf{Dimostrazione}: Per la dimostrazione della correttezza dell'algoritmo di Dijkstra, si devono considerare i lemmi esposti in precedenza, il più importante del quale è il lemma del rilassamento.\\
+All'interno dell'algoritmo, infatti, si fa uso di alcune stime di distanze $d[u]$, che sono delle distanze effettive e che naturalmente sono sempre maggiori del valore ideale della distanza minima dalla sorgente $s$ al vertice $u$, denotata con $\delta(s,u)$.\\
+Nell'ipotesi in cui il cammino $s-u-v$ sia ottimo (e quindi i sottopercorsi sono anche ottimi), ovvero $d[u]=\delta(s,u)$ e $d[v]=\delta(s,v)$. Partendo, quindi, dall'ipotesi che $d[u] \leq \delta(s,u)$, si ha che dopo il rilassamento di $u$
+\[d[v] \leq d[u] + w(u,v) \leq \delta(s,v) \leq \delta[s,u] + w(u,v) \longrightarrow d[v]=\delta(s,v)\]
+Tale risultato è quanto esposto dal lemma della convergenza. Per la dimostrazione della correttezza dell'algoritmo di Dijkstra si supponga che esso sia errato: si consideri che vi sia un cammino tra la sorgente $s$ e un vertice $u$ e che all'interno dell'insieme $\mathcal{S}$ sia presente, oltre che la sorgente $s$, anche un vertice $x$, che vi è entrato in quanto $d[x]=\delta(s,x)$. Il vertice $y$, invece, che è collegato a $x$, a seguito del rilassamento, per il teorema della convergenza, presenta $d[v]=\delta(s,y)$. Si ha, quindi
+\[\delta(s,u) \leq d[u] \leq d[v] = \delta(s,v)\]
+Tuttavia, in questo istante, essendo l'algoritmo errato, al posto che fare entrare $y$ in $\mathcal{S}$, vi fa ingresso $u$. Essendo il percorso tra $s$ e $u$ ottimo per ipotesi e tale che l'algoritmo di Dijkstra non l'abbia trovato, si può osservare come, essendo i pesi tutti positivi:
+\[d[v] = \delta(s,v) \leq \delta(s,u)\]
+e quindi si è ottenuto come
+\[d[v] \leq d[u] + w(u,v) \leq \delta(s,v) \leq \delta[s,u] + w(u,v) \longrightarrow d[v]=\delta(s,v) \leq \delta(s,u)\]
+per cui tali disuguaglianza hanno significato solamente quando si ha una uguaglianza.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che l'algoritmo di Dijkstra è un \textbf{algoritmo avido} (dall'inglese \textbf{greedy}).\\
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che se per costruire la procedura Extract-Min si impiega Build-Min-Heap, essendo la sua complessità lineare, si ha che l'algoritmo di Dijkstra presenta una complessità $O(\vert v \vert^2)$, dal momento che il ciclo while cicla sui vertici della coda $\mathcal{Q}$ che sono al massimo $\vert v \vert$, e all'interno di ogni iterazioni si esegue Extract-Min, con complessità al più $\vert v \vert$ e un rilassamento di al più $\vert v \vert$.\\
+Tramite tecniche di ammortizzamento, si può, però, determinare che la complessità di Dijkstra sia $O \left(\vert v \vert \cdot \log(\vert v \vert) + \vert \xi \vert\right)$. Mentre nel caso in cui tutti i pesi siano unitari, allora si può impiegare la ricerca in profondità, la quale presenta una complessità $\Theta(\vert v \vert + \vert \xi \vert)$.\\
+Nel caso in cui, al posto di impiegare solamente pesi positivi, ma anche pesi negativi, allora non è possibile impiegare l'algoritmo di Dijkstra, ma solamente quello di Bellmann-Ford, il quale presenta una complessità $O(\vert v \vert \cdot \vert \xi \vert)$.\\
+Si osservi che l'algoritmo di Bellmann-Ford opera soltanto su grafi aciclici, in quanto nel caso un ciclo avesse peso negativo, allora si potrebbe ciclarea all'infinito per giovare della riduzione di costo che tale ciclo offre.
+
+\vspace{1em}
+\noindent
+\textbf{Osservazione}: Si osservi che vi sono due macro-distinzioni tra i grafi densi e i grafi sparsi:
+\begin{itemize}
+  \item Se il grafo è sparso, allora $\vert \xi \vert = \Theta(\vert v \vert)$
+  \item Se il grafo è denso, allora $\vert \xi \vert = \Theta(\vert v \vert^2)$
+\end{itemize}
+Si possono, allora, distinguere due diverse complessità a seconda che il grafo sia denso o sparso, ovvero
+
+\begin{table}[H]
+  \rowcolors{1}{white}{white}
+  \setlength{\tabcolsep}{5pt}
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+  \begin{tabular}{l|c|c}
+    & DENSO & SPARSO\\
+    Dijkstra con costo unitario (DFS) & $\Theta(\vert v \vert^2)$ & $\Theta(\vert v \vert^2)$\\
+    \hline
+    Dijkstra approssimato & $O(\vert v \vert^2)$ & $O(\vert v \vert^2)$\\
+    \hline
+    Dijkstra con ammortizzamento & $O(\vert v \vert^2)$ & $O(\vert v \vert \cdot \log(\vert v \vert))$\\
+    \hline
+    Bellmann-Ford & $O(\vert v \vert^3)$ & $O(\vert v \vert^2)$\\
+  \end{tabular}
+  \caption{Tabella riassuntiva delle complessità di Dijkstra e Bellmann-Ford}
+  \label{tab:riassunto_complessita_dijsktra_bellmann_ford}
+\end{table}
+
+\newpage
+\section{Principi di programmazione}
+Il principio \emph{dividi et impera} (o \textbf{top-down})è stato già incontrato per l'algoritmo merge-sort, così come per quick-sort. Altri importanti principi di programmazione sono
+\begin{enumerate}
+  \item \textbf{Bottom-up}
+  \item \textbf{Brute-force} (o ricerca esauriente)
+  \item \textbf{Greediness}  (avidità)
+\end{enumerate}
+Per comprendere l'entità degli algoritmi basati sulla logica \textbf{greediness}.
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
